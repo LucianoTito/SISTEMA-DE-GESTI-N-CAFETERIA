@@ -1,0 +1,50 @@
+# ====================================
+# 🚀 SISTEMA DE GESTIÓN - UTN
+# Proyecto en C++ con Code::Blocks
+# ====================================
+
+# Compilados y ejecutables
+*.exe
+*.dll
+*.so
+*.dylib
+*.out
+*.app
+
+# Objetos compilados
+*.o
+*.obj
+
+# Archivos de dependencias y layouts de Code::Blocks
+*.depend
+*.layout
+*.cbp.workspace
+
+# Carpetas generadas por compilación
+obj/
+bin/
+Debug/
+Release/
+
+# Archivos de configuración local
+*.user
+*.workspace
+*.sdf
+*.db
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de respaldo o temporales
+*~
+*.bak
+*.tmp
+*.log
+
+# Archivos de datos o binarios del programa
+*.dat
+
+# ====================================
+# FIN DEL ARCHIVO .gitignore
+# ====================================
