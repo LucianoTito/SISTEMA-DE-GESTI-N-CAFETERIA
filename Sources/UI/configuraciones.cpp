@@ -2,6 +2,13 @@
 #include <cstdio>
 #include <cstring>
 #include "../../Headers/UI/configuraciones.h"
+#include "../../Headers/Entities/Cliente.h"
+#include "../../Headers/Entities/Producto.h"
+#include "../../Headers/Entities/Empleado.h"
+#include "../../Headers/Entities/Pedido.h"
+#include "../../Headers/Entities/DetallePedido.h"
+#include "../../Headers/Entities/Pagos.h"
+#include "../../Headers/Entities/Fecha.h"
 
 
 using namespace std;
@@ -367,6 +374,7 @@ case 3:
     }else {
         cout  << "ERROR al generar Empleados.csv"<<endl;
     }
+    break;
 
 case 4:
     exitoExportacion = exportarPedidosCSV("Pedidos.csv");
@@ -376,7 +384,7 @@ case 4:
     }else {
         cout << "ERROR al generar Pedidos.csv"<<endl;
     }
-break;
+    break;
 
 case 5:
     exitoExportacion = exportarDetallesCSV("DetallesPedidos.csv");
@@ -387,6 +395,7 @@ case 5:
     } else {
         cout << "ERROR al generar DetallesPedidos.csv"<<endl;
     }
+    break;
 
 case 6:
     exitoExportacion = exportarPagosCSV("Pagos.csv");
@@ -401,7 +410,7 @@ case 6:
     }
     break;
 
-    case 7: {
+case 7: {
 
         bool exitoExportacionClientes = exportarClientesCSV("Clientes.csv");
         bool exitoExportacionProductos = exportarProductosCSV("Productos.csv");
@@ -434,9 +443,9 @@ case 6:
         system("pause");
 
     }
+}
 
-
-    bool exportarClientesCSV(const char* csvDestino) {
+bool exportarClientesCSV(const char* csvDestino) {
 
     FILE* pDat = fopen("Clientes.dat", "rb");
     if (pDat == nullptr){
@@ -469,7 +478,7 @@ case 6:
                 reg.getPuntosFidelidad(),
                 reg.getEliminado());
 
-        contador ++
+        contador ++;
     }
 
     fclose(pDat);
@@ -486,7 +495,52 @@ case 6:
 
     }
 
-    bool exportarEmpleadosCSV(const char* csvDestino){
+bool exportarProductosCSV(const char* csvDestino){
+
+FILE* pDat = fopen("Productos.dat", "rb");
+if (pDat == nullptr){
+
+    cout << "ERROR: No se pudo abrir Productos.dat"<<endl;
+
+    return false;
+}
+
+FILE* pCsv = fopen(csvDestino, "w");
+if (pCsv = nullptr){
+
+    cout<< "ERROR. No se pudo crear el archivo CSV."<<endl;
+
+    fclose(pDat);
+    return false;
+}
+
+fprintf(pCsv, "ID,Nombre,Precio,Stock,Eliminado\n");
+
+Producto reg;
+int contador = 0;
+
+while(fread(&reg, sizeof(Producto), 1 ,pDat) == 1){
+
+    fprintf(pCsv, "%d,%s,%.2f,%d,%d\n",
+            reg.getIdProducto(),
+            reg.getNombre(),
+            reg.getPrecio(),
+            reg.getStock(),
+            reg.getEliminado());
+
+    contador++;
+
+}
+
+
+
+
+
+
+
+}
+
+bool exportarEmpleadosCSV(const char* csvDestino){
 
         FILE* pDat = fopen( "Empleados.dat", "rb");
         if (pDat == nullptr){
@@ -503,7 +557,7 @@ case 6:
         }
 
         //Encabezado del CSV
-        fprintf(pCsv, "ID,Nombre,Apellido,Puesto,Sueldo,Eliminado\n");
+        fprintf(pCsv, "ID,Nombre,Apellido,Puesto,Eliminado\n");
 
 
         Empleado reg;
@@ -531,7 +585,7 @@ if(contador==0){
     return false;
 }
 
-
+return true;
     }
 
 bool exportarPedidosCSV(const char* csvDestino){
@@ -739,7 +793,7 @@ return true;
 
 
 
-}
+
 
 
 

@@ -161,8 +161,9 @@ if (pArchivo == nullptr){
 }
 
 Producto regLeido; //Objeto p/ guardar cada producto leído.
+bool hayProductos = false;
 
-cout <<endl << "------LISTADO DE PRODUCTOS ------"<<endl;
+cout <<endl << "-- PRODUCTOS ACTIVOS --"<<endl;
 
 while (fread (&regLeido, sizeof(Producto), 1, pArchivo) == 1){
 
@@ -170,11 +171,82 @@ while (fread (&regLeido, sizeof(Producto), 1, pArchivo) == 1){
    if (regLeido.getEliminado() == false) {
 
     regLeido.Mostrar();
+    hayProductos = true;
    }
    //Si está eliminado lo ignoramos y el bucle continuá
 }
-cout << "---------- FIN DEL LISTADO ----------"<<endl;
+
+if(!hayProductos){
+
+cout<< "No hay productos activos para mostrar."<<endl;
+}
+
+cout << "--- FIN DEL LISTADO ---"<<endl;
+
+
 
 fclose(pArchivo);
 }
 
+void ArchivoProducto::listarEliminados(){
+
+FILE *pArchivo = fopen(_nombreArchivo.c_str(), "rb");
+
+if(pArchivo == nullptr){
+
+    cout << "Error al abrir el archivo para listar."<<endl;
+    return;
+
+}
+
+Producto regLeido;
+bool hayProductos = false;
+
+cout <<endl << "-- PRODUCTOS DADOS DE BAJA --"<<endl;
+
+while(fread(&regLeido, sizeof(Producto), 1, pArchivo)== 1) {
+
+    if(regLeido.getEliminado() == true){
+        regLeido.Mostrar();
+        hayProductos = true;
+    }
+
+}
+
+if (!hayProductos){
+
+    cout << "No hay productos dados de baja."<<endl;
+}
+cout << "--- FIN DEL LISTADO ---"<<endl;
+
+fclose(pArchivo);
+
+}
+
+bool ArchivoProducto::hayProductosConEstadoEliminado(bool eliminado){
+
+FILE *pArchivo = fopen(_nombreArchivo.c_str(), "rb");
+
+if(pArchivo == nullptr){
+
+    return false;
+}
+
+Producto regLeido;
+
+while(fread(&regLeido, sizeof(Producto), 1, pArchivo)== 1) {
+
+
+ if(regLeido.getEliminado() == eliminado ){
+    fclose(pArchivo);
+    return true;
+}
+
+}
+
+fclose(pArchivo);
+
+return false;
+
+
+}

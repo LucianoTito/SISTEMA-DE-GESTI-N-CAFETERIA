@@ -102,6 +102,7 @@ while (true) {
     cout << "2. LISTAR PRODUCTOS" <<endl;
     cout << "3. MODIFICAR PRODUCTO "<<endl;
     cout << "4. ELIMINAR PRODUCTO "<<endl;
+    cout << "5. DAR DE ALTA PRODUCTO" <<endl;
     cout << "------------------------------------" <<endl;
     cout << "0. VOLVER AL MENU PRINCIPAL" <<endl;
     cout << "====================================" <<endl;
@@ -126,6 +127,9 @@ case 3:
 
 case 4:
         bajaProducto();
+        break;
+case 5:
+        altaProducto();
         break;
 
 case 0:
@@ -181,20 +185,31 @@ void listarProductos(){
 
 ArchivoProducto arcProducto ("Productos.dat");
 
-cout << "---------- LISTADO DE PRODUCTOS ----------"<<endl;
+cout << "-------- LISTADO DE PRODUCTOS ACTIVOS --------"<<endl;
 
 arcProducto.listar();
 
+cout << "================================================="<<endl;
 
+cout << "------- LISTADO DE PRODUCTOS INACTIVOS -------"<<endl;
+
+arcProducto.listarEliminados();
 }
 
 void modificarProducto(){
 
 ArchivoProducto arcProducto ("Productos.dat");
 
+if(!arcProducto.hayProductosConEstadoEliminado(false)){
+
+    cout<< "No hay productos activos para modificar."<<endl;
+    return;
+}
+
 int idModificar;
 
 cout << "----- MODIFICAR PRODUCTO -----" <<endl;
+arcProducto.listar();
 cout << "Ingrese el ID del producto que desaea modificar: ";
 cin >> idModificar;
 
@@ -208,6 +223,12 @@ if (posicionID == -1){
 }
 //Si se encontró leer el registro
 Producto reg = arcProducto.leerRegistro(posicionID);
+
+if(reg.getEliminado()){
+
+    cout << "El producto seleccionado no está activo"<<endl;
+    return;
+}
 
 cout << "Producto encontrado. Datos actuales: "<<endl;
 reg.Mostrar();
@@ -245,8 +266,15 @@ void bajaProducto(){
 
 ArchivoProducto arcProducto ("Productos.dat");
 
+if(!arcProducto.hayProductosConEstadoEliminado(false)){
+
+    cout << "No hay productos activos para eliminar."<<endl;
+    return;
+}
+
 int idEliminar;
 cout << "-------- ELIMINAR PRODUCTO --------"<<endl;
+arcProducto.listar();
 cout << "Ingrese el ID del producto a eliminar: " <<endl;
 cin>> idEliminar;
 
@@ -297,6 +325,53 @@ if (confirmacion == 'S' || confirmacion == 's'){
 
 
 }
+
+void altaProducto(){
+
+ArchivoProducto arcProducto("Productos.dat");
+
+if(!arcProducto.hayProductosConEstadoEliminado(true)){
+
+    cout << "No hay productos dado de baja para dar el alta"<<endl;
+    return;
+}
+
+int idRecuperar;
+cout << "---------- DAR DE ALTA PRODUCTO ----------"<<endl;
+cout<< "Listado de productos eliminados: "<<endl;
+arcProducto.listarEliminados();
+cout << "Ingrese el ID del producto que desea activar nuevamente: ";
+cin>> idRecuperar;
+
+int posicionRegistro = arcProducto.buscarRegistro(idRecuperar);
+
+if(posicionRegistro == -1){
+
+    cout << "Error: No se encontro un producto con ese ID"<<endl;
+    return;
+}
+
+Producto reg = arcProducto.leerRegistro(posicionRegistro);
+
+if(reg.getEliminado()==false){
+
+    cout<< "El producto seleccionado ya se encuentra activo"<<endl;
+    return;
+}
+
+reg.setEliminado(false);
+
+bool grabadoExitosamente = arcProducto.modificarRegistro(reg, posicionRegistro);
+
+if (grabadoExitosamente){
+
+    cout << "Producto dado de alta exitosamente."<<endl;
+}else {
+        cout<< "ERROR. No se pudo dar de alta el producto. Intente nuevamente"<<endl;
+}
+
+}
+
 
 
 
