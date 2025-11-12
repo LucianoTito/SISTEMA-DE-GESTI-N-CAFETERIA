@@ -14,6 +14,7 @@ void agregarProducto();
 void listarProductos();
 void modificarProducto();
 void bajaProducto();
+void altaProducto();
 
 //Declaraciones de Acciones para Clientes
 void agregarCliente();

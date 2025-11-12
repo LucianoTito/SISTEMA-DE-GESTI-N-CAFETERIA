@@ -29,6 +29,8 @@ public:
     bool modificarRegistro (Producto reg, int posicion);
 
     void listar();
+    void listarEliminados();
+    bool hayProductosConEstadoEliminado(bool eliminado);
 
 
 
