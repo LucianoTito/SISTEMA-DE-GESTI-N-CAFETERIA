@@ -16,6 +16,8 @@
 #include "../../Headers/Persistence/ArchivoEmpleado.h"
 #include "../../Headers/Persistence/ArchivoProducto.h"
 
+#include "../../Headers/Utilidades/Validaciones.h"
+
 
 using namespace std;
 
@@ -23,7 +25,6 @@ using namespace std;
 
 void menuReportes(){
 
-int opcion;
 while(true){
     system("cls");
     cout << "---------- MENU DE REPORTES ----------"<<endl;
@@ -37,8 +38,8 @@ while(true){
     cout << "------------------------------------"<<endl;
     cout << "0. VOLVER AL MENU PRINCIPAL"<<endl;
     cout << "===================================="<<endl;
-    cout << "SELECCIONE UNA OPCION"<<endl;
-    cin >> opcion;
+    cout <<endl;
+    int opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
 
     system("cls");
 
@@ -74,10 +75,9 @@ default:
 
 void reporteRecaudacionAnualMensual(){
 
-int anioBuscado;
 cout << "---------- REPORTE DE RECAUDACION ANUAL/MENSUAL ----------" <<endl;
-cout << "Ingrese el anio que desea analizar: ";
-cin >> anioBuscado;
+cout <<endl;
+int anioBuscado= ingresarEntero("Ingrese el anio que desea analizar: ");
 
 //Creo el vector acumulador (uno por cada mes)
 float vectorRecaudacionPorMes[12] = {0};

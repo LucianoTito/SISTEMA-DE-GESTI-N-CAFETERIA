@@ -1,9 +1,12 @@
 #include <iostream>
 #include <cstring>
+
 #include <cstdio>  // Necesaria para fflush
-//#include "Producto.h"
 
 #include "../../Headers/Entities/Producto.h"
+#include "../../Headers/Utilidades/Validaciones.h"
+
+
 
 using namespace std;
 
@@ -78,37 +81,28 @@ void Producto::setEliminado(bool eliminado) {
 //Métodos Cargar() y Mostrar()
 
 void Producto::Cargar(int idProducto) {
-    int stk;
-    float pre;
-    char nom[50]; // Variable temporal para el nombre
+
+
 
     setIdProducto(idProducto);
     cout << "ID de Producto asignado: "<<idProducto<<endl;
 
-
+    char nombre[50]; // Variable temporal para el nombre
     cout << "Ingrese Nombre: ";
-    // Lógica de cargarCadena
 
-    fflush(stdin); // Limpia buffer antes de leer carácter por carácter
-    int i;
-    for (i = 0; i < 49; i++) { // Leemos hasta 49 para dejar espacio al '\0'
-        nom[i] = cin.get(); // Lee un carácter
-        if (nom[i] == '\n') { // Si es Enter, termina
-            break;
-        }
-    }
-    nom[i] = '\0'; // Agrega el terminador nulo
-    fflush(stdin); // Limpia buffer después
-    //  Fin lógica cargarCadena
-        setNombre(nom); //setter para asignar y validar longitud
 
-    cout << "Ingrese Precio: ";
-    cin >> pre;
-    setPrecio(pre);
+        cargarCadena(nombre, 49);
+        setNombre(nombre); //setter para asignar y validar longitud
 
-    cout << "Ingrese Stock: ";
-    cin >> stk;
-    setStock(stk);
+    //Valido precio
+    float precio = ingresarFloat("Ingrese Precio: ");
+    setPrecio(precio);
+
+
+    //valido stock
+    int stock = ingresarEntero("Ingrese Stock: ");
+    setStock(stock);
+
 
     _eliminado = false; // Un producto nuevo siempre inicia activo
     cout << "Producto cargado correctamente." << endl;

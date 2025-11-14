@@ -2,8 +2,8 @@
 #include <cstring>
 #include <cstdio>
 
-//#include "Empleado.h"
 #include "../../Headers/Entities/Empleado.h"
+#include "../../Headers/Utilidades/Validaciones.h"
 
 using namespace std;
 
@@ -40,27 +40,14 @@ void Empleado::setPuesto(const char* puesto) {
 
 // Cargar
 void Empleado::Cargar(int id) {
-    char emp[20]; // Buffer temporal para el puesto
-
+    char empleado[20]; // Buffer temporal para el puesto
 
     Persona::Cargar(id);
 
-
     cout << "Ingrese el puesto del empleado: ";
+cargarCadena(empleado, 20);
 
-    fflush(stdin);
-    int i;
-    for (i = 0; i < 19; i++) {
-        emp[i] = cin.get();
-
-        if (emp[i] == '\n') {
-            break;
-        }
-    }
-    emp[i] = '\0'; // Pone el terminador donde corresponde (sea al final o donde estaba el '\n')
-    fflush(stdin);
-
-    setPuesto(emp);
+setPuesto(empleado);
 
     cout << "Empleado cargado correctamente." << endl;
 }

@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "../../Headers/Entities/Fecha.h"
+#include "../../Headers/Utilidades/Validaciones.h"
 
 using namespace std;
 
@@ -36,7 +37,7 @@ void Fecha::setMes(int mes) {
         _mes = mes;
     } else {
         cout << "Dato incorrecto. El numero de mes  debe ser entre 1 y 12. Se asignara 1 por defecto." << endl;
-        _mes = 1; // Asignamos un valor seguro por defecto
+        _mes = 1;
     }
 }
 void Fecha::setAnio(int anio) {
@@ -45,28 +46,53 @@ void Fecha::setAnio(int anio) {
         _anio = anio;
     } else {
         cout << "Año fuera del rango valido (2025 - 2050). Se asignara 2025 por defecto." << endl;
-        _anio = 2025; // Asignamos un valor seguro por defecto
+        _anio = 2025;
     }
 }
 
-// Cargar() se encarga de pedir los datos al usuario por consola
+// pido los datos al usuario por consola
 void Fecha::Cargar() {
     int d, m, a; // Variables temporales
 
-    cout << "DIA: ";
-    cin >> d;
-    setDia(d);
+//Día
+while(true){
+     d = ingresarEntero("DIA: ");
+    if (d >= 1 && d <=31){
+        break;
+    }else {
+            cout<< "ERROR: El dia debe estar entre 1 y 31. \n";
+    }
+}
+setDia(d);
 
-    cout << "MES: ";
-    cin >> m;
-    setMes(m);
 
-    cout << "ANIO: ";
-    cin >> a;
-    setAnio(a);
+//Mes
+while(true) {
+     m = ingresarEntero("MES: ");
+    if (m >= 1 && m <=12) {
+        break;
+    }else{
+            cout<< "ERROR: El mes debe estar entre 1 y 12. \n";
+    }
+}
+setMes(m);
+
+
+//Año
+while(true){
+
+     a = ingresarEntero("ANIO: ");
+    if (a >= 2025 && a <= 2050){
+        break;
+    }else {
+    cout<< "ERROR: El anio debe estar entre 2025 y 2050.\n";
+    }
+}
+setAnio(a);
+
 }
 
-// Mostrar() se encarga de imprimir los datos en la consola
+// Mostrar()
 void Fecha::Mostrar() {
     cout << _dia << "/" << _mes << "/" << _anio << endl;
 }

@@ -4,6 +4,8 @@
 //#include "Cliente.h"
 #include "../../Headers/Entities/Cliente.h"
 
+#include "../../Headers/Utilidades/Validaciones.h"
+
 
 
 
@@ -65,29 +67,17 @@ void Cliente::setPuntosFidelidad(int puntos) {
 //Cargar()
 void Cliente::Cargar(int id) {
 
-char tel[20];
-int puntaje;
+char telefono[20];
 
 Persona::Cargar(id);
 
 cout << "Ingrese el numero de telefono: "<<endl;
-fflush(stdin);
-    int i;
-    for (i = 0; i < 19; i++) {
-        tel[i] = cin.get(); // Lee un carácter
-        if (tel[i] == '\n') { // Si es Enter, termina
-            break;
-        }
-    }
-    tel[i] = '\0';
-    fflush(stdin); // Limpia buffer después
+cargarCadena(telefono, 20);
+setTelefono(telefono); //setter para asignar y validar longitud
 
-    setTelefono(tel); //setter para asignar y validar longitud
-
-cout << "Por favor ingrese el puntaje de fidelidad: "<<endl;
-cin >>puntaje;
+cout <<endl;
+int puntaje = ingresarEntero("Por favor ingrese el puntaje de fidelidad: ");
 setPuntosFidelidad(puntaje);
-
 }
 
 

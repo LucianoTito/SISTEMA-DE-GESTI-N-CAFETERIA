@@ -1,9 +1,9 @@
 #include <iostream>
 #include <cstring>
 #include <cstdio>
-//#include "Persona.h"
 
 #include "../../Headers/Entities/Persona.h"
+#include "../../Headers/Utilidades/Validaciones.h"
 
 
 using namespace std;
@@ -73,42 +73,20 @@ void Persona::setEliminado(bool eliminado) {
 // Método cargar
 void Persona::Cargar(int id) {
 
-    char nombreTemporal[30];
-    char apellidoTemporal[30];
+    char nombre[30];
+    char apellido[30];
 
 
     setId(id);
     cout << "ID de Persona asignado: "<< id <<endl;
 
     cout << "Ingrese nombre: ";
-
-    fflush(stdin);
-    int i;
-    for (i = 0; i < 29; i++) {
-        nombreTemporal[i] = cin.get();
-
-        if (nombreTemporal[i] == '\n') {
-            break;
-        }
-    }
-    nombreTemporal[i] = '\0';
-    fflush(stdin);
-    setNombre(nombreTemporal);
+    cargarCadena(nombre, 30);
+    setNombre(nombre);
 
     cout << "Ingrese apellido: ";
-
-    fflush(stdin);
-    int j;
-    for (j = 0; j < 29; j++) {
-        apellidoTemporal[j] = cin.get();
-
-        if (apellidoTemporal[j] == '\n') {
-            break; // Termina si presiona Enter
-        }
-    }
-    apellidoTemporal[j] = '\0';
-    fflush(stdin);
-    setApellido(apellidoTemporal);
+    cargarCadena(apellido, 30);
+    setApellido(apellido);
 
     _eliminado = false;
     cout << "Persona cargada correctamente." << endl;

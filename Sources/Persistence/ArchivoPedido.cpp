@@ -150,30 +150,125 @@ return escribio;
 
 void ArchivoPedido::listar(){
 
+    listarPorEstado(false);
+}
+
+void ArchivoPedido::listarEliminados(){
+
+listarPorEstado(true);
+
+}
+
+void ArchivoPedido::listarPorEstado(bool eliminado) {
+
+    FILE *pArchivo = fopen(_nombreArchivo.c_str(), "rb");
+
+    if(pArchivo == nullptr){
+        cout<< "Error al abrir el archivo para listar Pedido."<<endl;
+        return;
+    }
+
+    Pedido regLeido;
+    bool hayPedidos = false;
+
+    cout << endl
+         << (eliminado ? "------- PEDIDOS ANULADOS -------"
+                       : "------- PEDIDOS ACTIVOS -------")
+         << endl;
+
+    while(fread(&regLeido, sizeof(Pedido), 1, pArchivo)==1){
+
+        if(regLeido.getEliminado() == eliminado){
+            regLeido.Mostrar();
+            hayPedidos = true;
+        }
+    }
+
+    if (!hayPedidos){
+        cout << (eliminado ? "No hay pedidos anulados para mostrar."
+                           : "No hay pedidos activos para mostrar.")
+             << endl;
+    }
+
+    cout << "------- FIN DEL LISTADO -------" << endl << endl;
+
+    fclose(pArchivo);
+}
+
+
+bool ArchivoPedido::hayPedidosConEstado(bool eliminado){
+
 FILE *pArchivo = fopen(_nombreArchivo.c_str(), "rb");
 
 if(pArchivo == nullptr){
-
-    cout<< "Error al abrir el archivo para listar Pedido."<<endl;
-
-    return;
+    return false;
 }
 
 Pedido regLeido;
 
-cout<<endl<< "---------- LISTADO DE PEDIDOS ----------"<<endl;
+while (fread(&regLeido, sizeof(Pedido), 1, pArchivo) == 1){
 
-while(fread(&regLeido, sizeof(Pedido), 1, pArchivo)==1){
-
-    if(regLeido.getEliminado()==false){
-
-        regLeido.Mostrar();
+    if(regLeido.getEliminado()== eliminado){
+        fclose(pArchivo);
+        return true;
     }
 
 }
 
-cout<< "---------- FIN DEL LISTADO ----------"<<endl<<endl;
-
 fclose(pArchivo);
+return false;
+
 
 }
+
+bool ArchivoPedido::restaurarCantidadRegistros(int cantidadRegistros){
+
+FILE *pArchivo = fopen(_nombreArchivo.c_str(), "rb");
+
+if (pArchivo == nullptr){
+    return (cantidadRegistros == 0);
+}
+
+std::string nombreTemporal = _nombreArchivo + ".temp";
+FILE *pTemporal = fopen(nombreTemporal.c_str(), "wb");
+
+if(pTemporal == nullptr){
+    fclose(pArchivo);
+    cout << "Error al crear el archivo temporal para restaurar Pedidos"<<endl;
+    return false;
+
+}
+
+Pedido regLeido;
+int copiados = 0;
+
+while(copiados < cantidadRegistros && fread(&regLeido, sizeof(Pedido), 1, pArchivo)==1){
+
+    fwrite(&regLeido, sizeof(Pedido), 1, pTemporal);
+    copiados++;
+}
+
+fclose(pArchivo);
+fclose(pTemporal);
+
+remove(_nombreArchivo.c_str());
+rename(nombreTemporal.c_str(), _nombreArchivo.c_str());
+
+
+return copiados == cantidadRegistros;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

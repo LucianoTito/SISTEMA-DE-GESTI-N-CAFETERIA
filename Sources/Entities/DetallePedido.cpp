@@ -1,6 +1,7 @@
 #include<iostream>
 //#include "DetallePedido.h"
 #include "../../Headers/Entities/DetallePedido.h"
+#include "../../Headers/Utilidades/Validaciones.h"
 using namespace std;
 
 DetallePedido::DetallePedido(int idDetalle,
@@ -49,8 +50,6 @@ _precioUnitario=0;
 //Método Cargar
 
 void DetallePedido::Cargar(int idDetalle, int idPedido, int idProducto, int cantidad, float precioUnitario){
-    int cant;
-    float precio;
 
 _idPedido = idPedido;
 _idDetalle = idDetalle;
@@ -60,12 +59,13 @@ cout << "ID Detalle asignado: "<<_idDetalle<<endl;
 cout << "ID Pedido asociado: "<<_idPedido<< endl;
 cout <<"ID Producto asociado: "<<_idProducto<<endl;
 
-cout<< "Ingrese la cantidad: "<<endl;
-cin>>cant;
+//Cantidad validada
+int cant = ingresarEntero("Ingrese la cantidad: ");
 setCantidad(cant);
 
-cout<< "Ingrese el precio unitario (actual): "<<endl;
-cin>>precio;
+//Precio unitario validado
+float precio = ingresarFloat("Ingrese el precio unitario (actual): ");
+
 setPrecioUnitario(precio);
 
 cout << "Detalle de pedido cargado." << endl;

@@ -53,6 +53,7 @@
 		<Unit filename="Headers/UI/configuraciones.h" />
 		<Unit filename="Headers/UI/menus.h" />
 		<Unit filename="Headers/UI/reportes.h" />
+		<Unit filename="Headers/Utilidades/Validaciones.h" />
 		<Unit filename="Sources/Entities/Cliente.cpp" />
 		<Unit filename="Sources/Entities/DetallePedido.cpp" />
 		<Unit filename="Sources/Entities/Empleado.cpp" />
@@ -70,6 +71,7 @@
 		<Unit filename="Sources/UI/configuraciones.cpp" />
 		<Unit filename="Sources/UI/menus.cpp" />
 		<Unit filename="Sources/UI/reportes.cpp" />
+		<Unit filename="Sources/Utilidades/Validaciones.cpp" />
 		<Unit filename="Sources/main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

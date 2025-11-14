@@ -4,6 +4,8 @@
 #include "../../Headers/Entities/Pagos.h"
 //#include "Fecha.h"
 #include "../../Headers/Entities/Fecha.h"
+#include "../../Headers/Utilidades/Validaciones.h"
+
 using namespace std;
 
 Pagos::Pagos (int idPago,
@@ -36,8 +38,8 @@ void Pagos::setMetodoPago(int metodo) {
     if (metodo >= 1 && metodo <= 3) {
         _metodoPago = metodo;
     } else {
-        cout << "Metodo de pago invalido. Se asignara 0 (Desconocido/Error)." << endl;
-        _metodoPago = 0;
+        cout << "Metodo de pago invalido. No se realizaron cambios." << endl;
+
     }
 }
 void Pagos::setMontoPagado(float monto) {
@@ -74,8 +76,21 @@ _fechaPago.Cargar();
 int metd;
 
 
-cout<< "Ingrese el método de pago: "<<endl;
-cin>> metd;
+cout<< "Ingrese el metodo de pago: "<<endl;
+cout<<endl;
+cout<< "1. Efectivo"<<endl;
+cout<< "2. Tarjeta"<<endl;
+cout<< "3. Transferencia"<<endl;
+
+while(true) {
+    metd = ingresarEntero("Ingrese una opcion (1-3): ");
+
+    if(metd >= 1 && metd <=3){
+        break;
+    }
+    cout<< "ERROR: El metodo de pago debe ser 1, 2 o 3."<<endl;
+}
+
 setMetodoPago(metd);
 
 

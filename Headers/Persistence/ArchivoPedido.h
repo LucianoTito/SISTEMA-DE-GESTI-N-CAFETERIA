@@ -33,6 +33,11 @@ public:
 
     //Listar
     void listar();
+    void listarEliminados();
+    void listarPorEstado(bool eliminado);
+
+    bool hayPedidosConEstado(bool eliminado);
+    bool restaurarCantidadRegistros(int cantidadRegistros);
 
 
 

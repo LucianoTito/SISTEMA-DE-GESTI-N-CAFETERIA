@@ -120,8 +120,39 @@ return -1;
 
 }
 
-//Modificar Registro
+int ArchivoDetallePedido::buscarDetallePorPedidoYProducto(int idPedido, int idProducto){
 
+FILE *pArchivo = fopen(_nombreArchivo.c_str(), "rb");
+
+if(pArchivo == nullptr){
+
+    cout<< "No hay registros para buscar detalle por pedido y producto"<<endl;
+    cout<<endl;
+    return -1;
+}
+
+DetallePedido regLeido;
+int posicionActual = 0;
+
+//Recorro el archivo para detectar si el producto ya está cargado en este pedido
+while(fread(&regLeido, sizeof(DetallePedido),1 ,pArchivo) == 1){
+
+    if(regLeido.getIdPedido()== idPedido && regLeido.getIdProducto() == idProducto){
+
+        fclose(pArchivo);
+        return posicionActual;
+    }
+    posicionActual ++;
+}
+
+fclose(pArchivo);
+return -1;
+
+
+}
+
+
+//Modificar registro
 bool ArchivoDetallePedido::modificarRegistro(DetallePedido reg, int posicion){
 
 FILE *pArchivo = fopen(_nombreArchivo.c_str(), "rb+");
@@ -143,6 +174,47 @@ return escribio;
 
 
 }
+bool ArchivoDetallePedido::restaurarCantidadRegistros(int cantidadRegistros){
+
+FILE *pArchivo = fopen(_nombreArchivo.c_str(), "rb");
+
+if (pArchivo == nullptr){
+    //Si no existe el archivo y se desea restaurar a 0 registros, se considera exitoso
+    return (cantidadRegistros == 0);
+}
+
+std::string nombreTemporal = _nombreArchivo + ".temp";
+FILE *pTemporal = fopen(nombreTemporal.c_str(), "wb");
+
+if(pTemporal == nullptr){
+
+    fclose(pArchivo);
+    cout<< "Error al crear el archivo temporal para restaurar DetallePedido."<<endl;
+    cout<<endl;
+    return false;
+}
+
+DetallePedido regLeido;
+int copiados = 0;
+
+//Copio unicamente la cantidad deseada de registros para descartar los últimos
+while (copiados < cantidadRegistros && fread(&regLeido, sizeof(DetallePedido), 1, pArchivo)==1){
+
+    fwrite(&regLeido, sizeof(DetallePedido), 1,pTemporal);
+    copiados ++;
+}
+fclose(pArchivo);
+fclose(pTemporal);
+
+remove(_nombreArchivo.c_str());
+rename(nombreTemporal.c_str(), _nombreArchivo.c_str());
+
+return copiados == cantidadRegistros;
+
+
+}
+
+
 
 //Listar
 

@@ -10,12 +10,13 @@
 #include "../../Headers/Entities/Pagos.h"
 #include "../../Headers/Entities/Fecha.h"
 
+#include "../../Headers/Utilidades/Validaciones.h"
+
 
 using namespace std;
 
 void menuConfiguraciones() {
 
-int opcion;
 
 while(true){
     system("cls");
@@ -28,8 +29,8 @@ while(true){
     cout << "---------------------------------------------"<<endl;
     cout << "0. VOLVER AL MENU PRINCIPAL"<<endl;
     cout << "============================================="<<endl;
-    cout << "SELECCIONE UNA OPCION: ";
-    cin >> opcion;
+    cout <<endl;
+    int opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
 
     system("cls");
 
@@ -97,7 +98,6 @@ return true;
 
 void backupMenu() {
 
-    int opcion;
 
     while (true) {
 
@@ -115,8 +115,8 @@ void backupMenu() {
         cout << "----------------------------------------" << endl;
         cout << "0. VOLVER AL MENU ANTERIOR" << endl;
         cout << "========================================" << endl;
-        cout << "SELECCIONE UNA OPCION: ";
-        cin >> opcion;
+        cout <<endl;
+        int opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
 
         if (opcion == 0) return;
 
@@ -193,7 +193,6 @@ void backupMenu() {
 
 void restaurarCopiaSeguridad(){
 
-    int opcion;
 
     while(true) {
 
@@ -211,8 +210,8 @@ void restaurarCopiaSeguridad(){
         cout << "--------------------------------------------------" << endl;
         cout << "0. VOLVER AL MENU ANTERIOR" << endl;
         cout << "==================================================" << endl;
-        cout << "SELECCIONE UNA OPCION: ";
-        cin >> opcion;
+        cout <<endl;
+        int opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
 
         if(opcion == 0) return;
 
@@ -317,7 +316,6 @@ void restaurarCopiaSeguridad(){
 
 void exportarDatosCSV(){
 
-    int opcion;
 
     while(true) {
              system("cls");
@@ -335,8 +333,9 @@ void exportarDatosCSV(){
     cout << "-------------------------------------------"<<endl;
     cout << "0. VOLVER AL MENU ANTERIOR" <<endl;
     cout << "==========================================="<<endl;
-    cout << "SELECCIONE UNA OPCION: ";
-    cin >> opcion;
+    cout <<endl;
+    int opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
+
 
     if(opcion == 0) return;
 
@@ -531,11 +530,16 @@ while(fread(&reg, sizeof(Producto), 1 ,pDat) == 1){
     contador++;
 
 }
+fclose(pDat);
+fclose(pCsv);
 
+if(contador==0){
 
+    cout << "AVISO: No se ecnontraron registros en Productos.dat"<<endl;
+    return false;
+}
 
-
-
+return true;
 
 
 }

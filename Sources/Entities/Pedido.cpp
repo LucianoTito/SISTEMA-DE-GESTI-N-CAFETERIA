@@ -1,10 +1,10 @@
 #include <iostream>
 #include <cstring>
 #include <cstdio>
-//#include "Pedido.h"
-//#include "Fecha.h"
+
 #include "../../Headers/Entities/Fecha.h"
 #include "../../Headers/Entities/Pedido.h"
+#include "../../Headers/Utilidades/Validaciones.h"
 
 using namespace std;
 
@@ -54,8 +54,9 @@ void Pedido::setNroMesa(int nro) {
     if (nro > 0) {
         _nroMesa = nro;
     } else {
-        cout << "Numero de mesa incorrecto. Debe ser mayor a 0. Se le asignara 1 por defecto." << endl;
+        cout << "Numero de mesa incorrecto. Debe ser mayor a 0. Se asignará 1." << endl;
         _nroMesa = 1;
+
     }
 }
 
@@ -76,8 +77,8 @@ void Pedido::setPorcentajeDescuento(int porcentaje) {
     if (porcentaje >= 0 && porcentaje <= 100) {
         _porcentajeDescuento = porcentaje;
     } else {
-        cout << "Porcentaje de descuento invalido (debe ser entre 0 y 100). Se asignara 0." << endl;
-        _porcentajeDescuento = 0;
+        cout << "Porcentaje de descuento invalido (debe ser entre 0 y 100)" << endl;
+
     }
 }
 
@@ -112,20 +113,44 @@ void Pedido::Cargar(int idPedido, int idCliente, int idEmpleado) {
     int mesa, puntaje, porcDesc;
     float subt;
 
-    cout << "Ingrese el numero de mesa: ";
-    cin >> mesa;
+    //Numero de mesa
+    while(true){
+        mesa = ingresarEntero("Ingrese el numero de mesa (mayor a 0): ");
+        if(mesa > 0){
+            break;
+        }
+        cout << "ERROR: El numero de mesa ingresado debe ser mayor a 0"<<endl;
+    }
     setNroMesa(mesa);
 
-    cout << "Ingrese el subtotal (antes de descuentos): ";
-    cin >> subt;
+    //Subtotal
+     subt = ingresarFloat("Ingrese el subtotal (antes de descuentos, mayor o igual a 0): ");
+
     setSubtotal(subt);
 
-    cout << "Ingrese el porcentaje de descuento (0 a 100, sin %): ";
-    cin >> porcDesc;
+    //Porcentaje de descuento entre 0 y 100.
+    while(true){
+        porcDesc = ingresarEntero("Ingrese el porcentaje de descuento (0 a 100, sin %): ");
+        if(porcDesc >= 0 && porcDesc <=100){
+            break;
+
+        } else {
+        cout<< "ERROR: El porcentaje debe estar entre 0 y 100."<<endl;
+        }
+    }
+
     setPorcentajeDescuento(porcDesc);
 
-    cout << "Ingrese el puntaje del servicio (1-5): ";
-    cin >> puntaje;
+
+    //Puntaje del servicio
+    while(true){
+        puntaje = ingresarEntero("Ingrese el puntaje del servicio (1 a 5): ");
+        if (puntaje >= 1 && puntaje <= 5){
+            break;
+        } else {
+        cout<< "ERROR: El puntaje debe ser un numero entre 1 y 5."<<endl;
+        }
+    }
     setPuntuacionServicio(puntaje);
 
     _eliminado = false;

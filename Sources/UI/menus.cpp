@@ -28,6 +28,12 @@
 //Include para reportes
 #include "../../Headers/UI/reportes.h"
 
+//Include para las configuraciones
+#include"../../Headers/UI/configuraciones.h"
+
+//Include de validaciones
+#include "../../Headers/Utilidades/Validaciones.h"
+
 using namespace std;
 
 void menuPrincipal() {
@@ -49,8 +55,11 @@ void menuPrincipal() {
         cout << "----------------------------------------" << endl;
         cout << "0. SALIR" << endl;
         cout << "======================================" << endl;
-        cout << "SELECCIONE UNA OPCION: ";
-        cin >> opcion;
+        cout <<endl ;
+
+        int opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
+
+
 
         system("cls");
 
@@ -77,13 +86,13 @@ void menuPrincipal() {
                 break;
             case 6:
 
-                cout << "Opcion 6 seleccionada (menuConfiguraciones no implementado)" << endl;
+                menuConfiguraciones();
                 break;
             case 0:
                 cout << "Saliendo del sistema..." << endl;
                 return;
             default:
-                cout << "Opcion incorrecta. Vuelva a intentarlo." << endl;
+                cout << "Opcion incorrecta. Ingrese solo un numero y vuelva a intentarlo." << endl;
                 break;
         }
         system("pause");
@@ -92,7 +101,7 @@ void menuPrincipal() {
 
 void menuProductos() {
 
-int opcion;
+
 while (true) {
      system("cls");
 
@@ -106,8 +115,9 @@ while (true) {
     cout << "------------------------------------" <<endl;
     cout << "0. VOLVER AL MENU PRINCIPAL" <<endl;
     cout << "====================================" <<endl;
-    cout << "SELECCIONE UNA OPCION: ";
-    cin >> opcion;
+    cout <<endl;
+
+    int opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
 
     system ("cls");
 
@@ -218,13 +228,13 @@ if(!arcProducto.hayProductosConEstadoEliminado(false)){
     return;
 }
 
-int idModificar;
+
 
 cout << "----- MODIFICAR PRODUCTO -----" <<endl;
 arcProducto.listar();
 cout<<endl;
-cout << "Ingrese el ID del producto que desaea modificar: ";
-cin >> idModificar;
+cout <<endl;
+int idModificar= ingresarEntero("Ingrese el ID del producto que desaea modificar: ");
 
 //llamando a buscarRegistro() para obtener la POSICIÓN
 int posicionID = arcProducto.buscarRegistro(idModificar);
@@ -249,14 +259,12 @@ cout << endl;
 
 
 //Pedir los nuevos datos
-float nuevoPrecio;
-int nuevoStock;
 
-cout << "Ingrese el nuevo precio: ";
-cin >>nuevoPrecio;
+cout <<endl;
+float nuevoPrecio = ingresarFloat("Ingrese el nuevo precio: ");
 
-cout << "Ingrese el nuevo stock: ";
-cin >>nuevoStock;
+cout <<endl;
+int nuevoStock = ingresarEntero("Ingrese el nuevo stock: ");
 
 //Actualizamos el objeto registro en memoria
 reg.setPrecio(nuevoPrecio);
@@ -285,14 +293,12 @@ if(!arcProducto.hayProductosConEstadoEliminado(false)){
     return;
 }
 
-int idEliminar;
 cout << "-------- ELIMINAR PRODUCTO --------"<<endl;
 arcProducto.listar();
-cout << "Ingrese el ID del producto a eliminar: " <<endl;
-cin>> idEliminar;
+cout <<endl;
+int idEliminar= ingresarEntero("Ingrese el ID del producto a eliminar: ");
 
 //Buscar el registro
-
 int posicionRegistro = arcProducto.buscarRegistro(idEliminar);
 
 if (posicionRegistro == -1){
@@ -349,12 +355,12 @@ if(!arcProducto.hayProductosConEstadoEliminado(true)){
     return;
 }
 
-int idRecuperar;
+
 cout << "---------- DAR DE ALTA PRODUCTO ----------"<<endl;
 cout<< "Listado de productos eliminados: "<<endl;
 arcProducto.listarEliminados();
-cout << "Ingrese el ID del producto que desea activar nuevamente: ";
-cin>> idRecuperar;
+cout <<endl;
+int idRecuperar = ingresarEntero("Ingrese el ID del producto que desea activar nuevamente: ");
 
 int posicionRegistro = arcProducto.buscarRegistro(idRecuperar);
 
@@ -393,7 +399,7 @@ if (grabadoExitosamente){
 
 void menuClientes(){
 
-    int opcion;
+
     while(true){
 
         system ("cls");
@@ -408,8 +414,9 @@ void menuClientes(){
          cout << "------------------------------------------"<<endl;
          cout << "0. VOLVER AL MENU PRINCIPAL"<<endl;
          cout << "=========================================="<<endl;
-         cout << "SELECCIONE UNA OPCION: "<<endl;
-         cin>> opcion;
+         cout <<endl;
+
+         int opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
 
          system("cls");
 
@@ -498,13 +505,13 @@ if(!arcCliente.hayClientesConEstadoEliminado(false)){
     return;
 }
 
-int idModificar;
+
 cout << "------- MODIFICAR CLIENTE -------"<<endl;
 
 arcCliente.listar();
 
-cout << "Ingrese el ID del cliente que quiere modificar: ";
-cin>> idModificar;
+cout <<endl;
+int idModificar = ingresarEntero("Ingrese el ID del cliente que quiere modificar: ");
 
 int posicionId = arcCliente.buscarRegistro(idModificar);
 
@@ -531,19 +538,8 @@ cout<< endl;
 char nuevoTelefono [20];
 cout << "Ingrese el nuevo numero de telefono: ";
 
-fflush(stdin);
-int i;
-for (i= 0; i<19; i++){
-
-    nuevoTelefono[i] = cin.get();
-    if (nuevoTelefono[i] == '\n'){
-        break;
-    }
-}
-
-nuevoTelefono[i] = '\0';
-fflush(stdin);
-
+//Modularizo con cargar cadena
+cargarCadena(nuevoTelefono, 20);
 reg.setTelefono(nuevoTelefono);
 
 bool grabadoExitosamente = arcCliente.modificarRegistro(reg, posicionId);
@@ -566,12 +562,12 @@ void bajaCliente(){
         return;
     }
 
-    int idEliminar;
+
     cout << "---------- ELIMINAR CLIENTE ----------"<<endl;
 
     arcCliente.listar();
-    cout << "Ingrese el ID del cliente que desea eliminar: ";
-    cin>> idEliminar;
+    cout <<endl;
+    int idEliminar = ingresarEntero("Ingrese el ID del cliente que desea eliminar: ");
 
     int posicionId = arcCliente.buscarRegistro(idEliminar);
 
@@ -626,12 +622,11 @@ if (!arcCliente.hayClientesConEstadoEliminado(true)){
     return;
 }
 
-int idRecuperar;
 cout<< "------- DAR DE ALTA CLIENTE -------"<<endl;
 
 arcCliente.listarEliminados();
-cout<< "Ingrese el ID del cliente que desea activar nuevamente: ";
-cin>> idRecuperar;
+cout<<endl;
+int idRecuperar = ingresarEntero("Ingrese el ID del cliente que desea activar nuevamente: ");
 
 int posicionId = arcCliente.buscarRegistro(idRecuperar);
 
@@ -667,7 +662,6 @@ if(grabadoExitosamente){
 
 
 void menuEmpleados(){
-    int opcion;
 
     while(true){
         system("cls");
@@ -681,8 +675,9 @@ void menuEmpleados(){
         cout << "------------------------------------------"<<endl;
         cout << "0. VOLVER AL MENU PRINCIPAL" <<endl;
         cout << "=========================================="<<endl;
-        cout << "SELECCIONE UNA OPCION:";
-        cin>> opcion;
+        cout <<endl;
+
+        int opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
 
         system("cls");
 
@@ -770,12 +765,12 @@ if(!arcEmpleado.hayEmpleadosConEstadoEliminado(false)){
     return;
 }
 
-int idModificar;
+
 cout << "------- MODIFICAR EMPLEADO -------"<<endl;
 arcEmpleado.listar();
 
-cout << "Ingrese el ID del empleado que desea modificar";
-cin >> idModificar;
+cout <<endl;
+int idModificar = ingresarEntero("Ingrese el ID del empleado que desea modificar");
 
 int posicionID = arcEmpleado.buscarRegistro(idModificar);
 
@@ -798,19 +793,7 @@ cout<<endl;
 
 //Pedir los nuevos datos (solo se puede modificar el puesto)
 char nuevoPuesto[20];
-
 cout << "Ingrese el nuevo puesto: ";
-
-fflush(stdin);
-int i;
-for (i=0; i<19; i++){
-    nuevoPuesto[i] = cin.get();
-    if (nuevoPuesto[i]== '\n'){
-        break;
-    }
-}
-nuevoPuesto[i] = '\0';
-fflush(stdin);
 
 //Actualizar el objeto reg en memoria
 reg.setPuesto(nuevoPuesto);
@@ -838,14 +821,12 @@ if(!arcEmpleado.hayEmpleadosConEstadoEliminado(false)){
     return;
 }
 
-int idEliminar;
 
 cout << "------- ELIMINAR EMPLEADO -------"<<endl;
 arcEmpleado.listar();
 
-cout<<endl;
-cout << "Ingrese el ID del empleado que quiere eliminar: ";
-cin >> idEliminar;
+cout <<endl;
+int idEliminar = ingresarEntero("Ingrese el ID del empleado que quiere eliminar: ");
 
 int posicionId= arcEmpleado.buscarRegistro(idEliminar);
 
@@ -904,13 +885,12 @@ if (!arcEmpleado.hayEmpleadosConEstadoEliminado(true)){
     return;
 }
 
-int idRecuperar;
+
 cout << "---- DAR DE ALTA EMPLEADO ----"<<endl;
 arcEmpleado.listarEliminados();
 
 cout<<endl;
-cout << "Ingrese el ID del empleado que desea activar nuevamente";
-cin>> idRecuperar;
+int idRecuperar = ingresarEntero("Ingrese el ID del empleado que desea activar nuevamente");
 
 int posicionId = arcEmpleado.buscarRegistro(idRecuperar);
 
@@ -964,8 +944,8 @@ while (true){
     cout << "----------------------------------------" <<endl;
     cout << "0. VOLVER AL MENU PRINCIPAL" <<endl;
     cout << "========================================"<< endl;
-    cout << "SELECCIONE UNA OPCION";
-    cin >> opcion;
+
+    opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
 
     system ("cls");
 
@@ -1007,16 +987,28 @@ ArchivoPedido arcPedido ("Pedidos.dat");
 ArchivoDetallePedido arcDetalle ("DetallesPedidos.dat");
 ArchivoPagos arcPagos ("Pagos.dat");
 
+//Guardo una cantidad actual p/ poder revertir si algo  falla
+int cantidadPedidosPrevios = arcPedido.contarRegistros();
 
-int idCliente, idEmpleado, idProducto;
+//Guardo la cantidad actual de detallesPedidos por si algo falla
+int cantidadDetallesInicial = arcDetalle.contarRegistros();
 
-cout << "---------- REALIZAR NUEVO PEDIDO ----------"<<endl;
+
+
+cout << "-------- REALIZAR NUEVO PEDIDO --------"<<endl;
+
+//Verifico que existan clientes activos antes de continuar
+if (!arcCliente.hayClientesConEstadoEliminado(false)){
+    cout << "No hay clientes activos para generar pedidos."<<endl;
+    cout<<endl;
+    return;
+}
 
 cout << endl << "CLIENTES DISPONIBLES: "<<endl;
 arcCliente.listar();
 
-cout <<endl << "Seleccione el ID del Cliente para este pedido: ";
-cin>> idCliente;
+//Valido el cin de idCliente
+int idCliente = ingresarEntero("Seleccione el ID del Cliente para este pedido: ");
 
 
 //Validar Cliente
@@ -1042,13 +1034,21 @@ if (regCliente.getEliminado()== true){
 
 //Si pasa esos dos if, el cliente es válido.
 
-//Repetir esto para empleados.
+//Verifico si empleados activos p/ asignar el pedido
+if(!arcEmpleado.hayEmpleadosConEstadoEliminado(false)){
+
+    cout<< "No hay empleados disponibles para asignar el pedido."<<endl;
+    return;
+}
 
 cout<< endl << "EMPLEADOS DISPONIBLES: "<<endl;
 arcEmpleado.listar();
 
-cout<< endl << "Seleccione el ID del Empleado que atiende este pedido: ";
-cin >> idEmpleado;
+//Valido el cin de idEmpleado
+cout<< endl;
+int idEmpleado = ingresarEntero("Seleccione el ID del Empleado que atiende este pedido: ");
+
+
 
 //Validación del EMPLEADO:
 int posEmpleado = arcEmpleado.buscarRegistro(idEmpleado);
@@ -1074,26 +1074,52 @@ if (regEmpleado.getEliminado()== true){
 
 Pedido regPedido;
 
-int idNuevoPedido = arcPedido.contarRegistros() + 1;
+int idNuevoPedido = cantidadPedidosPrevios + 1;
 
 
 regPedido.Cargar(idNuevoPedido, idCliente, idEmpleado);
 
+//Valido que haya productos activos p/ realizar el pedido
+if(!arcProducto.hayProductosConEstadoEliminado(false)){
+    cout << "No hay productos activos disponibles para armar el pedido."<<endl;
+    cout<<endl;
+    return;
+}
+
 //Bucle para agregar productos
 
-cout << endl << "---------- AGREGAR PRODUCTOS AL PEDIDO ----------" <<endl;
+cout << endl << "-------- AGREGAR PRODUCTOS AL PEDIDO --------" <<endl;
+
+//Verifico que haya al menos un item antes de salir del bucle
+bool seAgregoProducto = false;
 
 while(true){
 
         cout<< endl << "PRODUCTOS DISPONIBLES: "<<endl;
         arcProducto.listar();
 
-        cout <<endl << "Seleccione el ID del Producto a agregar (0 para terminar):";
-        cin >> idProducto;
+        //Valido el cin de idProducto
+        cout <<endl;
+        int idProducto = ingresarEntero("Seleccione el ID del Producto a agregar (0 para terminar):");
+
 
         //salir del bucle si el usuario ingresa 0.
 
         if (idProducto == 0){
+
+                if(!seAgregoProducto){
+                        char cancelar;
+                cout<<"Aun no agrego productos. Desea cancelar el pedido? (S/N):";
+                cin>> cancelar;
+                if(cancelar == 'S' || cancelar == 's'){
+                    arcDetalle.restaurarCantidadRegistros(cantidadDetallesInicial); //Vuelvo al estado original
+                    cout << "Pedido cancelado antes de cargar productos."<<endl;
+                    return;
+                }
+                system("cls");
+                continue;
+
+        }
             break;
         }
 
@@ -1132,12 +1158,14 @@ while(true){
 
         //PEDIR UNA CANTIDAD y validarla
 
-        int cantidadPedida;
+
 
         cout <<endl << "Producto seleccionado: "<< regProducto.getNombre()<<endl;
         cout << "Stock disponible: "<<regProducto.getStock()<<endl;
-        cout << "Ingrese la cantidad deseada: ";
-        cin >> cantidadPedida;
+
+        //validacion del cin de ingresar entero
+        cout <<endl;
+        int cantidadPedida = ingresarEntero("Ingrese la cantidad deseada: ");
 
         if (cantidadPedida <=0){
             cout << "ERROR: La cantidad debe ser al menos de 1 (una) unidad."<<endl;
@@ -1154,6 +1182,62 @@ while(true){
             system ("cls");
             continue;
         }
+//Pre-cálculo del costo de lo que se está intentando agregar ahora
+float precioUnitario = regProducto.getPrecio();
+float calculoSubtotalItem = precioUnitario * cantidadPedida;
+
+//BÚSQUEDA SECUENCIAL: Verificosi este producto ya existe en este pedido específico.
+// Retorna la posición en bytes o índice del registro en el archivo (o -1 si no existe).
+int posicionDetalleExistente = arcDetalle.buscarDetallePorPedidoYProducto(idNuevoPedido, idProducto);
+
+// Si el producto YA existe
+if(posicionDetalleExistente != -1){
+
+    // Lectura del registro original para saber cuántos había antes
+    DetallePedido detalleExistente = arcDetalle.leerRegistro(posicionDetalleExistente);
+
+    // Cálculo de la nueva cantidad total (Lo que había + lo nuevo)
+    int cantidadAcumulada = detalleExistente.getCantidad() + cantidadPedida;
+
+    //VALIDACIÓN DE STOCK
+    if(cantidadAcumulada > regProducto.getStock()){
+        cout<< "ERROR: La cantidad total solicitada supera el stock disponible."<<endl;
+        system("pause");
+        system("cls");
+
+        continue;//  salta al inicio del bucle principal, pidiendo el producto de nuevo
+    }
+
+    //Actualización del objeto en memoria
+    detalleExistente.setCantidad(cantidadAcumulada);
+
+
+    // Si falla la escritura
+    if(!arcDetalle.modificarRegistro(detalleExistente, posicionDetalleExistente)){
+        cout<< "ERROR. No se pudo actualizar la cantidad del producto seleccionado."<<endl;
+        // deshacer cambios si algo falla
+        arcDetalle.restaurarCantidadRegistros(cantidadDetallesInicial);
+        return;
+    }
+
+    // Actualizacion del subtotal general del pedido con el importe de los nuevos ítems
+    regPedido.setSubtotal(regPedido.getSubtotal() + calculoSubtotalItem);
+    seAgregoProducto = true; // Bandera para confirmar éxito
+
+
+    cout<< "------------------------------------"<<endl;
+    cout<<endl;
+    cout<< "Cantidad de "<<regProducto.getNombre()<< " actualizada a "<<cantidadAcumulada<< " unidades."<<endl;
+    cout<< "Subtotal acumulado del Pedido: $"<<regPedido.getSubtotal()<<endl;
+    cout<< "------------------------------------"<<endl;
+    cout<<endl;
+
+    system("pause");
+    system("cls");
+
+
+    continue; //continue evita que el código siga bajando y cree un registro nuevo duplicado
+}
 
         //Creación de DETALLEPEDIDO y actualizar subtotal
 
@@ -1161,13 +1245,11 @@ while(true){
 
         int idDetalleNuevo = arcDetalle.contarRegistros() + 1;
 
-        //Obtener el precio del prodcto.
-        float precioUnitario = regProducto.getPrecio();
+
 
         //cargar el objeto DetallePedido(le pasamos todos los datos)
         regDetalle.Cargar(idDetalleNuevo, idNuevoPedido, idProducto,cantidadPedida, precioUnitario);
 
-        float calculoSubtotalItem = precioUnitario * cantidadPedida;
 
         //Actualizar el subtotal del pedido principal en memoria
         float subtotalActual = regPedido.getSubtotal();
@@ -1188,10 +1270,12 @@ while(true){
 
             cout << "ERROR: No se pudo grabar este item del detalle. Cancelando pedido..."<<endl;
 
+            arcDetalle.restaurarCantidadRegistros(cantidadDetallesInicial);
+
             system("pause");
             return;
         }
-
+        seAgregoProducto = true;
         system("pause");
         system ("cls");
 
@@ -1207,6 +1291,7 @@ cout << "---------- FIN DE LA CARGA DE PRODUCTOS ----------"<<endl;
 //Validar si se agregaron productos
 if (regPedido.getSubtotal()== 0){
     cout << "Pedido cancelado (sin productos)."<<endl;
+    arcDetalle.restaurarCantidadRegistros(cantidadDetallesInicial); //Restauro los detalles agregados en esta sesión
     return;
 }
 
@@ -1215,6 +1300,8 @@ bool exitoPedido = arcPedido.grabarRegistro(regPedido);
 if (!exitoPedido){
 
     cout << "ERROR. NO SE PUDO GRABAR EL PEDIDO PRINCIPAL."<<endl;
+
+    arcDetalle.restaurarCantidadRegistros(cantidadDetallesInicial);
     return;
 }
 
@@ -1239,6 +1326,9 @@ bool exitoPago = arcPagos.grabarRegistro(regPago);
 if (!exitoPago){
 
     cout << "ERROR! El pedido se grabo, pero no se pudo registrar el Pago"<<endl;
+
+    arcDetalle.restaurarCantidadRegistros(cantidadDetallesInicial);
+    arcPedido.restaurarCantidadRegistros(cantidadPedidosPrevios);
     return;
 }
 
@@ -1302,8 +1392,26 @@ ArchivoPedido arcPedido ("Pedidos.dat");
 
 cout << "---------- LISTADO DE PEDIDOS (GENERAL) ----------"<<endl;
 
-arcPedido.listar();
+bool hayActivos = arcPedido.hayPedidosConEstado(false);
+bool hayAnulados = arcPedido.hayPedidosConEstado(true);
 
+if(!hayActivos && !hayAnulados){
+    cout << "No hay pedidos cargados en el sistema."<<endl;
+    return;
+}
+
+if(hayActivos){
+    arcPedido.listarPorEstado(false);
+}else {
+
+    cout<<"No hay pedidos activos para mostrar" <<endl;
+}
+//Seccion de pedidos anulados
+if(hayAnulados){
+    arcPedido.listarPorEstado(true);
+}else{
+cout<< "No hay pedidos anulados."<<endl;
+}
 
 }
 
@@ -1316,11 +1424,14 @@ ArchivoDetallePedido arcDetalle("DetallesPedidos.dat");
 ArchivoProducto arcProducto ("Productos.dat");
 ArchivoPagos arcPagos("Pagos.dat");
 
-int idPedidoBuscar;
+
 
 cout << "---------- VER DETALLE DE PEDIDO ----------"<<endl;
-cout << "Ingrese el ID del Pedido que desea ver: ";
-cin >> idPedidoBuscar;
+
+cout << endl;
+int idPedidoBuscar = ingresarEntero("Ingrese el ID del Pedido que desea ver: ");
+
+
 
 //Buscar y validar el pedido principal
 int posicionPedido = arcPedido.buscarRegistro(idPedidoBuscar);
@@ -1336,7 +1447,7 @@ Pedido regPedido = arcPedido.leerRegistro(posicionPedido);
 
 if (regPedido.getEliminado() == true){
 
-    cout << "Este pedido se encuentra anulado."<<endl;
+    cout << "Este pedido se encuentra anulado. No se mostrara su detalle."<<endl;
 
 }
 
@@ -1396,15 +1507,23 @@ cout << "======================================"<<endl <<endl;
 }
 
 void anularPedido () {
-
+    //Instancio los gestores de archivos que utilizaré
     ArchivoPedido arcPedido("Pedidos.dat");
     ArchivoDetallePedido arcDetalle("DetallesPedidos.dat");
     ArchivoProducto arcProducto ("Productos.dat");
 
-    int idAnular;
+
     cout << "---------- ANULAR PEDIDO ----------"<<endl;
-    cout << "Ingrese el ID del Pedido que desea anular: ";
-    cin >> idAnular;
+
+    if(!arcPedido.hayPedidosConEstado(false)){
+        cout<< "No hay pedidos activos para anular."<<endl;
+        return;
+    }
+    //Listo pedidos activos
+    arcPedido.listarPorEstado(false);
+
+    cout <<endl;
+    int idAnular = ingresarEntero("Ingrese el ID del Pedido que desea anular: ");
 
     //Buscar y validar el Pedido ppal
     int posicionPedido = arcPedido.buscarRegistro(idAnular);
@@ -1413,7 +1532,7 @@ void anularPedido () {
         cout << "ERROR: No se encontro un Pedido con ese ID."<<endl;
         return;
     }
-
+    //Leo el obj en memoria
     Pedido regPedido = arcPedido.leerRegistro(posicionPedido);
 
     cout << "Pedido encontrado: "<<endl;
@@ -1435,6 +1554,8 @@ void anularPedido () {
 
         cout << "Devolviendo stock de productos... "<<endl;
 
+
+        //Nucleo de la fn Restauraciónd de stock
         int cantidadDetalles = arcDetalle.contarRegistros();
         for (int i = 0; i < cantidadDetalles; i++){
             DetallePedido regDetalleLeido = arcDetalle.leerRegistro(i);

@@ -26,9 +26,13 @@ public:
 
     //Buscar la posición de un registro
     int buscarRegistro(int idDetallePedido);
+    int buscarDetallePorPedidoYProducto(int idPedido, int idProducto);
 
     //Sobreescribir un registro
     bool modificarRegistro (DetallePedido reg, int posicion);
+
+    //Revertir el archivo a una cantidad determinada de registros
+    bool restaurarCantidadRegistros(int cantidadRegistros);
 
     //Listar
     void listar();
