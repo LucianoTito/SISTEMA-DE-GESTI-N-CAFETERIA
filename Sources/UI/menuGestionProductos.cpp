@@ -72,7 +72,7 @@ void agregarProducto(){
 //Crear el obj de la capa de persistencia
 ArchivoProducto arcProducto ("Productos.dat");
 
-//Creación del obj
+//CreaciÃ³n del obj
 Producto regProducto;
 
 //ID autoincremental
@@ -80,7 +80,7 @@ int nuevoID = arcProducto.contarRegistros() + 1;
 
 cout << "-------- AGREGAR NUEVO PRODUCTO --------" <<endl;
 
-//Cargar(nuevoID) pedirá nombre, precio,stock, etc
+//Cargar(nuevoID) pedirÃ¡ nombre, precio,stock, etc
 regProducto.Cargar(nuevoID);
 
 //Grabar el registro en el archivo
@@ -144,7 +144,7 @@ cout<<endl;
 cout <<endl;
 int idModificar= ingresarEntero("Ingrese el ID del producto que desaea modificar: ");
 
-//llamando a buscarRegistro() para obtener la POSICIÓN
+//llamando a buscarRegistro() para obtener la POSICIÃ“N
 int posicionID = arcProducto.buscarRegistro(idModificar);
 
 if (posicionID == -1){
@@ -152,12 +152,12 @@ if (posicionID == -1){
     cout << "Error: No se encontro ningun producto con ese ID."<<endl;
     return;
 }
-//Si se encontró leer el registro
+//Si se encontrÃ³ leer el registro
 Producto reg = arcProducto.leerRegistro(posicionID);
 
 if(reg.getEliminado()){
 
-    cout << "El producto seleccionado no está activo"<<endl;
+    cout << "El producto seleccionado no estÃ¡ activo"<<endl;
     return;
 }
 
@@ -227,7 +227,7 @@ if (reg.getEliminado()== true){
     return;
 }
 
-//Confirmación adicional
+//ConfirmaciÃ³n adicional
 char confirmacion;
 cout << "Esta seguro que quiere eliminar este producto? (S/N): ";
 cin >> confirmacion;

@@ -1,11 +1,10 @@
 #include <iostream>
 #include <cstdlib>
 
-#include "../../Headers/Persistence/ArchivoEmpleado.h"
+#include "../../Headers/UI/menuEmpleados.h"
 #include "../../Headers/Entities/Empleado.h"
 #include "../../Headers/Persistence/ArchivoEmpleado.h"
 #include "../../Headers/Utilidades/Validaciones.h"
-#include"../../Headers/UI/menuEmpleados.h"
 
 using namespace std;
 
@@ -192,7 +191,7 @@ reg.Mostrar();
 cout<<endl;
 
 
-//Verifiación por si ya estaba eliminado
+//VerifiaciÃ³n por si ya estaba eliminado
 if (reg.getEliminado()==true){
     cout << "Este empleado ya se encuentra eliminado."<<endl;
     return;

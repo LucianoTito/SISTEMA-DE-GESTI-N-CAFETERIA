@@ -88,8 +88,7 @@ void listarClientes(){
 
 ArchivoCliente arcCliente("Clientes.dat");
 
-cout << "======= LISTADO DE CLIENTES ======"<<endl;
-
+// cout << "======= LISTADO DE CLIENTES ======"<<endl;
 bool hayActivos = arcCliente.hayClientesConEstadoEliminado(false);
 bool hayEliminados = arcCliente.hayClientesConEstadoEliminado(true);
 
@@ -101,9 +100,46 @@ if(!hayActivos && !hayEliminados){
     return;
 }
 
+while(true){
 
-arcCliente.listar();
-arcCliente.listarEliminados();
+    system("cls");
+
+    cout << "======= LISTADOS DE CLIENTES ======"<<endl;
+    cout << "1. LISTADO GENERAL"<<endl;
+    cout << "2. LISTADO ORDENADO POR APELLIDO"<<endl;
+    cout << "3. LISTADO ORDENADO POR PUNTOS DE FIDELIDAD"<<endl;
+    cout << "-----------------------------------"<<endl;
+    cout << "0. VOLVER AL MENU ANTERIOR"<<endl;
+    cout << "==================================="<<endl;
+    cout << endl;
+
+    int opcionListado = ingresarEntero("Seleccione una opcion: ");
+
+    system("cls");
+
+    switch(opcionListado){
+    case 1:
+        cout << "======= LISTADO DE CLIENTES ======"<<endl;
+        arcCliente.listar();
+        arcCliente.listarEliminados();
+        break;
+    case 2:
+        arcCliente.listarOrdenadosPorApellido();
+        break;
+    case 3:
+        arcCliente.listarOrdenadosPorPuntosDeFidelidad();
+        break;
+    case 0:
+        return;
+    default:
+        cout<< "Opcion incorrecta. Vuelva a intentarlo."<<endl;
+        break;
+    }
+
+    cout<<endl;
+    system("pause");
+}
+
 
 }
 
@@ -128,11 +164,11 @@ int posicionId = arcCliente.buscarRegistro(idModificar);
 
 if (posicionId == -1){
 
-    cout << "ERROR. No se encontró un cliente con el  ID: "<<idModificar<<endl;
+    cout << "ERROR. No se encontrÃ³ un cliente con el  ID: "<<idModificar<<endl;
     return;
 }
 
-//Si se ecnontró , leer el registro actual en esa posición
+//Si se ecnontrÃ³ , leer el registro actual en esa posiciÃ³n
 Cliente reg = arcCliente.leerRegistro(posicionId);
 
 if(reg.getEliminado()==true){
