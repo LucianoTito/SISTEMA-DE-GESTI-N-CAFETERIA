@@ -51,7 +51,10 @@
 		<Unit filename="Headers/Persistence/ArchivoPedido.h" />
 		<Unit filename="Headers/Persistence/ArchivoProducto.h" />
 		<Unit filename="Headers/UI/configuraciones.h" />
-		<Unit filename="Headers/UI/menus.h" />
+		<Unit filename="Headers/UI/menuEmpleados.h" />
+		<Unit filename="Headers/UI/menuGestionClientes.h" />
+		<Unit filename="Headers/UI/menuPedidos.h" />
+		<Unit filename="Headers/UI/menuPrincipal.h" />
 		<Unit filename="Headers/UI/reportes.h" />
 		<Unit filename="Headers/Utilidades/Validaciones.h" />
 		<Unit filename="Sources/Entities/Cliente.cpp" />
@@ -69,7 +72,11 @@
 		<Unit filename="Sources/Persistence/ArchivoPedido.cpp" />
 		<Unit filename="Sources/Persistence/ArchivoProducto.cpp" />
 		<Unit filename="Sources/UI/configuraciones.cpp" />
-		<Unit filename="Sources/UI/menus.cpp" />
+		<Unit filename="Sources/UI/menuEmpleados.cpp" />
+		<Unit filename="Sources/UI/menuGestionClientes.cpp" />
+		<Unit filename="Sources/UI/menuGestionProductos.cpp" />
+		<Unit filename="Sources/UI/menuPedidos.cpp" />
+		<Unit filename="Sources/UI/menuPrincipal.cpp" />
 		<Unit filename="Sources/UI/reportes.cpp" />
 		<Unit filename="Sources/Utilidades/Validaciones.cpp" />
 		<Unit filename="Sources/main.cpp" />

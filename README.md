@@ -35,6 +35,7 @@ Fue desarrollado íntegramente en **C++**, aplicando principios de **Programaci�
 ---
 
 ## 🏗️ Arquitectura del proyecto
+
 El sistema está diseñado bajo una estructura modular, separando la lógica por capas para facilitar la mantenibilidad y comprensión del código.
 
 Sistema de Gestión/
@@ -43,18 +44,27 @@ Sistema de Gestión/
 │ ├── Entities/ # Clases base del sistema (Cliente, Producto, Pedido, etc.)
 │ ├── Persistence/ # Manejo de archivos binarios (.dat)
 │ └── UI/ # Módulos de interfaz y menús por consola
+│     ├── menuPrincipal.h
+│     ├── menuGestionProductos.h
+│     ├── menuGestionClientes.h
+│     ├── menuEmpleados.h
+│     └── menuPedidos.h
 │
 ├── Sources/
 │ ├── Entities/ # Implementación de clases
 │ ├── Persistence/ # Implementación de persistencia
 │ ├── UI/ # Implementación de menús y reportes
+│ │   ├── menuPrincipal.cpp
+│ │   ├── menuGestionProductos.cpp
+│ │   ├── menuGestionClientes.cpp
+│ │   ├── menuEmpleados.cpp
+│ │   └── menuPedidos.cpp
 │ ├── funciones.cpp # Funciones auxiliares
 │ └── main.cpp # Punto de entrada principal
 │
 ├── Productos.dat # Archivo binario con productos
 ├── Sistema de Gestión.cbp # Proyecto Code::Blocks
 └── .gitignore
-
 
 
 ---
@@ -98,7 +108,7 @@ Sistema de Gestión/
 
 ## 🏫 Información académica
 **Materia:** Programación II  
-**Profesor:** Martín  
+**Profesores:** Maximiliano Wenner - Martín García
 **Año:** 2025  
 **Carrera:** Tecnicatura Universitaria en Programación  
 **Institución:** Universidad Tecnológica Nacional – Facultad Regional General Pacheco  

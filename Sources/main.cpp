@@ -1,23 +1,14 @@
-#include<iostream>
-#include <cstring>
-#include <locale.h>
+#include <iostream>
+#include <windows.h>
 
-#include "../Headers/UI/menus.h"
+#include "../Headers/UI/menuPrincipal.h"
 
 using namespace std;
 
-int main(){
+int main() {
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
 
-//Para que la consola pueda incorporar ñ o tildes
-setlocale(LC_ALL, "spanish");
-
-//Intenta forzar la consola a la página de códigos UTF-8
-    system("chcp 65001");
-    system("cls");
-
-menuPrincipal();
-
-return 0;
-
-
+    menuPrincipal();
+    return 0;
 }
