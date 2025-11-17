@@ -27,7 +27,7 @@ public:
     //Setters
 
     void setFechaPago(Fecha fecha);
-    void setMetodoPago(int metodo);
+    void setMetodoPago(int metodo, bool mostrarAviso = true);
     void setMontoPagado(float monto);
 
     // Métodos

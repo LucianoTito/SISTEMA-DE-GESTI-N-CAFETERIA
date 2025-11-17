@@ -283,9 +283,7 @@ while(true){
             system ("cls");
             continue;
         }
-//Pre-cálculo del costo de lo que se está intentando agregar ahora
-float precioUnitario = regProducto.getPrecio();
-float calculoSubtotalItem = precioUnitario * cantidadPedida;
+
 
 //BÚSQUEDA SECUENCIAL: Verificosi este producto ya existe en este pedido específico.
 // Retorna la posición en bytes o índice del registro en el archivo (o -1 si no existe).
@@ -311,6 +309,10 @@ if(posicionDetalleExistente != -1){
 
     //Actualización del objeto en memoria
     detalleExistente.setCantidad(cantidadAcumulada);
+
+    //Pre-cálculo del costo de lo que se está intentando agregar ahora
+float precioUnitario = regProducto.getPrecio();
+ float calculoSubtotalItem = precioUnitario * cantidadPedida;
 
 
     // Si falla la escritura
@@ -342,14 +344,36 @@ if(posicionDetalleExistente != -1){
 
         //Creación de DETALLEPEDIDO y actualizar subtotal
 
-        DetallePedido regDetalle;
+
 
         int idDetalleNuevo = arcDetalle.contarRegistros() + 1;
 
+        float precioUnitario = 0.0f;
+        while(true){
+            cout << endl << "Precio sugerido del sistema: $"<<regProducto.getPrecio()<<endl;
+            precioUnitario = ingresarFloat("Ingrese el precio unitario a aplicar: ");
+            if(precioUnitario >= 0){
+                break;
+            }
+            cout << "ERROR: El precio unitario no puede ser negativo."<<endl;
+        }
 
+        float calculoSubtotalItem = precioUnitario * cantidadPedida;
 
-        //cargar el objeto DetallePedido(le pasamos todos los datos)
-        regDetalle.Cargar(idDetalleNuevo, idNuevoPedido, idProducto,cantidadPedida, precioUnitario);
+ //Crear el objeto DetallePedido con los datos validados
+        DetallePedido regDetalle(
+            idDetalleNuevo,
+            idNuevoPedido,
+            idProducto,
+            cantidadPedida,
+            precioUnitario
+        );
+cout << endl;
+        cout << "ID Detalle asignado: "<<regDetalle.getIdDetalle()<<endl;
+        cout << "ID Pedido asociado: "<<regDetalle.getIdPedido()<< endl;
+        cout <<"ID Producto asociado: "<<regDetalle.getIdProducto()<<endl;
+        cout << "Cantidad registrada: "<< regDetalle.getCantidad() << endl;
+        cout << "Precio unitario registrado: $"<< regDetalle.getPrecioUnitario() << endl;
 
 
         //Actualizar el subtotal del pedido principal en memoria
@@ -358,7 +382,7 @@ if(posicionDetalleExistente != -1){
 
 
         cout << "-------------------------------------------------------"<<endl;
-        cout << cantidadPedida << " unidades de "<<regProducto.getNombre()<< "agregadas."<<endl;
+        cout << cantidadPedida << " unidades de "<<regProducto.getNombre()<< " agregadas."<<endl;
         cout << "Subtotal de este item: $"<<calculoSubtotalItem <<endl;
         cout << "Subtotal acumulado del Pedido: $"<<regPedido.getSubtotal()<<endl;
         cout << "-------------------------------------------------------"<<endl;

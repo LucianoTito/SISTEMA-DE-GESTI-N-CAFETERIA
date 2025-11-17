@@ -18,7 +18,7 @@ Pagos::Pagos (int idPago,
                _idPedido(idPedido),
                _fechaPago(fechaPago)
                {
-                   setMetodoPago(metodoPago);
+                   setMetodoPago(metodoPago, false);
                    setMontoPagado(montoPagado);
                }
 //Getters
@@ -33,11 +33,11 @@ float Pagos::getMontoPagado() { return _montoPagado; }
 void Pagos::setFechaPago(Fecha fecha){
 _fechaPago= fecha;
 }
-void Pagos::setMetodoPago(int metodo) {
+void Pagos::setMetodoPago(int metodo, bool mostrarAviso) {
 
     if (metodo >= 1 && metodo <= 3) {
         _metodoPago = metodo;
-    } else {
+    } else if(mostrarAviso) {
         cout << "Metodo de pago invalido. No se realizaron cambios." << endl;
 
     }

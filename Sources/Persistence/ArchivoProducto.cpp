@@ -68,7 +68,7 @@ Producto ArchivoProducto::leerRegistro(int posicion) {
 Producto reg;
 
 //se lo inicializa
-//reg.setIdProducto(-1);
+reg.setIdProducto(0);
 
 
 FILE *pArchivo = fopen(_nombreArchivo.c_str(), "rb");

@@ -18,13 +18,15 @@ int ingresarEntero(string mensaje) {
             cin.clear();              // Apaga el estado de error
             cin.ignore(1000, '\n');   // Limpio lo que quedó en el buffer
             cout << "ERROR: Debe ingresar un numero entero." << endl;
+            continue;
 
         } else {
 
-            cin.ignore(1000, '\n');   // Limpio caracteres sobrantes
+            cin.ignore(100, '\n');   // Limpio caracteres sobrantes
 
             if (dato < 0) {
                 cout << "ERROR: El numero no puede ser negativo." << endl;
+                continue;
             } else {
                 return dato;
             }
@@ -46,12 +48,12 @@ float ingresarFloat(string mensaje) {
         if (cin.fail()) {
 
             cin.clear();
-            cin.ignore(1000, '\n');
+            cin.ignore(100, '\n');
             cout << "ERROR: Debe ingresar un numero decimal valido." << endl;
 
         } else {
 
-            cin.ignore(1000, '\n');
+            cin.ignore(100, '\n');
 
             if (dato < 0) {
                 cout << "ERROR: El valor no puede ser negativo." << endl;

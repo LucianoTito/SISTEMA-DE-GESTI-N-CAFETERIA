@@ -56,7 +56,7 @@ void Cliente::setTelefono(const char* telefono) {
 
 void Cliente::setPuntosFidelidad(int puntos) {
 
-    if (puntos >= 0) {
+    if (puntos >= 0 && puntos <= 5) {
         _puntosFidelidad = puntos;
     } else {
         cout << "Puntos de fidelidad invalidos. No pueden ser negativos. Se asignara 0." << endl;
@@ -76,7 +76,7 @@ cargarCadena(telefono, 20);
 setTelefono(telefono); //setter para asignar y validar longitud
 
 cout <<endl;
-int puntaje = ingresarEntero("Por favor ingrese el puntaje de fidelidad: ");
+int puntaje = ingresarEntero("Por favor ingrese el puntaje de fidelidad de 0 a 5: ");
 setPuntosFidelidad(puntaje);
 }
 

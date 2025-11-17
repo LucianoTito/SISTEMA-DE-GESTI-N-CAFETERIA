@@ -59,15 +59,11 @@ cout << "ID Detalle asignado: "<<_idDetalle<<endl;
 cout << "ID Pedido asociado: "<<_idPedido<< endl;
 cout <<"ID Producto asociado: "<<_idProducto<<endl;
 
-//Cantidad validada
-int cant = ingresarEntero("Ingrese la cantidad: ");
-setCantidad(cant);
+setCantidad(cantidad);
+setPrecioUnitario(precioUnitario);
 
-//Precio unitario validado
-float precio = ingresarFloat("Ingrese el precio unitario (actual): ");
-
-setPrecioUnitario(precio);
-
+cout << "Cantidad registrada: "<< _cantidad << endl;
+cout << "Precio unitario registrado: $"<< _precioUnitario << endl;
 cout << "Detalle de pedido cargado." << endl;
 }
 

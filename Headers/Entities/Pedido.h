@@ -39,11 +39,11 @@ public:
     bool getEliminado();
 
     // Setters
-    void setNroMesa(int nro);
+    void setNroMesa(int nro, bool mostrarAdvertencia = true);
     void setFecha(Fecha fecha);
     void setSubtotal(float subtotal);
     void setPorcentajeDescuento(int porcentaje);
-    void setPuntuacionServicio(int puntuacion);
+    void setPuntuacionServicio(int puntuacion, bool mostrarAdvertencia = true);
     void setEliminado(bool eliminado);
 
     //Métodos

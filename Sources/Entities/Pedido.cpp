@@ -24,10 +24,10 @@ Pedido::Pedido(int idPedido,
       _fecha(fecha),
       _eliminado(eliminado)
 {
-    setNroMesa(nroMesa);
+    setNroMesa(nroMesa, false);
     setSubtotal(subtotal);
     setPorcentajeDescuento(porcentajeDesc);
-    setPuntuacionServicio(puntuacion);
+    setPuntuacionServicio(puntuacion, false);
 }
 
 // Getters
@@ -50,11 +50,11 @@ int Pedido::getPuntuacionServicio() { return _puntuacionServicio; }
 bool Pedido::getEliminado() { return _eliminado; }
 
 // Setters
-void Pedido::setNroMesa(int nro) {
+void Pedido::setNroMesa(int nro, bool mostrarAdvertencia) {
     if (nro > 0) {
         _nroMesa = nro;
-    } else {
-        cout << "Numero de mesa incorrecto. Debe ser mayor a 0. Se asignará 1." << endl;
+    } else if (mostrarAdvertencia)  {
+        cout << "Numero de mesa incorrecto. Debe ser mayor a 0. Se asignara 1." << endl;
         _nroMesa = 1;
 
     }
@@ -77,15 +77,15 @@ void Pedido::setPorcentajeDescuento(int porcentaje) {
     if (porcentaje >= 0 && porcentaje <= 100) {
         _porcentajeDescuento = porcentaje;
     } else {
-        cout << "Porcentaje de descuento invalido (debe ser entre 0 y 100)" << endl;
-
+        cout << "Porcentaje de descuento invalido (debe ser entre 0 y 100) . Se asignara 0% de descuento por defecto" << endl;
+            porcentaje = 0;
     }
 }
 
-void Pedido::setPuntuacionServicio(int puntuacion) {
+void Pedido::setPuntuacionServicio(int puntuacion, bool mostrarAdvertencia) {
     if (puntuacion >= 1 && puntuacion <= 5) {
         _puntuacionServicio = puntuacion;
-    } else {
+    } else if (mostrarAdvertencia) {
         cout << "La puntuacion debe ser un valor entre 1 y 5 inclusive. Se le asignara 3 por defecto." << endl;
         _puntuacionServicio = 3;
     }
@@ -111,7 +111,7 @@ void Pedido::Cargar(int idPedido, int idCliente, int idEmpleado) {
     _fecha.Cargar();
 
     int mesa, puntaje, porcDesc;
-    float subt;
+
 
     //Numero de mesa
     while(true){
@@ -123,10 +123,9 @@ void Pedido::Cargar(int idPedido, int idCliente, int idEmpleado) {
     }
     setNroMesa(mesa);
 
-    //Subtotal
-     subt = ingresarFloat("Ingrese el subtotal (antes de descuentos, mayor o igual a 0): ");
-
-    setSubtotal(subt);
+    //Inicializo el subtotal del pedido en cero (se recalcula al agregar productos)
+    setSubtotal(0.0f);
+    cout << "Subtotal inicializado en $0. Se actualizará al cargar los productos." << endl;
 
     //Porcentaje de descuento entre 0 y 100.
     while(true){

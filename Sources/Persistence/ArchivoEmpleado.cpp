@@ -67,7 +67,7 @@ Empleado ArchivoEmpleado::leerRegistro(int posicion) {
 
 Empleado reg;
 
-reg.setId(-1);
+reg.setId(0);
 
 FILE *pArchivo = fopen (_nombreArchivo.c_str(), "rb");
 

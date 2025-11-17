@@ -175,7 +175,7 @@ cout << "------- MODIFICAR EMPLEADO -------"<<endl;
 arcEmpleado.listar();
 
 cout <<endl;
-int idModificar = ingresarEntero("Ingrese el ID del empleado que desea modificar");
+int idModificar = ingresarEntero("Ingrese el ID del empleado que desea modificar: ");
 
 int posicionID = arcEmpleado.buscarRegistro(idModificar);
 
@@ -199,6 +199,7 @@ cout<<endl;
 //Pedir los nuevos datos (solo se puede modificar el puesto)
 char nuevoPuesto[20];
 cout << "Ingrese el nuevo puesto: ";
+cargarCadena(nuevoPuesto, 20);
 
 //Actualizar el objeto reg en memoria
 reg.setPuesto(nuevoPuesto);
