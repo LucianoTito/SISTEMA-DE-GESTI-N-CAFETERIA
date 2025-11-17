@@ -210,7 +210,7 @@ while(true){
 
                 if(!seAgregoProducto){
                         char cancelar;
-                cout<<"Aun no agrego productos. Desea cancelar el pedido? (S/N):";
+                cout<<"Aun no agrego productos. Desea cancelar el pedido? (S/N): ";
                 cin>> cancelar;
                 if(cancelar == 'S' || cancelar == 's'){
                     arcDetalle.restaurarCantidadRegistros(cantidadDetallesInicial); //Vuelvo al estado original

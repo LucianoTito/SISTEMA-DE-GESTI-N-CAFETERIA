@@ -257,7 +257,7 @@ if (reg.getEliminado()==true){
 }
 
 char confirmacion;
-cout << "Esta seguro que desea dar de baja a este empleado? (S/N)";
+cout << "Esta seguro que desea dar de baja a este empleado (S/N)? : ";
 cin>> confirmacion;
 
 if (confirmacion == 'S'|| confirmacion == 's'){

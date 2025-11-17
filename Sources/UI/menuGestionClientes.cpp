@@ -20,7 +20,7 @@ void menuClientes(){
          cout << "---------- GESTION DE CLIENTES ----------"<<endl;
          cout << "========================================="<<endl;
          cout << "1. AGREGAR CLIENTE"<<endl;
-         cout << "2. LISTAR CLIENTES"<<endl;
+         cout << "2. LISTADOS DE CLIENTES"<<endl;
          cout << "3. MODIFICAR CLIENTE"<<endl;
          cout << "4. ELIMINAR CLIENTE"<<endl;
          cout << "5. DAR DE ALTA A UN CLIENTE"<<endl;
@@ -106,15 +106,15 @@ while(true){
 
     system("cls");
 
-    cout << "======= LISTADOS DE CLIENTES ======"<<endl;
-    cout << "1. LISTADO GENERAL"<<endl;
+    cout << "================= LISTADOS DE CLIENTES =================="<<endl;
+    cout << "1. LISTADO GENERAL POR ESTADO (Activo/Dado de baja)"<<endl;
     cout << "2. LISTADO ORDENADO POR APELLIDO"<<endl;
     cout << "3. LISTADO ORDENADO POR PUNTOS DE FIDELIDAD"<<endl;
-    cout << "4. CLIENTES CON MAS PEDIDOS"<<endl;
+    cout << "4. LISTADO DE CLIENTES CON MAS PEDIDOS (De mayor a menor)"<<endl;
     cout << "5. CLIENTES QUE SUPERAN UN MONTO GASTADO"<<endl;
-    cout << "-----------------------------------"<<endl;
+    cout << "---------------------------------------------------------"<<endl;
     cout << "0. VOLVER AL MENU ANTERIOR"<<endl;
-    cout << "==================================="<<endl;
+    cout << "========================================================="<<endl;
     cout << endl;
 
     int opcionListado = ingresarEntero("Seleccione una opcion: ");
@@ -253,21 +253,42 @@ void listarClientesConMasPedidos(){
         return;
     }
 
-    // Muestro todos los clientes cuyo contador coincide con el máximo encontrado
-    cout << endl;
-    cout << "Clientes con " << maxPedidos << " pedido(s):"<<endl;
-    cout << "---------------------------------------"<<endl;
+     // Ordeno los clientes activos por cantidad de pedidos en forma descendente
+    for(int i=0; i<cantidadActivos - 1; i++){
+        for(int j=i + 1; j<cantidadActivos; j++){
+            if(contadorPedidos[j] > contadorPedidos[i]){
+                int auxPedidos = contadorPedidos[i];
+                contadorPedidos[i] = contadorPedidos[j];
+                contadorPedidos[j] = auxPedidos;
 
-    for(int i=0; i<cantidadActivos; i++){
-        if(contadorPedidos[i] == maxPedidos){
-            cout << "ID: " << clientesActivos[i].getId()
-                 << " | " << clientesActivos[i].getApellido()
-                 << ", " << clientesActivos[i].getNombre()
-                 << " | Pedidos: " << contadorPedidos[i] << endl;
+                Cliente auxCliente = clientesActivos[i];
+                clientesActivos[i] = clientesActivos[j];
+                clientesActivos[j] = auxCliente;
+            }
         }
     }
 
-    cout << "---------------------------------------"<<endl;
+    // Muestro todos los clientes ordenados por pedidos, deteniéndome cuando no tengan registros
+
+    cout << endl;
+    cout << "Clientes ordenados por cantidad de pedidos: "<<endl;
+    cout << "--------------------------------------------------------"<<endl;
+
+    for(int i=0; i<cantidadActivos; i++){
+
+                if(contadorPedidos[i] == 0){
+                break;
+        }
+
+        cout << "ID: " << clientesActivos[i].getId()
+             << " | " << clientesActivos[i].getApellido()
+             << ", " << clientesActivos[i].getNombre()
+             << " | Pedidos: " << contadorPedidos[i] << endl;
+
+
+    }
+
+    cout << "--------------------------------------------------------"<<endl;
 
     //libero memoria
     delete[] clientesActivos;
@@ -398,7 +419,7 @@ if(!arcCliente.hayClientesConEstadoEliminado(false)){
 }
 
 
-cout << "------- MODIFICAR CLIENTE -------"<<endl;
+cout << "--------- MODIFICAR CLIENTE ---------"<<endl;
 
 arcCliente.listar();
 
@@ -482,7 +503,7 @@ if (reg.getEliminado()==true){
 }
 
 char confirmacion;
-cout<< "Esta seguro de que desea eliminar a este cliente? (S/N)";
+cout<< "Esta seguro de que desea eliminar a este cliente? (S/N): ";
 cin>>confirmacion;
 
 if (confirmacion == 'S' || confirmacion == 's'){
