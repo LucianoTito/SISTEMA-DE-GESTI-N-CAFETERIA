@@ -30,6 +30,7 @@ public:
 
     void listar();
     void listarEliminados();
+    void listarConFiltro (int filtroEstado);
     bool hayProductosConEstadoEliminado(bool eliminado);
     int leerRegistros(Producto registros[], int cantidadMaxima);
 

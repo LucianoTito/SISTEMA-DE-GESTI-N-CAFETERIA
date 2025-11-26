@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <iomanip>
 
 #include "../../Headers/UI/menuGestionProductos.h"
 #include "../../Headers/Entities/Producto.h"
@@ -9,8 +10,15 @@
 
 using namespace std;
 
+// Filtros esperados por ArchivoProducto::listarConFiltro
+const short FILTRO_ACTIVOS = 1;
+const short FILTRO_ELIMINADOS = 2;
+const short FILTRO_TODOS = 3;
+
 void ordenarProductosPorNombre(Producto registros[], int cantidad);
 void ordenarProductosPorPrecio(Producto registros[], int cantidad);
+int seleccionarFiltroProductos();
+void listarProductosDadosDeBaja();
 
 void menuProductos() {
 
@@ -21,13 +29,15 @@ while (true) {
     cout << "====================================" <<endl;
     cout << "1. AGREGAR PRODUCTO" <<endl;
     cout << "2. LISTAR PRODUCTOS" <<endl;
-    cout << "3. MODIFICAR PRODUCTO "<<endl;
-    cout << "4. ELIMINAR PRODUCTO "<<endl;
-    cout << "5. DAR DE ALTA PRODUCTO" <<endl;
-    cout << "6. LISTAR PRODUCTOS ORDENADOS POR NOMBRE" <<endl;
-    cout << "7. LISTAR PRODUCTOS ORDENADOS POR PRECIO" <<endl;
-    cout << "8. CONSULTAR PRODUCTO POR ID" <<endl;
-    cout << "9. CONSULTAR PRODUCTOS CON STOCK BAJO" <<endl;
+    cout << "3. LISTAR PRODUCTOS DADOS DE BAJA" <<endl;
+    cout << "4. MODIFICAR PRODUCTO "<<endl;
+    cout << "5. ELIMINAR PRODUCTO "<<endl;
+    cout << "6. DAR DE ALTA PRODUCTO" <<endl;
+    cout << "7. LISTAR PRODUCTOS ORDENADOS POR NOMBRE" <<endl;
+    cout << "8. LISTAR PRODUCTOS ORDENADOS POR PRECIO" <<endl;
+    cout << "9. CONSULTAR PRODUCTO POR ID" <<endl;
+    cout << "10. CONSULTAR PRODUCTOS CON STOCK BAJO" <<endl;
+
     cout << "------------------------------------" <<endl;
     cout << "0. VOLVER AL MENU PRINCIPAL" <<endl;
     cout << "====================================" <<endl;
@@ -48,25 +58,28 @@ case 2:
     break;
 
 case 3:
-    modificarProducto();
+    listarProductosDadosDeBaja();
     break;
 
 case 4:
-        bajaProducto();
+        modificarProducto();
         break;
 case 5:
+        bajaProducto();
+        break;
+case 6:
         altaProducto();
         break;
-        case 6:
+case 7:
         listarProductosOrdenadosPorNombre();
         break;
-case 7:
+case 8:
         listarProductosOrdenadosPorPrecio();
         break;
-case 8:
+case 9:
         consultarProductoPorID();
         break;
-case 9:
+case 10:
         consultarProductosConStockBajo();
         break;
 
@@ -134,16 +147,46 @@ if(!hayActivos && !hayEliminados){
     return;
 }
 
-cout << "----- LISTADO DE PRODUCTOS ACTIVOS -----"<<endl;
+int filtroSeleccionado = seleccionarFiltroProductos();
 
-arcProducto.listar();
-cout<<endl;
-cout << "=========================================="<<endl;
-cout<<endl;
+// Se delega la impresión en el archivo para reutilizar el formato de tabla.
+arcProducto.listarConFiltro(filtroSeleccionado);
+}
 
-cout << "----- LISTADO DE PRODUCTOS INACTIVOS -----"<<endl;
+int seleccionarFiltroProductos(){
 
-arcProducto.listarEliminados();
+    cout << "Seleccione el filtro de productos a visualizar:"<<endl;
+    cout << "1. Solo activos"<<endl;
+    cout << "2. Solo dados de baja"<<endl;
+    cout << "3. Todos"<<endl;
+
+    int opcion;
+
+    // Validamos la opción para evitar valores fuera de rango.
+    do {
+        opcion = ingresarEntero("Ingrese una opcion valida: ");
+        if(opcion < 1 || opcion > 3){
+            cout << "Opcion incorrecta. Intente nuevamente."<<endl;
+        }
+    } while(opcion < 1 || opcion > 3);
+
+    return opcion;
+}
+
+void listarProductosDadosDeBaja(){
+
+    ArchivoProducto arcProducto("Productos.dat");
+
+    if(!arcProducto.hayProductosConEstadoEliminado(true)){
+        cout << "No hay productos dados de baja para mostrar."<<endl;
+        return;
+    }
+
+    cout << "--- LISTADO DE PRODUCTOS INACTIVOS (SOLO LECTURA) ---"<<endl;
+    arcProducto.listarConFiltro(FILTRO_ELIMINADOS);
+
+
+
 }
 
 void modificarProducto(){
@@ -363,8 +406,12 @@ ordenarProductosPorNombre(registros, cantidadActivos);
 
 cout << "----- LISTADO ORDENADO POR NOMBRE -----"<<endl;
 
+cout << left << setw(6) << "ID" << setw(30) << "Nombre" << setw(12) << "Precio" << setw(8) << "Stock" << endl;
+cout << string(56, '-') << endl;
+
+
 for(int i = 0; i < cantidadActivos; i++){
-    registros[i].Mostrar();
+    registros[i].MostrarFila("ACTIVO");
 }
 
 cout << "--- FIN DEL LISTADO ---"<<endl;
@@ -416,12 +463,15 @@ if(cantidadActivos == 0){
 ordenarProductosPorPrecio(registros, cantidadActivos);
 
 cout << "----- LISTADO ORDENADO POR PRECIO -----"<<endl;
+cout << left << setw(6) << "ID" << setw(30) << "Nombre" << setw(12) << "Precio" << setw(8) << "Stock" << endl;
+cout << string(56, '-') << endl;
+
 
 for(int i = 0; i < cantidadActivos; i++){
-    registros[i].Mostrar();
+    registros[i].MostrarFila("ACTIVO");
 }
 
-cout << "--- FIN DEL LISTADO ---"<<endl;
+cout << "------------------ FIN DEL LISTADO --------------------------"<<endl;
 
 delete [] registros;
 
@@ -505,13 +555,21 @@ if(cantidadLeida == 0){
 }
 
 bool hayCoincidencias = false;
+bool cabeceraMostrada = false;
 
 cout << "Productos con stock por debajo de " << umbral << ":"<<endl;
 
 for(int i = 0; i < cantidadLeida; i++){
 
     if(registros[i].getEliminado() == false && registros[i].getStock() < umbral){
-        registros[i].Mostrar();
+
+    if(!cabeceraMostrada){
+            cout << left << setw(6) << "ID" << setw(30) << "Nombre" << setw(12) << "Precio" << setw(8) << "Stock" << endl;
+            cout << string(56, '-') << endl;
+            cabeceraMostrada = true;
+        }
+
+        registros[i].MostrarFila("ACTIVO");
         hayCoincidencias = true;
     }
 }

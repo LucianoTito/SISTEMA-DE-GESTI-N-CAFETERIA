@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <iomanip>
 
 #include <cstdio>  // Necesaria para fflush
 
@@ -115,4 +116,20 @@ void Producto::Mostrar() {
     cout << "Precio: $" << _precio << endl;
     cout << "Stock: " << _stock << endl;
     cout << "-----------------------------" << endl;
+}
+
+void Producto::MostrarFila(const char* estado){
+//Muestra los estado en formato de tabla para evitar listado muy extensos hacia abajo.
+cout<< left
+<< setw(6) << _idProducto
+<< setw(30) <<_nombre
+<< "$" << setw(10) << fixed << setprecision(2) << _precio
+<< setw(8) << _stock;
+
+// El estado es opcional porque en algunos listados solo se muestran activos.
+if (estado != nullptr){
+    cout << estado;
+}
+
+cout << endl;
 }

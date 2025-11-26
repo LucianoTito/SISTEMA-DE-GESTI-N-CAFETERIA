@@ -343,14 +343,15 @@
 	"../../Headers/Entities/Persona.h"
 	"../../Headers/Utilidades/Validaciones.h"
 
-1763158892 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\producto.cpp
+1764126996 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\producto.cpp
 	<iostream>
 	<cstring>
+	<iomanip>
 	<cstdio>
 	"../../Headers/Entities/Producto.h"
 	"../../Headers/Utilidades/Validaciones.h"
 
-1762012793 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\producto.h
+1764115903 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\producto.h
 	<cstring>
 
 1763268697 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\main.cpp
@@ -360,7 +361,7 @@
 
 1762991699 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menus.h
 
-1763272782 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\persistence\archivoproducto.h
+1764125523 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\persistence\archivoproducto.h
 	<string>
 	"../Entities/Producto.h"
 
@@ -420,10 +421,11 @@
 	"../../Headers/Persistence/ArchivoPedido.h"
 	"../../Headers/Entities/Pedido.h"
 
-1763334561 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\persistence\archivoproducto.cpp
+1764127029 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\persistence\archivoproducto.cpp
 	<iostream>
 	<string>
 	<cstdio>
+	<iomanip>
 	"../../Headers/Persistence/ArchivoProducto.h"
 	"../../Headers/Entities/Producto.h"
 
@@ -498,10 +500,11 @@
 
 1763310683 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menugestionclientes.h
 
-1763274098 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menugestionproductos.cpp
+1764127202 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menugestionproductos.cpp
 	<iostream>
 	<cstdlib>
 	<cstring>
+	<iomanip>
 	"../../Headers/UI/menuGestionProductos.h"
 	"../../Headers/Entities/Producto.h"
 	"../../Headers/Persistence/ArchivoProducto.h"

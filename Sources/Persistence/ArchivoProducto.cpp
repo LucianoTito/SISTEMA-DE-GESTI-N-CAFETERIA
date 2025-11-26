@@ -1,11 +1,41 @@
 #include<iostream>
 #include <string>
 #include <cstdio>
+#include <iomanip>
 
 #include "../../Headers/Persistence/ArchivoProducto.h"
 #include "../../Headers/Entities/Producto.h"
 
 using namespace std;
+
+//Constantes de filtro para listado en tabla.
+//1 = Solo activos, 2 = Solo dados de baja, 3 = Todos
+
+const int FILTRO_ACTIVOS = 1;
+const int FILTRO_ELIMINADOS = 2;
+const int FILTRO_TODOS = 3;
+
+//Encabezado común para evitar que el listado sea muy largo verticalmente.
+void mostrarEncabezadoTablaProductos(bool incluirEstado){
+
+cout << left
+     << setw(6) << "ID"
+     << setw(32) << "Nombre"
+     << setw(12) << "Precio"
+     << setw(8) << "Stock";
+
+     if(incluirEstado){
+        cout << "Estado";
+     }
+
+     cout << endl;
+// Dibuja una línea de separación debajo del encabezado.
+// Si se incluye la columna Estado, la tabla es más ancha (70 guiones).
+// Si NO se incluye, la tabla es más corta (58 guiones).
+     cout << string (incluirEstado ? 68 : 56, '-') <<endl; // operador ternario → elige 63 o 51
+
+
+}
 
 //Constructor
 
@@ -164,13 +194,14 @@ Producto regLeido; //Objeto p/ guardar cada producto leído.
 bool hayProductos = false;
 
 cout <<endl << "-- PRODUCTOS ACTIVOS --"<<endl;
+mostrarEncabezadoTablaProductos(false);
 
 while (fread (&regLeido, sizeof(Producto), 1, pArchivo) == 1){
 
    //Verificamos que el producto leído NO esté eliminado.
    if (regLeido.getEliminado() == false) {
 
-    regLeido.Mostrar();
+    regLeido.MostrarFila();
     hayProductos = true;
    }
    //Si está eliminado lo ignoramos y el bucle continuá
@@ -181,7 +212,7 @@ if(!hayProductos){
 cout<< "No hay productos activos para mostrar."<<endl;
 }
 
-cout << "--- FIN DEL LISTADO ---"<<endl;
+cout << "------------------ FIN DEL LISTADO -----------------"<<endl;
 
 
 
@@ -203,11 +234,12 @@ Producto regLeido;
 bool hayProductos = false;
 
 cout <<endl << "-- PRODUCTOS DADOS DE BAJA --"<<endl;
+mostrarEncabezadoTablaProductos(false);
 
 while(fread(&regLeido, sizeof(Producto), 1, pArchivo)== 1) {
 
     if(regLeido.getEliminado() == true){
-        regLeido.Mostrar();
+        regLeido.MostrarFila();
         hayProductos = true;
     }
 
@@ -218,6 +250,47 @@ if (!hayProductos){
     cout << "No hay productos dados de baja."<<endl;
 }
 cout << "--- FIN DEL LISTADO ---"<<endl;
+
+fclose(pArchivo);
+
+}
+
+void ArchivoProducto::listarConFiltro (int filtroEstado){
+
+FILE *pArchivo = fopen(_nombreArchivo.c_str(), "rb");
+
+if(pArchivo == nullptr){
+
+    cout << "Error al abrir el archivo para listar."<<endl;
+    return;
+}
+
+Producto regLeido;
+bool hayProductos = false;
+
+cout << "-- LISTADO DE PRODUCTOS --"<<endl;
+mostrarEncabezadoTablaProductos(true);
+
+while(fread(&regLeido, sizeof(Producto), 1, pArchivo) == 1){
+
+    bool esEliminado = regLeido.getEliminado();
+
+    bool cumpleFiltro = (filtroEstado == FILTRO_TODOS) ||
+                         ( filtroEstado == FILTRO_ACTIVOS && !esEliminado) ||
+                         (filtroEstado == FILTRO_ELIMINADOS && esEliminado);
+
+    if(cumpleFiltro){
+        const char* estado = esEliminado ? "INACTIVO" : "ACTIVO";
+        regLeido.MostrarFila(estado);
+        hayProductos = true;
+    }
+}
+
+if(!hayProductos){
+    cout << "No hay productos para mostrar con el filtro seleccionado."<<endl;
+}
+
+cout << "--------------------- FIN DEL LISTADO -----------------------"<<endl;
 
 fclose(pArchivo);
 

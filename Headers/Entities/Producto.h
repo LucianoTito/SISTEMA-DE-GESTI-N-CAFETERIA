@@ -35,4 +35,5 @@ public:
     // Métodos
     void Mostrar();
     void Cargar(int idProducto);
+    void MostrarFila(const char* estado = nullptr);
 };
