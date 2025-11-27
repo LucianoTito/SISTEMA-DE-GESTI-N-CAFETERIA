@@ -97,8 +97,7 @@ void listarEmpleados(){
 bool hayActivos = arcEmpleado.hayEmpleadosConEstadoEliminado(false);
 bool hayEliminados = arcEmpleado.hayEmpleadosConEstadoEliminado(true);
 
-
-if(!hayActivos && !hayEliminados){
+ if(!hayActivos && !hayEliminados){
     cout<< endl;
     cout<< "No hay empleados activos o inactivos registrados para listar."<<endl;
     cout<< endl;
@@ -158,6 +157,7 @@ cout << "--- FIN DEL LISTADO ---"<<endl;
 
 delete [] registros;
 
+
 }
 
 void modificarEmpleado(){
@@ -165,7 +165,6 @@ void modificarEmpleado(){
 ArchivoEmpleado arcEmpleado("Empleados.dat");
 
 if(!arcEmpleado.hayEmpleadosConEstadoEliminado(false)){
-
     cout << "No hay empleados activos para modificar."<<endl;
     return;
 }
