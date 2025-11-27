@@ -33,9 +33,8 @@ while(true){
 
     cout << "1. Recaudacion Anual/Mensual"<<endl;
     cout << "2. Productos Mas Vendidos"<<endl;
-    cout << "3. Ranking de clientes por Puntos de Fidelidad"<<endl;
-    cout << "4. Informe de Desempeno de Empleados"<<endl;
-    cout << "5. Productos vendidos por periodo"<<endl;
+    cout << "3. Informe de Desempeno de Empleados"<<endl;
+    cout << "4. Productos vendidos por periodo"<<endl;
     cout << "------------------------------------"<<endl;
     cout << "0. VOLVER AL MENU PRINCIPAL"<<endl;
     cout << "===================================="<<endl;
@@ -52,14 +51,10 @@ case 2:
     reporteProductosMasVendidos();
     break;
 case 3:
-    reporteRankingClientes();
-    break;
-case 4:
     reporteDesempenoEmpleados();
     break;
-case 5:
+case 4:
     reporteProductosPorPeriodo();
-    break;
 case 0:
     return;
 default:
@@ -236,101 +231,6 @@ lineaSimple(74);
     delete[] vectorCantidadVendida;
 
 }
-
-void reporteRankingClientes(){
-
-system ("cls");
-cout << "----------------- RANKING DE CLIENTES POR PUNTOS DE FIDELIDAD -------------------"<<endl;
-
-ArchivoCliente arcCliente("Clientes.dat");
-int cantidadClientes = arcCliente.contarRegistros();
-
-if (cantidadClientes == 0){
-
-    cout << "No hay registros de CLIENTES para generar el reporte."<<endl;
-    system ("pause");
-    return;
-}
-
-//Pido memoria dinámica p/ copiar los clientes
-Cliente* vectorClientes = new Cliente[cantidadClientes];
-
-if (vectorClientes == nullptr){
-
-    cout << "ERROR: No se pudo asignar memoria para generar el reporte."<<endl;
-    system ("pause");
-    return;
-
-}
-
-//Cargo los clientes activos y no eliminados en el vector
-int cantidadValidados = 0;
-
-for (int i = 0; i<cantidadClientes; i++){
-    Cliente reg = arcCliente.leerRegistro(i);
-
-    if (reg.getId() != -1 && reg.getEliminado()== false){
-        vectorClientes[cantidadValidados] = reg;
-        cantidadValidados++;
-    }
-}
-
-//Si no hay clientes activos?
-if (cantidadValidados == 0){
-
-    cout << "No hay CLIENTES activos para mostrar en el ranking."<<endl;
-    delete[] vectorClientes;
-    system("pause");
-    return;
-}
-
-//Ordeno el vector de mayor a menor (burbujeo)
-for (int i=0; i<cantidadValidados - 1; i++){
-    for (int j = i +1; j<cantidadValidados; j++){
-        if (vectorClientes[i].getPuntosFidelidad() < vectorClientes[j].getPuntosFidelidad()){
-
-            Cliente aux = vectorClientes[i];
-            vectorClientes[i] = vectorClientes[j];
-            vectorClientes[j] = aux;
-        }
-    }
-}
-
-lineaDoble(81);
-imprimirFila5("POS", "ID", "APELLIDO", "NOMBRE", "PUNTOS");
-lineaSimple(81);
-
-char pos[6];
-char id[8];
-char puntos[12];
-
-
-    for (int i = 0; i<cantidadValidados; i++){
-
-        snprintf(pos, sizeof(pos), "%d", i + 1);
-        snprintf(id, sizeof(id), "%d", vectorClientes[i].getId());
-        snprintf(puntos, sizeof(puntos), "%d", vectorClientes[i].getPuntosFidelidad());
-
-        imprimirFila5(pos,
-                      id,
-                      vectorClientes[i].getApellido(),
-                      vectorClientes[i].getNombre(),
-                      puntos);
-
-
-    }
-
-    lineaDoble(81);
-
-     cout << "Total de clientes activos: "<< cantidadValidados <<endl <<endl;
-
-     delete []vectorClientes;
-
-     system("pause");
-
-
-}
-
 
 void reporteDesempenoEmpleados() {
 

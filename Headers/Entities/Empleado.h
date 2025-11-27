@@ -30,6 +30,7 @@ void setPuesto(const char* puesto);
 
 //Métodos
 void Cargar(int id);
+void MostrarFila(const char* estado = nullptr);
 void Mostrar();
 };
 

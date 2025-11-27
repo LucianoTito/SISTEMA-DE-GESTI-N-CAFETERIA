@@ -2,10 +2,31 @@
 #include <string>
 #include <cstdio>
 #include <cstring>
+#include <iomanip>
 #include "../../Headers/Persistence/ArchivoCliente.h"
 #include "../../Headers/Entities/Cliente.h"
 
 using namespace std;
+
+// Dibuja el encabezado de la tabla de clientes.
+void mostrarEncabezadoTablaClientes(bool incluirEstado){
+    cout << left
+         << setw(6) << "ID"
+         << setw(15) << "Nombre"
+         << setw(15) << "Apellido"
+         << setw(16) << "Telefono"
+         << setw(28) << "Mail";
+
+
+    if(incluirEstado){
+        cout << "Estado";
+    }
+
+    cout << endl;
+    // Línea divisoria ajustada al ancho de columnas.
+    cout << string(incluirEstado ? 94 : 86, '-') << endl;
+}
+
 
 
 //Constructor
@@ -156,13 +177,16 @@ if (pArchivo == nullptr){
 Cliente regLeido;
 bool hayClientes = false;
 
-cout<< endl<< "------- CLIENTES ACTIVOS -------"<<endl;
+cout<< endl<< "---------------------- CLIENTES ACTIVOS ----------------------"<<endl;
+
+// Encabezado sin estado porque todos son activos.
+mostrarEncabezadoTablaClientes(false);
 
 while (fread (&regLeido, sizeof(Cliente), 1, pArchivo) == 1){
 
     if (regLeido.getEliminado()== false){
 
-        regLeido.Mostrar();
+        regLeido.MostrarFila();
         hayClientes = true;
     }
 
@@ -172,7 +196,7 @@ if (!hayClientes){
     cout << "No hay clientes activos para mostrar."<<endl;
 }
 
-cout <<"---------- FIN DEL LISTADO ----------" <<endl<<endl;
+cout <<"---------------------- FIN DEL LISTADO ----------------------" <<endl<<endl;
 
 fclose(pArchivo);
 
@@ -192,10 +216,13 @@ bool hayClientes = false;
 
 cout<< endl<< "------- CLIENTES DADOS DE BAJA -------"<<endl;
 
+// Encabezado sin estado porque todos son inactivos.
+mostrarEncabezadoTablaClientes(false);
+
 while(fread(&regLeido, sizeof(Cliente), 1, pArchivo)==1){
 
     if(regLeido.getEliminado()==true){
-        regLeido.Mostrar();
+        regLeido.MostrarFila();
         hayClientes=true;
     }
 }
@@ -282,8 +309,12 @@ for(int i = 0; i < cantidadActivos - 1; i++){
 }
 
 cout << endl << "------- CLIENTES ORDENADOS POR APELLIDO -------"<<endl;
+
+// Se muestra en formato tabular sin columna de estado ya que todos son activos.
+mostrarEncabezadoTablaClientes(false);
+
 for(int i = 0; i < cantidadActivos; i++){
-    clientes[i].Mostrar();
+    clientes[i].MostrarFila();
 }
 cout << "----------------------------------------"<<endl<<endl;
 
@@ -291,70 +322,6 @@ delete [] clientes;
 
 }
 
-void ArchivoCliente::listarOrdenadosPorPuntosDeFidelidad(){
-
-FILE *pArchivo = fopen(_nombreArchivo.c_str(), "rb");
-
-if(pArchivo == nullptr){
-    cout << "Error al abrir el archivo para listar Clientes."<<endl;
-    return;
-}
-
-Cliente regLeido;
-int cantidadActivos = 0;
-
-while(fread(&regLeido, sizeof(Cliente), 1, pArchivo) == 1){
-    if(regLeido.getEliminado()==false){
-        cantidadActivos++;
-    }
-}
-
-if(cantidadActivos == 0){
-    cout << "No hay clientes activos para listar por puntos de fidelidad."<<endl;
-    fclose(pArchivo);
-    return;
-}
-
-Cliente *clientes = new Cliente[cantidadActivos];
-rewind(pArchivo);
-int indice = 0;
-
-while(fread(&regLeido, sizeof(Cliente), 1, pArchivo) == 1){
-    if(regLeido.getEliminado()==false){
-        clientes[indice] = regLeido;
-        indice++;
-    }
-}
-
-fclose(pArchivo);
-
-for(int i = 0; i < cantidadActivos - 1; i++){
-    for(int j = 0; j < cantidadActivos - 1 - i; j++){
-        if(clientes[j].getPuntosFidelidad() < clientes[j+1].getPuntosFidelidad()){
-            Cliente aux = clientes[j];
-            clientes[j] = clientes[j+1];
-            clientes[j+1] = aux;
-        }
-        else if(clientes[j].getPuntosFidelidad() == clientes[j+1].getPuntosFidelidad()){
-            int comparacionApellido = strcmp(clientes[j].getApellido(), clientes[j+1].getApellido());
-            if((comparacionApellido > 0) || ((comparacionApellido == 0) && (strcmp(clientes[j].getNombre(), clientes[j+1].getNombre()) > 0))){
-                Cliente aux = clientes[j];
-                clientes[j] = clientes[j+1];
-                clientes[j+1] = aux;
-            }
-        }
-    }
-}
-
-cout << endl << "--- CLIENTES ORDENADOS POR PUNTOS DE FIDELIDAD ---"<<endl;
-for(int i = 0; i < cantidadActivos; i++){
-    clientes[i].Mostrar();
-}
-cout << "-------------------------------------------------"<<endl<<endl;
-
-delete [] clientes;
-
-}
 
 
 

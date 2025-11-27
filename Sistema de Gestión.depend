@@ -276,14 +276,15 @@
 1763084024 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\código - sistema de gestión\sistema de gestión\headers\utilidades\validaciones.h
 	<string>
 
-1764041876 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\cliente.cpp
+1764212263 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\cliente.cpp
 	<iostream>
 	<cstring>
 	<cstdio>
+	<iomanip>
 	"../../Headers/Entities/Cliente.h"
 	"../../Headers/Utilidades/Validaciones.h"
 
-1764041369 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\cliente.h
+1764212763 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\cliente.h
 	"Persona.h"
 
 1764041617 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\persona.h
@@ -298,14 +299,15 @@
 
 1762406799 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\detallepedido.h
 
-1764041944 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\empleado.cpp
+1764209835 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\empleado.cpp
 	<iostream>
 	<cstring>
 	<cstdio>
+	<iomanip>
 	"../../Headers/Entities/Empleado.h"
 	"../../Headers/Utilidades/Validaciones.h"
 
-1764041434 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\empleado.h
+1764209112 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\empleado.h
 	"Persona.h"
 
 1763158490 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\fecha.cpp
@@ -365,7 +367,7 @@
 	<string>
 	"../Entities/Producto.h"
 
-1763270436 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\persistence\archivocliente.h
+1764212123 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\persistence\archivocliente.h
 	<string>
 	"../Entities/Cliente.h"
 
@@ -377,11 +379,12 @@
 	<string>
 	"../Entities/Pedido.h"
 
-1764043381 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\persistence\archivocliente.cpp
+1764211600 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\persistence\archivocliente.cpp
 	<iostream>
 	<string>
 	<cstdio>
 	<cstring>
+	<iomanip>
 	"../../Headers/Persistence/ArchivoCliente.h"
 	"../../Headers/Entities/Cliente.h"
 
@@ -396,10 +399,11 @@
 	<string>
 	"../Entities/DetallePedido.h"
 
-1763334487 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\persistence\archivoempleado.cpp
+1764211391 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\persistence\archivoempleado.cpp
 	<iostream>
 	<string>
 	<cstdio>
+	<iomanip>
 	"../../Headers/Persistence/ArchivoEmpleado.h"
 	"../../Headers/Entities/Empleado.h"
 
@@ -429,7 +433,7 @@
 	"../../Headers/Persistence/ArchivoProducto.h"
 	"../../Headers/Entities/Producto.h"
 
-1764042886 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\configuraciones.cpp
+1764212415 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\configuraciones.cpp
 	<iostream>
 	<cstdio>
 	<cstring>
@@ -445,7 +449,7 @@
 
 1762784315 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\configuraciones.h
 
-1763390827 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\reportes.cpp
+1764212741 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\reportes.cpp
 	<iostream>
 	<cstdio>
 	"../../Headers/UI/reportes.h"
@@ -462,7 +466,7 @@
 	"../../Headers/Utilidades/Validaciones.h"
 	"../../Headers/Utilidades/Tablas.h"
 
-1763362897 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\reportes.h
+1764212144 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\reportes.h
 
 1764043902 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\utilidades\validaciones.cpp
 	<iostream>
@@ -488,9 +492,10 @@
 	"../../Headers/UI/configuraciones.h"
 	"../../Headers/Utilidades/Validaciones.h"
 
-1764200522 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menugestionclientes.cpp
+1764210810 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menugestionclientes.cpp
 	<iostream>
 	<cstdlib>
+	<iomanip>
 	"../../Headers/UI/menuGestionClientes.h"
 	"../../Headers/Entities/Cliente.h"
 	"../../Headers/Entities/Pedido.h"
@@ -550,10 +555,11 @@
 
 1763275334 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menuempleados.h
 
-1764202671 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menuempleados.cpp
+1764211214 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menuempleados.cpp
 	<iostream>
 	<cstdlib>
 	<cstring>
+	<iomanip>
 	"../../Headers/UI/menuEmpleados.h"
 	"../../Headers/Entities/Empleado.h"
 	"../../Headers/Persistence/ArchivoEmpleado.h"

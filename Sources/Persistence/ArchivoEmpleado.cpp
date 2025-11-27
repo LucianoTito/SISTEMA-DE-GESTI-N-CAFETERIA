@@ -1,11 +1,31 @@
 #include<iostream>
 #include <string>
 #include <cstdio>
+#include <iomanip>
 #include "../../Headers/Persistence/ArchivoEmpleado.h"
 #include "../../Headers/Entities/Empleado.h"
 
 
 using namespace std;
+
+// Encabezado reutilizable para las tablas de empleados.
+void mostrarEncabezadoTablaEmpleados(bool incluirEstado){
+    cout << left
+         << setw(6) << "ID"
+         << setw(15) << "Nombre"
+         << setw(15) << "Apellido"
+         << setw(18) << "Telefono"
+         << setw(25) << "Mail"
+         << setw(15) << "Puesto";
+
+    if(incluirEstado){
+        cout << "Estado";
+    }
+
+    cout << endl;
+    // Línea divisoria acorde a la cantidad de columnas.
+    cout << string(incluirEstado ? 97 : 89, '-') << endl;
+}
 
 
 //Constructor
@@ -144,7 +164,7 @@ return escribio;
 
 void ArchivoEmpleado::listar(){
 
-FILE *pArchivo = fopen (_nombreArchivo.c_str(), "rb");
+  FILE *pArchivo = fopen (_nombreArchivo.c_str(), "rb");
 
 if(pArchivo == nullptr){
 
@@ -155,13 +175,14 @@ if(pArchivo == nullptr){
 Empleado regLeido;
 bool hayEmpleados = false;
 
-cout<<endl<< "------- EMPLEADOS ACTIVOS -------"<<endl;
+cout<<endl<< "--------------------------- EMPLEADOS ACTIVOS ---------------------------"<<endl;
+mostrarEncabezadoTablaEmpleados(false);
 
 while(fread(&regLeido, sizeof(Empleado),1, pArchivo)==1){
 
     if(regLeido.getEliminado()== false){
 
-        regLeido.Mostrar();
+        regLeido.MostrarFila();
         hayEmpleados=true;
     }
 }
@@ -170,8 +191,8 @@ if(!hayEmpleados){
     cout << "No hay empleados activos para mostrar."<<endl;
 }
 
-
-cout<< "---------- FIN DEL LISTADO ----------"<<endl<<endl;
+cout<<endl;
+cout<< "--------------------------- FIN DEL LISTADO ---------------------------"<<endl<<endl;
 
 fclose(pArchivo);
 
@@ -191,13 +212,14 @@ if(pArchivo==nullptr){
 Empleado regLeido;
 bool hayEmpleados = false;
 
-cout<<endl<< "---- EMPLEADOS DADOS DE BAJA ----"<<endl;
+cout<<endl<< "---------------------- EMPLEADOS DADOS DE BAJA ----------------------"<<endl;
+mostrarEncabezadoTablaEmpleados(false);
 
 while(fread(&regLeido, sizeof(Empleado), 1, pArchivo)==1){
 
     if(regLeido.getEliminado()== true){
 
-        regLeido.Mostrar();
+        regLeido.MostrarFila();
         hayEmpleados = true;
     }
 }
@@ -205,8 +227,8 @@ while(fread(&regLeido, sizeof(Empleado), 1, pArchivo)==1){
 if(!hayEmpleados){
     cout << "No hay empleados dados de baja"<<endl;
 }
-
-cout << "---- FIN DEL LISTADO ----"<<endl<<endl;
+cout<<endl;
+cout << "---------------------- FIN DEL LISTADO ----------------------"<<endl<<endl;
 
 fclose(pArchivo);
 

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <iomanip>
 
 #include "../../Headers/UI/menuEmpleados.h"
 #include "../../Headers/Entities/Empleado.h"
@@ -14,16 +15,20 @@ void ordenarEmpleadosPorApellido(Empleado registros[], int cantidad);
 
 void menuEmpleados(){
 
+// Archivo de empleados para operaciones de listado dentro del menú principal.
+    ArchivoEmpleado arcEmpleado("Empleados.dat");
+
     while(true){
         system("cls");
         cout << "---------- GESTION DE EMPLEADOS ----------"<<endl;
         cout << "=========================================="<<endl;
         cout << "1. AGREGAR EMPLEADO"<<endl;
-        cout << "2. LISTAR EMPLEADOS"<<endl;
-        cout << "3. MODIFICAR EMPLEADO"<<endl;
-        cout << "4. ELIMINAR EMPLEADO"<<endl;
-        cout << "5. DAR DE ALTA EMPLEADO"<<endl;
-        cout << "6. LISTAR EMPLEADOS ORDENADOS POR APELLIDO"<<endl;
+        cout << "2. EMPLEADOS ACTIVOS"<<endl;
+        cout << "3. EMPLEADOS DADOS DE BAJA"<<endl;
+        cout << "4. MODIFICAR EMPLEADO"<<endl;
+        cout << "5. ELIMINAR EMPLEADO"<<endl;
+        cout << "6. DAR DE ALTA EMPLEADO"<<endl;
+        cout << "7. LISTAR EMPLEADOS ORDENADOS POR APELLIDO"<<endl;
         cout << "------------------------------------------"<<endl;
         cout << "0. VOLVER AL MENU PRINCIPAL" <<endl;
         cout << "=========================================="<<endl;
@@ -38,18 +43,21 @@ void menuEmpleados(){
         agregarEmpleado();
         break;
     case 2:
-        listarEmpleados();
+        arcEmpleado.listar();
         break;
     case 3:
-        modificarEmpleado();
+        arcEmpleado.listarEliminados();
         break;
     case 4:
-        bajaEmpleado();
+        modificarEmpleado();
         break;
     case 5:
-        altaEmpleado();
+        bajaEmpleado();
         break;
     case 6:
+        listarEmpleadosOrdenadosPorApellido();
+        break;
+    case 7:
         listarEmpleadosOrdenadosPorApellido();
         break;
     case 0:
@@ -88,26 +96,7 @@ if (grabarExitosamente){
 
 }
 
-void listarEmpleados(){
 
-    ArchivoEmpleado arcEmpleado("Empleados.dat");
-
-    cout << "===== LISTADO DE EMPLEADOS ====="<<endl;
-
-bool hayActivos = arcEmpleado.hayEmpleadosConEstadoEliminado(false);
-bool hayEliminados = arcEmpleado.hayEmpleadosConEstadoEliminado(true);
-
- if(!hayActivos && !hayEliminados){
-    cout<< endl;
-    cout<< "No hay empleados activos o inactivos registrados para listar."<<endl;
-    cout<< endl;
-    return;
-}
-
-    arcEmpleado.listar();
-    arcEmpleado.listarEliminados();
-
-}
 
 void listarEmpleadosOrdenadosPorApellido(){
 
@@ -148,12 +137,21 @@ if(cantidadActivos == 0){
 ordenarEmpleadosPorApellido(registros, cantidadActivos);
 
 cout << "----- LISTADO ORDENADO POR APELLIDO -----"<<endl;
+// Se muestra en tabla sin columna de estado porque todos son activos.
+cout << left
+     << setw(6) << "ID"
+     << setw(15) << "Nombre"
+     << setw(15) << "Apellido"
+     << setw(18) << "Telefono"
+     << setw(25) << "Mail"
+     << setw(15) << "Puesto" << endl;
+cout << string(94, '-') << endl;
 
 for(int i = 0; i < cantidadActivos; i++){
-    registros[i].Mostrar();
+    registros[i].MostrarFila();
 }
 
-cout << "--- FIN DEL LISTADO ---"<<endl;
+cout << string(94, '-') << endl;
 
 delete [] registros;
 

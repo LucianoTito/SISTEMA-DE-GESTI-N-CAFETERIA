@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <cstdio>
+#include <iomanip>
 
 #include "../../Headers/Entities/Empleado.h"
 #include "../../Headers/Utilidades/Validaciones.h"
@@ -62,4 +63,22 @@ void Empleado::Mostrar() {
 
     cout << "Puesto: " << _puesto << endl;
     cout << "-------------------------" << endl;
+}
+
+// Imprime una fila formateada para listados en tabla.
+void Empleado::MostrarFila(const char* estado){
+    cout << left
+         << setw(6) << _id
+         << setw(15) << _nombre
+         << setw(15) << _apellido
+         << setw(18) << _telefono
+         << setw(25) << _mail
+         << setw(15) << _puesto;
+
+    // El estado es opcional y se muestra cuando se requiere distinguir activos/inactivos.
+    if(estado != nullptr){
+        cout << estado;
+    }
+
+    cout << endl;
 }

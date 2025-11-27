@@ -6,7 +6,7 @@ class Cliente : public Persona {
 
 private:
 
-    int _puntosFidelidad;
+
 
 public:
     // Constructor
@@ -16,16 +16,13 @@ public:
             const char* apellido = "Sin apellido",
             const char* telefono = "Sin numero",
             const char* mail = "Sin mail",
-            bool eliminado = false,
-            int puntosFidelidad = 0);
+            bool eliminado = false);
 
-    // Getters
-    int getPuntosFidelidad();
 
-    // Setters
-    void setPuntosFidelidad(int puntos);
+
 
     // Métodos
     void Mostrar();
+    void MostrarFila(const char* estado = nullptr);
     void Cargar(int id);
 };

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <iomanip>
 
 #include "../../Headers/UI/menuGestionClientes.h"
 #include "../../Headers/Entities/Cliente.h"
@@ -9,6 +10,10 @@
 #include "../../Headers/Utilidades/Validaciones.h"
 
 using namespace std;
+
+// Declaraciones auxiliares.
+void listarClientesConMasPedidos();
+void listarClientesPorMontoGastado();
 
 void menuClientes(){
 
@@ -107,9 +112,9 @@ while(true){
     system("cls");
 
     cout << "================= LISTADOS DE CLIENTES =================="<<endl;
-    cout << "1. LISTADO GENERAL POR ESTADO (Activo/Dado de baja)"<<endl;
-    cout << "2. LISTADO ORDENADO POR APELLIDO"<<endl;
-    cout << "3. LISTADO ORDENADO POR PUNTOS DE FIDELIDAD"<<endl;
+    cout << "1. CLIENTES ACTIVOS"<<endl;
+    cout << "2. CLIENTES DADOS DE BAJA"<<endl;
+    cout << "3. LISTADO ORDENADO POR APELLIDO"<<endl;
     cout << "4. LISTADO DE CLIENTES CON MAS PEDIDOS (De mayor a menor)"<<endl;
     cout << "5. CLIENTES QUE SUPERAN UN MONTO GASTADO"<<endl;
     cout << "---------------------------------------------------------"<<endl;
@@ -123,17 +128,16 @@ while(true){
 
     switch(opcionListado){
     case 1:
-        cout << "======= LISTADO DE CLIENTES ======"<<endl;
+
         arcCliente.listar();
-        arcCliente.listarEliminados();
         break;
     case 2:
-        arcCliente.listarOrdenadosPorApellido();
+        arcCliente.listarEliminados();
         break;
     case 3:
-        arcCliente.listarOrdenadosPorPuntosDeFidelidad();
+        arcCliente.listarOrdenadosPorApellido();
         break;
-        case 4:
+    case 4:
         listarClientesConMasPedidos();
         break;
     case 5:
@@ -268,27 +272,36 @@ void listarClientesConMasPedidos(){
         }
     }
 
-    // Muestro todos los clientes ordenados por pedidos, deteniéndome cuando no tengan registros
 
+    // Muestro todos los clientes ordenados por pedidos en formato tabular.
     cout << endl;
-    cout << "Clientes ordenados por cantidad de pedidos: "<<endl;
-    cout << "--------------------------------------------------------"<<endl;
+
+    cout << "Clientes ordenados por cantidad de pedidos:"<<endl;
+    cout << left
+         << setw(6) << "ID"
+         << setw(15) << "Nombre"
+         << setw(15) << "Apellido"
+         << setw(12) << "Pedidos" << endl;
+    cout << string(48, '-') << endl;
+
 
     for(int i=0; i<cantidadActivos; i++){
 
-                if(contadorPedidos[i] == 0){
-                break;
+            if(contadorPedidos[i] == 0){
+            break;
         }
 
-        cout << "ID: " << clientesActivos[i].getId()
-             << " | " << clientesActivos[i].getApellido()
-             << ", " << clientesActivos[i].getNombre()
-             << " | Pedidos: " << contadorPedidos[i] << endl;
+        cout << left
+             << setw(6) << clientesActivos[i].getId()
+             << setw(15) << clientesActivos[i].getNombre()
+             << setw(15) << clientesActivos[i].getApellido()
+             << setw(12) << contadorPedidos[i]
+             << endl;
 
 
     }
 
-    cout << "--------------------------------------------------------"<<endl;
+    cout << string(48, '-') << endl;
 
     //libero memoria
     delete[] clientesActivos;
@@ -382,16 +395,23 @@ void listarClientesPorMontoGastado(){
 
     cout << endl;
     cout << "Clientes con gastos iguales o superiores a $" << montoMinimo << ":"<<endl;
-    cout << "---------------------------------------------------"<<endl;
+    cout << left
+         << setw(6) << "ID"
+         << setw(15) << "Nombre"
+         << setw(15) << "Apellido"
+         << setw(18) << "Total gastado" << endl;
+    cout << string(54, '-') << endl;
+
 
     // Muestro todos los clientes cuyo monto acumulado supera el mínimo ingresado
     for(int i=0; i<cantidadActivos; i++){
         if(totalGastado[i] >= montoMinimo){
 
-            cout << "ID: " << clientesActivos[i].getId()
-                 << " | " << clientesActivos[i].getApellido()
-                 << ", " << clientesActivos[i].getNombre()
-                 << " | Total gastado: $" << totalGastado[i] << endl;
+            cout << left
+                 << setw(6) << clientesActivos[i].getId()
+                 << setw(15) << clientesActivos[i].getNombre()
+                 << setw(15) << clientesActivos[i].getApellido()
+                 << "$ " << fixed << setprecision(2) << totalGastado[i] << endl;
 
             hayCoincidencias = true;
         }
@@ -402,7 +422,7 @@ void listarClientesPorMontoGastado(){
         cout << "Ningun cliente activo supera el monto indicado."<<endl;
     }
 
-    cout << "---------------------------------------------------"<<endl;
+    cout << string(54, '-') << endl;
 
     // Libero la memoria
     delete[] clientesActivos;

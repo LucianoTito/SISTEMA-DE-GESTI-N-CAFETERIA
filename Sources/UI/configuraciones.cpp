@@ -462,20 +462,19 @@ bool exportarClientesCSV(const char* csvDestino) {
     }
 
     //Encabezado del archivo CSV
-     fprintf(pCsv, "ID,Nombre, Apellido, Telefono, Mail, PuntosFidelidad, Eliminado\n");//Escribe el texto formateado separado por comas
+     fprintf(pCsv, "ID,Nombre, Apellido, Telefono, Mail, Eliminado\n");//Escribe el texto formateado separado por comas
 
     Cliente reg;
     int contador = 0;
 
     //Lectura secuencial del archivo binario
     while(fread(&reg, sizeof(Cliente), 1, pDat)== 1){
-        fprintf(pCsv, "%d, %s, %s, %s, %s, %d, %d\n",
+        fprintf(pCsv, "%d, %s, %s, %s, %s, %d\n",
                 reg.getId(),
                 reg.getNombre(),
                 reg.getApellido(),
                 reg.getTelefono(),
                 reg.getMail(),
-                reg.getPuntosFidelidad(),
                 reg.getEliminado());
 
         contador ++;

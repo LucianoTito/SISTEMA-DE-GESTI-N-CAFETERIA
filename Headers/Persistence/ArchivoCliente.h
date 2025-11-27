@@ -37,7 +37,5 @@ public:
     void listarEliminados();
     bool hayClientesConEstadoEliminado(bool eliminado);
     void listarOrdenadosPorApellido();
-    void listarOrdenadosPorPuntosDeFidelidad();
-
 
 };
