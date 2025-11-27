@@ -38,6 +38,9 @@ void menuPrincipal() {
 
         system("cls");
 
+        // Se asume que solo se necesita pausar si hubo un error de opción.
+        bool mostrarPausa = false;
+
         switch (opcion) {
             case 1:
 
@@ -68,8 +71,12 @@ void menuPrincipal() {
                 return;
             default:
                 cout << "Opcion incorrecta. Ingrese solo un numero y vuelva a intentarlo." << endl;
+                mostrarPausa = true;
                 break;
         }
-        system("pause");
+        // Evitamos una pausa extra al volver de un menú; solo se muestra si hubo un error.
+        if (mostrarPausa) {
+            system("pause");
+        }
     }
 }

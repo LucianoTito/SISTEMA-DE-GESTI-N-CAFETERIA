@@ -38,6 +38,9 @@ void menuEmpleados(){
 
         system("cls");
 
+        // La pausa se controla manualmente para evitarla al regresar al menú anterior.
+        bool mostrarPausa = true;
+
         switch (opcion){
     case 1:
         agregarEmpleado();
@@ -61,13 +64,18 @@ void menuEmpleados(){
         listarEmpleadosOrdenadosPorApellido();
         break;
     case 0:
+        mostrarPausa = false;
         return;
     default:
         cout << "Opcion incorrecta. Vuelva a intentarlo."<<endl;
         break;
 
         }
-        system("pause");
+
+        if(mostrarPausa){
+            system("pause");
+        }
+
     }
 
 

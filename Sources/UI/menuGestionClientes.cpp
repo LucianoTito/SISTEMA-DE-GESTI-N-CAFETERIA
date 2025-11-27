@@ -38,12 +38,17 @@ void menuClientes(){
 
          system("cls");
 
+         // Se controla manualmente la pausa para no mostrarla al volver al menú anterior.
+         bool mostrarPausa = true;
+
          switch(opcion){
      case 1:
         agregarCliente();
         break;
      case 2:
-        listarClientes();
+         // El submenú de listados maneja sus propias pausas; si el usuario elige volver,
+        // se evita pausar nuevamente al regresar a este menú.
+        mostrarPausa = listarClientes();
         break;
      case 3:
         modificarCliente();
@@ -55,13 +60,17 @@ void menuClientes(){
         altaCliente();
         break;
      case 0:
+         mostrarPausa = false;
         return;
      default:
         cout<< "Opcion incorrecta. Vuelva a intentarlo."<<endl;
         break;
 
          }
-system("pause");
+
+        if(mostrarPausa){
+            system("pause");
+        }
 
     }
 
@@ -91,21 +100,24 @@ cout << "ERROR: No se pudo agregar el cliente."<<endl;
 
 }
 
-void listarClientes(){
+bool listarClientes(){
 
-ArchivoCliente arcCliente("Clientes.dat");
+  ArchivoCliente arcCliente("Clientes.dat");
 
 // cout << "======= LISTADO DE CLIENTES ======"<<endl;
-bool hayActivos = arcCliente.hayClientesConEstadoEliminado(false);
-bool hayEliminados = arcCliente.hayClientesConEstadoEliminado(true);
+  bool hayActivos = arcCliente.hayClientesConEstadoEliminado(false);
+  bool hayEliminados = arcCliente.hayClientesConEstadoEliminado(true);
 
 
-if(!hayActivos && !hayEliminados){
+  if(!hayActivos && !hayEliminados){
 
-    cout<< "No hay Clientes activos o inactivos registrados para listar."<<endl;
-    cout<< endl;
-    return;
-}
+        cout<< "No hay Clientes activos o inactivos registrados para listar."<<endl;
+        cout<< endl;
+        // Hay información importante para leer, por lo que se mantiene la pausa aquí.
+        system("pause");
+        // Se devuelve false para evitar una pausa adicional al regresar al menú anterior.
+        return false;
+    }
 
 while(true){
 
@@ -126,6 +138,9 @@ while(true){
 
     system("cls");
 
+    // La pausa solo se muestra cuando se ejecuta una acción distinta a volver.
+    bool mostrarPausa = true;
+
     switch(opcionListado){
     case 1:
 
@@ -144,15 +159,22 @@ while(true){
         listarClientesPorMontoGastado();
         break;
     case 0:
-        return;
+        mostrarPausa = false;
+        return false;
     default:
         cout<< "Opcion incorrecta. Vuelva a intentarlo."<<endl;
         break;
     }
 
     cout<<endl;
-    system("pause");
+   if(mostrarPausa){
+        system("pause");
+    }
 }
+
+// El flujo del menú es un bucle infinito que retorna al seleccionar la opción 0.
+// Se devuelve false para indicar que el menú superior no debe agregar una pausa extra.
+    return false;
 
 }
 

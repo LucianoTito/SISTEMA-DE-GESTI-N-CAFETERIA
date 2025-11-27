@@ -47,6 +47,8 @@ while (true) {
 
     system ("cls");
 
+    // Se controla la pausa manualmente para evitarla al volver al menú.
+    bool mostrarPausa = true;
 
     switch (opcion){
 case 1:
@@ -84,6 +86,8 @@ case 10:
         break;
 
 case 0:
+    // No se muestra pausa cuando se elige volver.
+    mostrarPausa = false;
     return;
 
 default:
@@ -93,7 +97,9 @@ default:
 
     }
 
-    system("pause");
+    if(mostrarPausa){
+        system("pause");
+    }
 
 }
 
