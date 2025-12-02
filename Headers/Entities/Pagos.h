@@ -31,7 +31,8 @@ public:
     void setMontoPagado(float monto);
 
     // Métodos
-    // Cargar recibe los IDs generados externamente
+    // Cargar recibe los IDs generados externamente y la fecha del pedido para validar
     void Cargar(int idPago, int idPedido, float montoAPagar);
+    void Cargar(int idPago, int idPedido, float montoAPagar, const Fecha& fechaPedido);
     void Mostrar();
 };

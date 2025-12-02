@@ -107,9 +107,10 @@ void Pedido::Cargar(int idPedido, int idCliente, int idEmpleado) {
     cout << "ID del Empleado asignado: "<<_idEmpleado<<endl;
 
 
-    cout << "Ingrese la fecha del pedido:" << endl;
-    _fecha.Cargar();
-
+// Uso la fecha actual del sistema para garantizar coherencia temporal
+    _fecha.asignarFechaActual();
+    cout << "Fecha del pedido establecida automáticamente: ";
+    _fecha.Mostrar();
     int mesa, puntaje, porcDesc;
 
 

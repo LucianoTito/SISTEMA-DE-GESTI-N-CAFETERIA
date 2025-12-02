@@ -23,6 +23,7 @@ public:
     // Métodos de la clase
     void Cargar();
     void Mostrar();
+    void asignarFechaActual();
 
  //Sobrecarga de operadores
 

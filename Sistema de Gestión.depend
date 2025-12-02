@@ -310,24 +310,25 @@
 1764209112 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\empleado.h
 	"Persona.h"
 
-1763158490 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\fecha.cpp
+1764632916 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\fecha.cpp
 	<iostream>
+	<ctime>
 	"../../Headers/Entities/Fecha.h"
 	"../../Headers/Utilidades/Validaciones.h"
 
-1762643744 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\fecha.h
+1764632814 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\fecha.h
 
-1763358212 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\pagos.cpp
+1764632983 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\pagos.cpp
 	<iostream>
 	<cstdio>
 	"../../Headers/Entities/Pagos.h"
 	"../../Headers/Entities/Fecha.h"
 	"../../Headers/Utilidades/Validaciones.h"
 
-1763358090 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\pagos.h
+1764632863 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\pagos.h
 	"Fecha.h"
 
-1763356048 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\pedido.cpp
+1764633022 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\pedido.cpp
 	<iostream>
 	<cstring>
 	<cstdio>
@@ -517,7 +518,7 @@
 
 1763272831 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menugestionproductos.h
 
-1763392835 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menupedidos.cpp
+1764634217 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menupedidos.cpp
 	<iostream>
 	<cstdlib>
 	"../../Headers/UI/menuPedidos.h"

@@ -55,7 +55,7 @@ void Pagos::setMontoPagado(float monto) {
 
 //Método cargar
 
-void Pagos::Cargar(int idPago, int idPedido, float montoAPagar){
+void Pagos::Cargar(int idPago, int idPedido, float montoAPagar, const Fecha& fechaPedido){
 
 _idPago = idPago;
 _idPedido = idPedido;
@@ -70,8 +70,15 @@ cout << "ID Pedido asociado: " << _idPedido << endl;
 
 
 
-cout<< "Ingrese la fecha de pago: ";
-_fechaPago.Cargar();
+// Se utiliza la fecha actual del sistema para registrar el pago
+    _fechaPago.asignarFechaActual();
+    if (_fechaPago < fechaPedido){
+        cout << "AVISO: La fecha del sistema es anterior a la del pedido." << endl;
+        cout << "Se ajusta la fecha de pago a la fecha del pedido para mantener coherencia." << endl;
+        _fechaPago = fechaPedido;
+    }
+    cout << "Fecha de pago establecida: ";
+    _fechaPago.Mostrar();
 
 int metd;
 

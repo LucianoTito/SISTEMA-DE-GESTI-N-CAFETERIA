@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 
 #include "../../Headers/Entities/Fecha.h"
 #include "../../Headers/Utilidades/Validaciones.h"
@@ -95,6 +96,16 @@ setAnio(a);
 // Mostrar()
 void Fecha::Mostrar() {
     cout << _dia << "/" << _mes << "/" << _anio << endl;
+}
+
+// Asigna al objeto la fecha actual del sistema (día, mes y año)
+void Fecha::asignarFechaActual() {
+    time_t tiempoActual = time(nullptr);
+    tm* fechaSistema = localtime(&tiempoActual);
+
+    _dia = fechaSistema->tm_mday;
+    _mes = fechaSistema->tm_mon + 1;    // tm_mon arranca en 0, por eso se suma 1
+    _anio = fechaSistema->tm_year + 1900; // tm_year cuenta desde 1900
 }
 
 /*Sobrecarga de operadores: Estas funciones permiten comparar objetos Fecha de manera

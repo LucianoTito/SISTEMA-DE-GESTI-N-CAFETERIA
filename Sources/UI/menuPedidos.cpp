@@ -246,9 +246,11 @@ while(true){
             system("pause");
             system("cls");
             continue; // Salta al inicio del 'while(true)'
+
         }
 
         // Validacion, hay stock?
+
         if (regProducto.getStock()<=0){
 
             cout << "ERROR: PRODUCTO SIN STOCK ("<<regProducto.getNombre() <<")." <<endl;
@@ -285,7 +287,7 @@ while(true){
         }
 
 
-//BÚSQUEDA SECUENCIAL: Verificosi este producto ya existe en este pedido específico.
+//BÚSQUEDA SECUENCIAL: Verifico si este producto ya existe en este pedido específico.
 // Retorna la posición en bytes o índice del registro en el archivo (o -1 si no existe).
 int posicionDetalleExistente = arcDetalle.buscarDetallePorPedidoYProducto(idNuevoPedido, idProducto);
 
@@ -441,9 +443,10 @@ int idPagoNuevo = arcPagos.contarRegistros() + 1;
 //Obtener el monto total a pagar
 float montoAPagar = regPedido.getTotal();
 
-//Cargar el obj Pago
+//Cargar el obj Pago (con validación de coherencia de fechas)
 cout << endl << "----------REGISTRAR PAGO ----------"<<endl;
-regPago.Cargar(idPagoNuevo, regPedido.getIdPedido(), montoAPagar);
+regPago.Cargar(idPagoNuevo, regPedido.getIdPedido(), montoAPagar, regPedido.getFecha());
+
 
 
 //Grabo el Pago en el archivo
