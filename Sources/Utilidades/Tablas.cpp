@@ -112,3 +112,35 @@ void imprimirFilaEmpleado(const char* id, const char* nombre, const char* apelli
          << left << setw(wPuesto) << puesto << " ||"
          << endl;
 }
+
+//Tablas para producto
+void imprimirFilaProducto(const char* id, const char* nombre, const char* precio, const char* stock) {
+    const int wId = 6;
+    const int wNombre = 35;
+    const int wPrecio = 15;
+    const int wStock = 10;
+
+    cout << "|| "
+         << left << setw(wId) << id << " | "
+         << left << setw(wNombre) << nombre << " | "
+         << right << setw(wPrecio) << precio << " | "  // Precio a la derecha queda mejor
+         << right << setw(wStock) << stock << " ||"
+         << endl;
+}
+
+//Tablas para cliente:
+void imprimirFilaCliente(const char* id, const char* nombre, const char* apellido, const char* telefono, const char* mail) {
+    const int wId = 6;
+    const int wNom = 15;
+    const int wApe = 15;
+    const int wTel = 15;
+    const int wMail = 25;
+
+    cout << "|| "
+         << left << setw(wId) << id << " | "
+         << left << setw(wNom) << nombre << " | "
+         << left << setw(wApe) << apellido << " | "
+         << left << setw(wTel) << telefono << " | "
+         << left << setw(wMail) << mail << " ||"
+         << endl;
+}

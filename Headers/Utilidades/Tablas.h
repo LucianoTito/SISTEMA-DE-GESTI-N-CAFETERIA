@@ -18,3 +18,10 @@ void imprimirFilaPedido(const char* id, const char* fecha, const char* idCli, co
 
 //Fila para empleados
 void imprimirFilaEmpleado(const char* id, const char* nombre, const char* apellido, const char* telefono, const char* mail, const char* puesto);
+
+
+//Fila para productos
+void imprimirFilaProducto(const char* id, const char* nombre, const char* precio, const char* stock);
+
+//Tabla para clientes
+void imprimirFilaCliente(const char* id, const char* nombre, const char* apellido, const char* telefono, const char* mail);

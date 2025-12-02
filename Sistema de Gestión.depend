@@ -493,30 +493,35 @@
 	"../../Headers/UI/configuraciones.h"
 	"../../Headers/Utilidades/Validaciones.h"
 
-1764214986 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menugestionclientes.cpp
+1764652127 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menugestionclientes.cpp
 	<iostream>
 	<cstdlib>
 	<iomanip>
+	<cstdio>
+	<cstring>
 	"../../Headers/UI/menuGestionClientes.h"
 	"../../Headers/Entities/Cliente.h"
 	"../../Headers/Entities/Pedido.h"
 	"../../Headers/Persistence/ArchivoCliente.h"
 	"../../Headers/Persistence/ArchivoPedido.h"
 	"../../Headers/Utilidades/Validaciones.h"
+	"../../Headers/Utilidades/Tablas.h"
 
 1764215054 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menugestionclientes.h
 
-1764214267 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menugestionproductos.cpp
+1764651761 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menugestionproductos.cpp
 	<iostream>
 	<cstdlib>
 	<cstring>
+	<cstdio>
 	<iomanip>
 	"../../Headers/UI/menuGestionProductos.h"
 	"../../Headers/Entities/Producto.h"
 	"../../Headers/Persistence/ArchivoProducto.h"
 	"../../Headers/Utilidades/Validaciones.h"
+	"../../Headers/Utilidades/Tablas.h"
 
-1763272831 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menugestionproductos.h
+1764651586 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menugestionproductos.h
 
 1764649712 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menupedidos.cpp
 	<iostream>
@@ -559,21 +564,21 @@
 
 1763275334 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menuempleados.h
 
-1764214104 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menuempleados.cpp
+1764650963 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menuempleados.cpp
 	<iostream>
-	<cstdlib>
+	<cstdio>
 	<cstring>
-	<iomanip>
 	"../../Headers/UI/menuEmpleados.h"
 	"../../Headers/Entities/Empleado.h"
 	"../../Headers/Persistence/ArchivoEmpleado.h"
 	"../../Headers/Utilidades/Validaciones.h"
+	"../../Headers/Utilidades/Tablas.h"
 
-1764650563 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\utilidades\tablas.cpp
+1764652058 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\utilidades\tablas.cpp
 	<iostream>
 	"../../Headers/Utilidades/Tablas.h"
 
-1764650534 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\utilidades\tablas.h
+1764652032 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\utilidades\tablas.h
 	<iomanip>
 	<iostream>
 
