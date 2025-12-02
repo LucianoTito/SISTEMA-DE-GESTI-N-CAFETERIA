@@ -1,426 +1,329 @@
 #include <iostream>
-#include <cstdlib>
+#include <cstdio>
 #include <cstring>
-#include <iomanip>
-
 #include "../../Headers/UI/menuEmpleados.h"
 #include "../../Headers/Entities/Empleado.h"
 #include "../../Headers/Persistence/ArchivoEmpleado.h"
 #include "../../Headers/Utilidades/Validaciones.h"
+#include "../../Headers/Utilidades/Tablas.h"
 
 using namespace std;
 
+// ==========================================
+// FUNCIONES AUXILIARES
+// ==========================================
+void listarEmpleados(bool mostrarEliminados = false);
+void altaEmpleado();
+void bajaEmpleado();
+void recuperarEmpleado();
+void modificarEmpleado();
+void listarEmpleadosOrdenadosPorApellido();
 
+// Helpers visuales y lógicos
+void mostrarEncabezadoEmpleados();
+void mostrarFilaEmpleado(Empleado e);
 void ordenarEmpleadosPorApellido(Empleado registros[], int cantidad);
+int buscarEmpleadoID(ArchivoEmpleado& arc, bool permitirEliminados);
 
-void menuEmpleados(){
-
-// Archivo de empleados para operaciones de listado dentro del menú principal.
-    ArchivoEmpleado arcEmpleado("Empleados.dat");
-
-    while(true){
+// ==========================================
+// MENU PRINCIPAL
+// ==========================================
+void menuEmpleados() {
+    int opcion;
+    while (true) {
         system("cls");
-        cout << "---------- GESTION DE EMPLEADOS ----------"<<endl;
-        cout << "=========================================="<<endl;
-        cout << "1. AGREGAR EMPLEADO"<<endl;
-        cout << "2. EMPLEADOS ACTIVOS"<<endl;
-        cout << "3. EMPLEADOS DADOS DE BAJA"<<endl;
-        cout << "4. MODIFICAR EMPLEADO"<<endl;
-        cout << "5. ELIMINAR EMPLEADO"<<endl;
-        cout << "6. DAR DE ALTA EMPLEADO"<<endl;
-        cout << "7. LISTAR EMPLEADOS ORDENADOS POR APELLIDO"<<endl;
-        cout << "------------------------------------------"<<endl;
-        cout << "0. VOLVER AL MENU PRINCIPAL" <<endl;
-        cout << "=========================================="<<endl;
-        cout <<endl;
+        lineaDoble(100);
+        cout << "                                  GESTION DE EMPLEADOS" << endl;
+        lineaDoble(100);
+        cout << "1. AGREGAR EMPLEADO" << endl;
+        cout << "2. LISTAR EMPLEADOS ACTIVOS" << endl;
+        cout << "3. LISTAR EMPLEADOS DADOS DE BAJA" << endl;
+        cout << "4. MODIFICAR EMPLEADO" << endl;
+        cout << "5. ELIMINAR EMPLEADO (BAJA)" << endl;
+        cout << "6. RECUPERAR EMPLEADO (DAR DE ALTA)" << endl;
+        cout << "7. LISTAR ORDENADOS POR APELLIDO" << endl;
+        lineaSimple(100);
+        cout << "0. VOLVER" << endl;
+        lineaDoble(100);
 
-        int opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
+        opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
 
         system("cls");
+        switch (opcion) {
+            case 1: altaEmpleado(); break;
+            case 2: listarEmpleados(false); break; // false = solo activos
+            case 3: listarEmpleados(true); break;  // true = solo eliminados
+            case 4: modificarEmpleado(); break;
+            case 5: bajaEmpleado(); break;
+            case 6: recuperarEmpleado(); break;
+            case 7: listarEmpleadosOrdenadosPorApellido(); break;
+            case 0: return;
+            default: cout << "Opcion incorrecta." << endl; break;
+        }
+        system("pause");
+    }
+}
 
-        // La pausa se controla manualmente para evitarla al regresar al menú anterior.
-        bool mostrarPausa = true;
+// ==========================================
+// ALTA (AGREGAR)
+// ==========================================
+void altaEmpleado() {
+    ArchivoEmpleado arc("Empleados.dat");
+    cout << "---------- AGREGAR NUEVO EMPLEADO ----------" << endl;
 
-        switch (opcion){
-    case 1:
-        agregarEmpleado();
-        break;
-    case 2:
-        arcEmpleado.listar();
-        break;
-    case 3:
-        arcEmpleado.listarEliminados();
-        break;
-    case 4:
-        modificarEmpleado();
-        break;
-    case 5:
-        bajaEmpleado();
-        break;
-    case 6:
-        listarEmpleadosOrdenadosPorApellido();
-        break;
-    case 7:
-        listarEmpleadosOrdenadosPorApellido();
-        break;
-    case 0:
-        mostrarPausa = false;
+    Empleado nuevoEmpleado;
+    int nuevoID = arc.contarRegistros() + 1;
+
+    // Aprovechamos el método Cargar de la clase que ya pide los datos
+    nuevoEmpleado.Cargar(nuevoID);
+
+    if (arc.grabarRegistro(nuevoEmpleado)) {
+        cout << endl << ">>> Empleado registrado exitosamente." << endl;
+    } else {
+        cout << endl << ">>> ERROR: No se pudo guardar el registro." << endl;
+    }
+}
+
+// ==========================================
+// LISTADOS
+// ==========================================
+void listarEmpleados(bool mostrarEliminados) {
+    ArchivoEmpleado arc("Empleados.dat");
+    cout << "---------- LISTADO DE EMPLEADOS " << (mostrarEliminados ? "ELIMINADOS" : "ACTIVOS") << " ----------" << endl;
+
+    int cantidad = arc.contarRegistros();
+    if (cantidad == 0) {
+        cout << "No hay registros en el archivo." << endl; return;
+    }
+
+    mostrarEncabezadoEmpleados();
+
+    bool hayRegistros = false;
+    for (int i = 0; i < cantidad; i++) {
+        Empleado e = arc.leerRegistro(i);
+        // Filtramos según lo que pida el parámetro 'mostrarEliminados'
+        if (e.getEliminado() == mostrarEliminados) {
+            mostrarFilaEmpleado(e);
+            hayRegistros = true;
+        }
+    }
+    lineaSimple(118);
+
+    if (!hayRegistros) cout << "No hay empleados " << (mostrarEliminados ? "eliminados" : "activos") << " para mostrar." << endl;
+}
+
+void listarEmpleadosOrdenadosPorApellido() {
+    ArchivoEmpleado arc("Empleados.dat");
+    cout << "---------- LISTADO ORDENADO POR APELLIDO ----------" << endl;
+
+    int total = arc.contarRegistros();
+    if (total == 0) { cout << "Sin registros." << endl; return; }
+
+    // Memoria dinámica para cargar todos y ordenar
+    Empleado* registros = new Empleado[total];
+
+    // Filtramos solo activos al cargar el vector
+    int activos = 0;
+    for(int i=0; i<total; i++){
+        Empleado e = arc.leerRegistro(i);
+        if(!e.getEliminado()){
+            registros[activos] = e;
+            activos++;
+        }
+    }
+
+    if (activos == 0) {
+        cout << "No hay empleados activos para ordenar." << endl;
+        delete[] registros;
         return;
-    default:
-        cout << "Opcion incorrecta. Vuelva a intentarlo."<<endl;
-        break;
+    }
 
+    ordenarEmpleadosPorApellido(registros, activos);
+
+    mostrarEncabezadoEmpleados();
+    for(int i=0; i<activos; i++){
+        mostrarFilaEmpleado(registros[i]);
+    }
+    lineaSimple(118);
+
+    delete[] registros;
+}
+
+// ==========================================
+// BAJA Y RECUPERACION
+// ==========================================
+void bajaEmpleado() {
+    ArchivoEmpleado arc("Empleados.dat");
+    cout << "---------- BAJA DE EMPLEADO ----------" << endl;
+
+    // Buscamos solo entre activos (false)
+    int pos = buscarEmpleadoID(arc, false);
+    if (pos == -1) return;
+
+    Empleado e = arc.leerRegistro(pos);
+
+    cout << endl << "Va a eliminar al siguiente empleado:" << endl;
+    mostrarEncabezadoEmpleados();
+    mostrarFilaEmpleado(e);
+    lineaSimple(118);
+
+    char confirm;
+    cout << "Confirmar baja? (S/N): ";
+    cin >> confirm;
+
+    if (confirm == 'S' || confirm == 's') {
+        e.setEliminado(true);
+        if (arc.modificarRegistro(e, pos)) cout << ">>> Empleado dado de baja." << endl;
+        else cout << ">>> Error al guardar." << endl;
+    }
+}
+
+void recuperarEmpleado() { // Punto 6
+    ArchivoEmpleado arc("Empleados.dat");
+    cout << "---------- RECUPERAR EMPLEADO (ALTA) ----------" << endl;
+
+    // Buscamos solo entre eliminados (true)
+    int pos = buscarEmpleadoID(arc, true);
+    if (pos == -1) return;
+
+    Empleado e = arc.leerRegistro(pos);
+
+    cout << endl << "Va a reactivar al siguiente empleado:" << endl;
+    mostrarEncabezadoEmpleados();
+    mostrarFilaEmpleado(e);
+    lineaSimple(118);
+
+    char confirm;
+    cout << "Confirmar reactivacion? (S/N): ";
+    cin >> confirm;
+
+    if (confirm == 'S' || confirm == 's') {
+        e.setEliminado(false);
+        if (arc.modificarRegistro(e, pos)) cout << ">>> Empleado recuperado exitosamente." << endl;
+        else cout << ">>> Error al guardar." << endl;
+    }
+}
+
+// ==========================================
+// MODIFICACION
+// ==========================================
+void modificarEmpleado() {
+    ArchivoEmpleado arc("Empleados.dat");
+    cout << "---------- MODIFICAR EMPLEADO ----------" << endl;
+
+    int pos = buscarEmpleadoID(arc, false);
+    if (pos == -1) return;
+
+    Empleado e = arc.leerRegistro(pos);
+
+    bool continuar = true;
+    while(continuar){
+        system("cls");
+        cout << "EDITANDO A: " << e.getNombre() << " " << e.getApellido() << endl;
+        lineaSimple(40);
+        cout << "1. Modificar Nombre" << endl;
+        cout << "2. Modificar Apellido" << endl;
+        cout << "3. Modificar Puesto" << endl;
+        cout << "4. Modificar Telefono" << endl;
+        cout << "5. Modificar Mail" << endl;
+        cout << "0. Guardar y Salir" << endl;
+        lineaSimple(40);
+
+        int opc = ingresarEntero("Opcion: ");
+
+        // Variables auxiliares para inputs
+        char auxCadena[50];
+
+        switch(opc){
+            case 1:
+                cargarCadenaObligatoria("Nuevo Nombre: ", "Dato obligatorio", auxCadena, 30);
+                e.setNombre(auxCadena); break;
+            case 2:
+                cargarCadenaObligatoria("Nuevo Apellido: ", "Dato obligatorio", auxCadena, 30);
+                e.setApellido(auxCadena); break;
+            case 3:
+                cout << "Nuevo Puesto: "; cargarCadena(auxCadena, 20);
+                e.setPuesto(auxCadena); break;
+            case 4:
+                cargarCadenaObligatoria("Nuevo Telefono: ", "Dato obligatorio", auxCadena, 20);
+                e.setTelefono(auxCadena); break;
+            case 5:
+                cargarCadenaObligatoria("Nuevo Mail: ", "Dato obligatorio", auxCadena, 40);
+                e.setMail(auxCadena); break;
+            case 0:
+                continuar = false; break;
+            default:
+                cout << "Opcion invalida." << endl; system("pause"); break;
         }
-
-        if(mostrarPausa){
-            system("pause");
-        }
-
     }
 
-
+    if (arc.modificarRegistro(e, pos)) cout << endl << ">>> Cambios guardados." << endl;
+    else cout << endl << ">>> Error al guardar cambios." << endl;
 }
 
-void agregarEmpleado(){
+// ==========================================
+// FUNCIONES PRIVADAS (HELPERS)
+// ==========================================
 
-ArchivoEmpleado arcEmpleado("Empleados.dat");
-
-Empleado regEmpleado;
-
-//Calculo de ID autoincremental
-int nuevoID = arcEmpleado.contarRegistros()+1;
-cout << "---------- AGREGAR NUEVO EMPLEADO ----------"<<endl;
-
-regEmpleado.Cargar(nuevoID);
-
-bool grabarExitosamente = arcEmpleado.grabarRegistro(regEmpleado);
-
-if (grabarExitosamente){
-    cout << "Empleado agregado existosamente."<<endl;
-
-}else {
- cout << "ERROR. No se pudo agregar al empleado con ID: "<<nuevoID<<endl;
-}
-
-}
-
-
-
-void listarEmpleadosOrdenadosPorApellido(){
-
-ArchivoEmpleado arcEmpleado("Empleados.dat");
-
-int totalRegistros = arcEmpleado.contarRegistros();
-
-if(totalRegistros == 0){
-    cout << "No hay empleados registrados para ordenar."<<endl;
-    return;
-}
-
-Empleado *registros = new Empleado[totalRegistros];
-
-int cantidadLeida = arcEmpleado.leerRegistros(registros, totalRegistros);
-
-if(cantidadLeida == 0){
-    cout << "No fue posible leer los empleados almacenados."<<endl;
-    delete [] registros;
-    return;
-}
-
-int cantidadActivos = 0;
-
-for(int i = 0; i < cantidadLeida; i++){
-    if(registros[i].getEliminado() == false){
-        registros[cantidadActivos] = registros[i];
-        cantidadActivos++;
-    }
-}
-
-if(cantidadActivos == 0){
-    cout << "No hay empleados activos para mostrar."<<endl;
-    delete [] registros;
-    return;
-}
-
-ordenarEmpleadosPorApellido(registros, cantidadActivos);
-
-cout << "----- LISTADO ORDENADO POR APELLIDO -----"<<endl;
-// Se muestra en tabla sin columna de estado porque todos son activos.
-cout << left
-     << setw(6) << "ID"
-     << setw(15) << "Nombre"
-     << setw(15) << "Apellido"
-     << setw(18) << "Telefono"
-     << setw(25) << "Mail"
-     << setw(15) << "Puesto" << endl;
-cout << string(94, '-') << endl;
-
-for(int i = 0; i < cantidadActivos; i++){
-    registros[i].MostrarFila();
-}
-
-cout << string(94, '-') << endl;
-
-delete [] registros;
-
-
-}
-
-void modificarEmpleado(){
-
-ArchivoEmpleado arcEmpleado("Empleados.dat");
-
-if(!arcEmpleado.hayEmpleadosConEstadoEliminado(false)){
-    cout << "No hay empleados activos para modificar."<<endl;
-    return;
-}
-
-
-cout << "------- MODIFICAR EMPLEADO -------"<<endl;
-arcEmpleado.listar();
-
-cout <<endl;
-int idModificar = ingresarEntero("Ingrese el ID del empleado que desea modificar: ");
-
-int posicionID = arcEmpleado.buscarRegistro(idModificar);
-
-if(posicionID == -1){
-    cout << "ERROR. No se encontro un empleado con el ID: "<<idModificar<<endl;
-    return;
-}
-
-Empleado reg = arcEmpleado.leerRegistro(posicionID);
-
-if(reg.getEliminado()== true){
-
-    cout << "El empleado seleccionado no se encuentra activo. No se puede modificar."<<endl;
-    return;
-}
-
-cout << "Empleado encontrado. Datos actuales: "<<endl;
-reg.Mostrar();
-cout<<endl;
-
-// Menú para modificar solo un campo y evitar repetir la carga completa
-cout << "¿Qué desea modificar?"<<endl;
-cout << "1) Nombre"<<endl;
-cout << "2) Apellido"<<endl;
-cout << "3) Puesto"<<endl;
-cout << "4) Telefono"<<endl;
-cout << "5) Mail"<<endl;
-cout << "0) Cancelar"<<endl;
-
-int opcionCampo;
-
-//Validación de opción ingresada
-do {
-    opcionCampo = ingresarEntero("Ingrese una opcion: ");
-    if(opcionCampo < 0 || opcionCampo > 5){
-        cout << "Opcion incorrecta. Intente nuevamente."<<endl;
+// Busca un empleado por ID y verifica su estado (si está eliminado o no)
+// Retorna la posición en el archivo o -1 si no se encuentra o no cumple el estado
+int buscarEmpleadoID(ArchivoEmpleado& arc, bool buscarEliminados) {
+    if (!arc.hayEmpleadosConEstadoEliminado(buscarEliminados)) {
+        cout << "No hay empleados " << (buscarEliminados ? "eliminados" : "activos") << " disponibles." << endl;
+        return -1;
     }
 
-}while(opcionCampo < 0 || opcionCampo > 5);
+    listarEmpleados(buscarEliminados);
+    cout << endl;
 
-switch(opcionCampo){
+    int id = ingresarEntero("Ingrese ID del Empleado: ");
+    int pos = arc.buscarRegistro(id);
 
-case 1: {
-        char nuevoNombre[30];
-        cargarCadenaObligatoria("Ingrese el nuevo nombre: ",
-                                "El nombre no puede quedar vacio.",
-                                nuevoNombre,
-                                30);
-        reg.setNombre(nuevoNombre);
-        break;
-
-}
-
-case 2: {
-        char nuevoApellido[30];
-        cargarCadenaObligatoria("Ingrese el nuevo apellido: ",
-                                "El apellido no puede quedar vacio.",
-                                nuevoApellido,
-                                30);
-        reg.setApellido(nuevoApellido);
-        break;
-}
-
-case 3: {
-        char nuevoPuesto[20];
-        cout << "Ingrese el nuevo puesto: ";
-        cargarCadena(nuevoPuesto, 20);
-        reg.setPuesto(nuevoPuesto);
-        break;
-}
-
-case 4: {
-        char nuevoTelefono[20];
-        cargarCadenaObligatoria("Ingrese el nuevo telefono: ",
-                                "El telefono no puede quedar vacio.",
-                                nuevoTelefono,
-                                20);
-        reg.setTelefono(nuevoTelefono);
-        break;
-        }
-
-case 5: {
-char nuevoMail[40];
-cargarCadenaObligatoria("Ingrese el nuevo mail: ",
-                        "El mail no puede quedar vacio.",
-                        nuevoMail,
-                        40);
-        reg.setMail(nuevoMail);
-        break;
-}
-
-
-case 0:
-    cout << "Modificacion cancelada por el usuario." <<endl;
-    return;
-}
-//Grabar el registro modificado de vuelta en el archivo con el dato actualizado
-bool grabadoExitosamente = arcEmpleado.modificarRegistro(reg, posicionID);
-
-if(grabadoExitosamente){
-
-    cout << "Empleado modificado exitosamente."<<endl;
-} else {
-    cout<< "ERROR. No se pudo modificar el empleado con ID: "<<idModificar<<endl;
-}
-
-
-}
-
-
-
-
-
-
-
-void bajaEmpleado(){
-
-ArchivoEmpleado arcEmpleado("Empleados.dat");
-
-if(!arcEmpleado.hayEmpleadosConEstadoEliminado(false)){
-
-    cout<< "No hay empleados activos para eliminar."<<endl;
-    return;
-}
-
-
-cout << "------- ELIMINAR EMPLEADO -------"<<endl;
-arcEmpleado.listar();
-
-cout <<endl;
-int idEliminar = ingresarEntero("Ingrese el ID del empleado que quiere eliminar: ");
-
-int posicionId= arcEmpleado.buscarRegistro(idEliminar);
-
-if (posicionId == -1){
-
-    cout<<endl;
-    cout << "ERROR. No se encontro un empelado con el ID: "<<idEliminar<<endl;
-    return;
-}
-//Si se pudo econtrar
-Empleado reg = arcEmpleado.leerRegistro(posicionId);
-
-cout << "Empleado encontrado: "<<endl;
-reg.Mostrar();
-cout<<endl;
-
-
-//Verifiación por si ya estaba eliminado
-if (reg.getEliminado()==true){
-    cout << "Este empleado ya se encuentra eliminado."<<endl;
-    return;
-}
-
-char confirmacion;
-cout << "Esta seguro que desea dar de baja a este empleado (S/N)? : ";
-cin>> confirmacion;
-
-if (confirmacion == 'S'|| confirmacion == 's'){
-
-    reg.setEliminado(true);
-
-    bool grabadoExitosamente = arcEmpleado.modificarRegistro(reg, posicionId);
-
-    if(grabadoExitosamente){
-        cout << "Empleado dado de baja correctamente."<<endl;
-    }else {
-        cout << "ERROR. No se pudo dar de baja al empleado con ID: "<< idEliminar<<endl;
-        cout<<endl;
+    if (pos == -1) {
+        cout << ">>> ERROR: ID no encontrado." << endl;
+        return -1;
     }
-}else {
-    cout << "Operacion cancelada."<<endl;
+
+    Empleado e = arc.leerRegistro(pos);
+
+    if (e.getEliminado() != buscarEliminados) {
+        cout << ">>> ERROR: El empleado seleccionado "
+             << (e.getEliminado() ? "esta eliminado" : "esta activo")
+             << " y usted busca lo opuesto." << endl;
+        return -1;
+    }
+
+    return pos;
 }
 
-
+void mostrarEncabezadoEmpleados() {
+    lineaDoble(118);
+    // Usamos las columnas corregidas en Tablas.cpp
+    imprimirFilaEmpleado("ID", "NOMBRE", "APELLIDO", "TELEFONO", "MAIL", "PUESTO");
+    lineaSimple(118);
 }
 
-void altaEmpleado(){
+void mostrarFilaEmpleado(Empleado e) {
+    char sId[10];
+    // CORRECCION AQUI: Usamos e.getId() en lugar de e.getIdEmpleado()
+    sprintf(sId, "%d", e.getId());
 
-ArchivoEmpleado arcEmpleado("Empleados.dat");
-
-if (!arcEmpleado.hayEmpleadosConEstadoEliminado(true)){
-
-    cout<<endl;
-    cout<< "No hay empleados dados de baja para dar de alta."<<endl;
-    cout<<endl;
-    return;
-}
-
-
-cout << "---- DAR DE ALTA EMPLEADO ----"<<endl;
-arcEmpleado.listarEliminados();
-
-cout<<endl;
-int idRecuperar = ingresarEntero("Ingrese el ID del empleado que desea activar nuevamente");
-
-int posicionId = arcEmpleado.buscarRegistro(idRecuperar);
-
-if(posicionId == -1){
-
-    cout << "ERROR. No se encontro un empleado con el ID: "<<idRecuperar<<endl;
-    cout<<endl;
-    return;
-}
-
-Empleado reg = arcEmpleado.leerRegistro(posicionId);
-
-if(reg.getEliminado()== false){
-
-    cout<< "El empleado seleccionado ya se encuentra activo"<<endl;
-    cout<<endl;
-    return;
-}
-
-reg.setEliminado(false);
-
-bool grabadoExitosamente = arcEmpleado.modificarRegistro(reg, posicionId);
-
-if (grabadoExitosamente){
-    cout << "Empleado dado de alta exitosamente."<<endl;
-
-}else {
-    cout << "ERROR. No se pudo dar de alta al empleado."<<endl;
-    cout<<endl;
-}
-
+    imprimirFilaEmpleado(sId,
+                         e.getNombre(),
+                         e.getApellido(),
+                         e.getTelefono(),
+                         e.getMail(),
+                         e.getPuesto());
 }
 
 void ordenarEmpleadosPorApellido(Empleado registros[], int cantidad){
-
-for(int i = 0; i < cantidad - 1; i++){
-
-    for(int j = i + 1; j < cantidad; j++){
-
-        if(strcmp(registros[i].getApellido(), registros[j].getApellido()) > 0){
-            Empleado aux = registros[i];
-            registros[i] = registros[j];
-            registros[j] = aux;
+    for(int i = 0; i < cantidad - 1; i++){
+        for(int j = i + 1; j < cantidad; j++){
+            if(strcmp(registros[i].getApellido(), registros[j].getApellido()) > 0){
+                Empleado aux = registros[i];
+                registros[i] = registros[j];
+                registros[j] = aux;
+            }
         }
     }
-}
-
 }

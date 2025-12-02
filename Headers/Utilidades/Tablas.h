@@ -15,3 +15,6 @@ void imprimirFila2(const char* c1, const char* c2);
 
 //Fila específica para listados de pedidos (ajustada para Fechas y Montos)
 void imprimirFilaPedido(const char* id, const char* fecha, const char* idCli, const char* idEmp, const char* total);
+
+//Fila para empleados
+void imprimirFilaEmpleado(const char* id, const char* nombre, const char* apellido, const char* telefono, const char* mail, const char* puesto);

@@ -518,9 +518,10 @@
 
 1763272831 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menugestionproductos.h
 
-1764648887 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menupedidos.cpp
+1764649712 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menupedidos.cpp
 	<iostream>
 	<cstdlib>
+	<cstdio>
 	"../../Headers/UI/menuPedidos.h"
 	"../../Headers/Entities/Cliente.h"
 	"../../Headers/Persistence/ArchivoCliente.h"
@@ -568,11 +569,11 @@
 	"../../Headers/Persistence/ArchivoEmpleado.h"
 	"../../Headers/Utilidades/Validaciones.h"
 
-1764649493 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\utilidades\tablas.cpp
+1764650563 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\utilidades\tablas.cpp
 	<iostream>
 	"../../Headers/Utilidades/Tablas.h"
 
-1764649462 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\utilidades\tablas.h
+1764650534 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\utilidades\tablas.h
 	<iomanip>
 	<iostream>
 

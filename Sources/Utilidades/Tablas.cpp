@@ -94,3 +94,21 @@ void imprimirFilaPedido(const char* id, const char* fecha, const char* idCli, co
          << right << setw(wTotal) << total << " ||"
          << endl;
 }
+
+void imprimirFilaEmpleado(const char* id, const char* nombre, const char* apellido, const char* telefono, const char* mail, const char* puesto) {
+    const int wId = 6;
+    const int wNombre = 15;
+    const int wApellido = 15;
+    const int wTel = 15;
+    const int wMail = 35;
+    const int wPuesto = 15;
+
+    cout << "|| "
+         << left << setw(wId) << id << " | "
+         << left << setw(wNombre) << nombre << " | "
+         << left << setw(wApellido) << apellido << " | "
+         << left << setw(wTel) << telefono << " | "
+         << left << setw(wMail) << mail << " | "
+         << left << setw(wPuesto) << puesto << " ||"
+         << endl;
+}
