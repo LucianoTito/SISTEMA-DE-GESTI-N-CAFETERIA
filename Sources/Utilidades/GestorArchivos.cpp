@@ -13,6 +13,7 @@
 
 using namespace std;
 
+// Verifica si un archivo existe intentando abrirlo en modo lectura binaria.
 bool existeArchivo(const char* nombreArchivo) {
     FILE* p = fopen(nombreArchivo, "rb");
     if (p == nullptr) return false;
@@ -20,7 +21,11 @@ bool existeArchivo(const char* nombreArchivo) {
     return true;
 }
 
-// Version optimizada con buffer de 4KB (mucho mas rapida)
+/**
+ * Copia un archivo binario de origen a destino.
+ * Utiliza un BUFFER de memoria para no leer byte por byte, lo que hace
+ * que la copia sea muchisimo mas rapida y eficiente.
+ */
 bool copiarArchivoBinario(const char* origen, const char* destino) {
     FILE* in = fopen(origen, "rb");
     if (in == nullptr) {
@@ -34,10 +39,12 @@ bool copiarArchivoBinario(const char* origen, const char* destino) {
         return false;
     }
 
-    const int BUFFER_SIZE = 4096; // Leemos de a 4KB
+    // Buffer de 4KB: Leemos bloques grandes en lugar de 1 byte a la vez
+    const int BUFFER_SIZE = 4096;
     char buffer[BUFFER_SIZE];
     size_t bytesLeidos;
 
+    // Bucle de copia: Lee un bloque -> Escribe el bloque
     while ((bytesLeidos = fread(buffer, 1, BUFFER_SIZE, in)) > 0) {
         fwrite(buffer, 1, bytesLeidos, out);
     }
@@ -47,7 +54,12 @@ bool copiarArchivoBinario(const char* origen, const char* destino) {
     return true;
 }
 
-// --- IMPLEMENTACION DE EXPORTACIONES CSV ---
+// --- IMPLEMENTACION DE EXPORTACIONES A CSV ---
+// Todas las funciones siguen el mismo patron:
+// 1. Abrir archivo .dat (origen)
+// 2. Crear archivo .csv (destino)
+// 3. Escribir cabecera de columnas
+// 4. Recorrer registro por registro y escribirlo separado por comas
 
 bool exportarClientesCSV(const char* csvDestino) {
     FILE* pDat = fopen("Clientes.dat", "rb");
@@ -56,9 +68,11 @@ bool exportarClientesCSV(const char* csvDestino) {
     FILE* pCsv = fopen(csvDestino, "w");
     if (pCsv == nullptr) { fclose(pDat); return false; }
 
+    // Cabecera del Excel/CSV
     fprintf(pCsv, "ID,Nombre,Apellido,Telefono,Mail,Eliminado\n");
 
     Cliente reg;
+    // Lectura secuencial
     while(fread(&reg, sizeof(Cliente), 1, pDat) == 1){
         fprintf(pCsv, "%d,%s,%s,%s,%s,%d\n",
                 reg.getId(), reg.getNombre(), reg.getApellido(),
@@ -81,6 +95,7 @@ bool exportarProductosCSV(const char* csvDestino) {
 
     Producto reg;
     while(fread(&reg, sizeof(Producto), 1, pDat) == 1){
+        // %.2f formatea el float a 2 decimales para el precio
         fprintf(pCsv, "%d,%s,%.2f,%d,%d\n",
                 reg.getIdProducto(), reg.getNombre(), reg.getPrecio(),
                 reg.getStock(), reg.getEliminado());
@@ -124,6 +139,7 @@ bool exportarPedidosCSV(const char* csvDestino) {
     Pedido reg;
     while(fread(&reg, sizeof(Pedido), 1, pDat) == 1){
         Fecha f = reg.getFecha();
+        // Formateamos la fecha como DD/MM/AAAA en una sola columna
         fprintf(pCsv, "%d,%d,%d,%d,%d/%d/%d,%.2f,%d,%d\n",
                 reg.getIdPedido(), reg.getIdCliente(), reg.getIdEmpleado(),
                 reg.getNroMesa(), f.getDia(), f.getMes(), f.getAnio(),
@@ -146,6 +162,7 @@ bool exportarDetallesCSV(const char* csvDestino) {
 
     DetallePedido reg;
     while(fread(&reg, sizeof(DetallePedido), 1, pDat) == 1){
+        // Calculamos el subtotal al vuelo para exportarlo
         float subtotal = reg.getCantidad() * reg.getPrecioUnitario();
         fprintf(pCsv, "%d,%d,%d,%d,%.2f,%.2f\n",
                 reg.getIdDetalle(), reg.getIdPedido(), reg.getIdProducto(),
@@ -169,6 +186,8 @@ bool exportarPagosCSV(const char* csvDestino) {
     Pagos reg;
     while(fread(&reg, sizeof(Pagos), 1, pDat) == 1){
         Fecha f = reg.getFechaPago();
+
+        // Traducimos el código numérico del método de pago a texto
         const char* metodo = (reg.getMetodoPago() == 1) ? "Efectivo" :
                              (reg.getMetodoPago() == 2) ? "Tarjeta" : "Transferencia";
 

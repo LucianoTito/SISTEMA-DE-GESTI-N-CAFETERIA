@@ -1,47 +1,35 @@
-#include<iostream>
+#include <iostream>
+#include <iomanip>
 #include "../../Headers/Utilidades/Tablas.h"
 
 using namespace std;
 
+// ==========================================
+// FUNCIONES DE LINEAS
+// ==========================================
 
-// Imprimo una línea doble usando '='.
-//La uso para separar secciones importantes, como títulos de reportes.
 void lineaDoble(int n) {
     for (int i = 0; i < n; i++) cout << "=";
     cout << endl;
 }
 
-
-// Imprimo una línea simple usando '-'.
 void lineaSimple(int n) {
     for (int i = 0; i < n; i++) cout << "-";
     cout << endl;
 }
 
+// ==========================================
+// FILAS GENERICAS (LEGACY)
+// ==========================================
 
+void imprimirFila5(const char* c1, const char* c2, const char* c3, const char* c4, const char* c5) {
+    const int a1 = 5;
+    const int a2 = 8;
+    const int a3 = 18;
+    const int a4 = 18;
+    const int a5 = 10;
 
-
-// COLUMNAS )
-//  - Col1: ancho 5
-//  - Col2: ancho 8
-//  - Col3: ancho 18
-//  - Col4: ancho 18
-//  - Col5: ancho 10
-//
-// Los valores llegan como cadenas const char*, porque así puedo usar sprintf()
-// antes de llamar a esta función cuando necesito imprimir números.
-void imprimirFila5(const char* c1,
-                   const char* c2,
-                   const char* c3,
-                   const char* c4,
-                   const char* c5) {
-
-    const int a1 = 5;   // POS
-    const int a2 = 8;   // ID
-    const int a3 = 18;  // APELLIDO / PRODUCTO
-    const int a4 = 18;  // NOMBRE
-    const int a5 = 10;  // EXTRA (puntos / pedidos)
-
+    // Ancho total estimado: ~81 caracteres
     cout << "|| "
          << left << setw(a1) << c1 << " || "
          << left << setw(a2) << c2 << " || "
@@ -52,12 +40,12 @@ void imprimirFila5(const char* c1,
 }
 
 void imprimirFila4(const char* c1, const char* c2, const char* c3, const char* c4) {
+    const int a1 = 5;
+    const int a2 = 8;
+    const int a3 = 28;
+    const int a4 = 15;
 
-    const int a1 = 5;   // POS
-    const int a2 = 8;   // ID
-    const int a3 = 28;  // PRODUCTO
-    const int a4 = 15;  // CANT.
-
+    // Ancho total estimado: ~74 caracteres
     cout << "|| "
          << left << setw(a1) << c1 << " || "
          << left << setw(a2) << c2 << " || "
@@ -67,19 +55,23 @@ void imprimirFila4(const char* c1, const char* c2, const char* c3, const char* c
 }
 
 void imprimirFila2(const char* c1, const char* c2) {
+    const int a1 = 18;
+    const int a2 = 15;
 
-    const int a1 = 18; // MES
-    const int a2 = 15; // TOTAL
-
+    // Ancho total estimado: ~45 caracteres
     cout << "|| "
-         << left  << setw(a1) << c1 << " || "
+         << left << setw(a1) << c1 << " || "
          << right << setw(a2) << c2 << " ||"
          << endl;
 }
 
-//MPLEMENTACIÓN PARA PEDIDOS ---
+// ==========================================
+// FILAS ESPECIFICAS (DEFINITIVAS)
+// ==========================================
+
+// Usada en: MenuPedidos
+// Ancho Total: 74 caracteres
 void imprimirFilaPedido(const char* id, const char* fecha, const char* idCli, const char* idEmp, const char* total) {
-    // Anchos personalizados para que entre la fecha (10 chars) y se vea bien
     const int wId = 8;
     const int wFecha = 12;
     const int wCli = 12;
@@ -95,6 +87,8 @@ void imprimirFilaPedido(const char* id, const char* fecha, const char* idCli, co
          << endl;
 }
 
+// Usada en: MenuEmpleados
+// Ancho Total: 122 caracteres
 void imprimirFilaEmpleado(const char* id, const char* nombre, const char* apellido, const char* telefono, const char* mail, const char* puesto) {
     const int wId = 6;
     const int wNombre = 15;
@@ -113,7 +107,8 @@ void imprimirFilaEmpleado(const char* id, const char* nombre, const char* apelli
          << endl;
 }
 
-//Tablas para producto
+// Usada en: MenuGestionProductos
+// Ancho Total: 81 caracteres
 void imprimirFilaProducto(const char* id, const char* nombre, const char* precio, const char* stock) {
     const int wId = 6;
     const int wNombre = 35;
@@ -123,12 +118,13 @@ void imprimirFilaProducto(const char* id, const char* nombre, const char* precio
     cout << "|| "
          << left << setw(wId) << id << " | "
          << left << setw(wNombre) << nombre << " | "
-         << right << setw(wPrecio) << precio << " | "  // Precio a la derecha queda mejor
+         << right << setw(wPrecio) << precio << " | "
          << right << setw(wStock) << stock << " ||"
          << endl;
 }
 
-//Tablas para cliente:
+// Usada en: MenuGestionClientes
+// Ancho Total: 94 caracteres (Perfecto)
 void imprimirFilaCliente(const char* id, const char* nombre, const char* apellido, const char* telefono, const char* mail) {
     const int wId = 6;
     const int wNom = 15;
@@ -142,5 +138,51 @@ void imprimirFilaCliente(const char* id, const char* nombre, const char* apellid
          << left << setw(wApe) << apellido << " | "
          << left << setw(wTel) << telefono << " | "
          << left << setw(wMail) << mail << " ||"
+         << endl;
+}
+
+// Usada en: Reportes (Recaudacion)
+// Ancho Total: 50 caracteres (Ajustado)
+void imprimirFilaRecaudacion(const char* mes, const char* total) {
+    const int wMes = 20;
+    const int wTotal = 21; // Ajustado para sumar 50 con los bordes
+
+    cout << "|| "
+         << left << setw(wMes) << mes << " | "
+         << right << setw(wTotal) << total << " ||"
+         << endl;
+}
+
+// Usada en: Reportes (Ranking Productos)
+// Ancho Total: 75 caracteres
+void imprimirFilaRankingProductos(const char* pos, const char* id, const char* nombre, const char* cantidad) {
+    const int wPos = 5;
+    const int wId = 8;
+    const int wNom = 37; // Aumentado para ajustar el ancho total a 75
+    const int wCant = 10;
+
+    cout << "|| "
+         << left << setw(wPos) << pos << " | "
+         << left << setw(wId) << id << " | "
+         << left << setw(wNom) << nombre << " | "
+         << right << setw(wCant) << cantidad << " ||"
+         << endl;
+}
+
+// Usada en: Reportes (Ranking Empleados)
+// Ancho Total: 80 caracteres
+void imprimirFilaRankingEmpleados(const char* pos, const char* id, const char* apellido, const char* nombre, const char* cantidad) {
+    const int wPos = 5;
+    const int wId = 8;
+    const int wApe = 20; // Ajustado para total 80
+    const int wNom = 19; // Ajustado para total 80
+    const int wCant = 10;
+
+    cout << "|| "
+         << left << setw(wPos) << pos << " | "
+         << left << setw(wId) << id << " | "
+         << left << setw(wApe) << apellido << " | "
+         << left << setw(wNom) << nombre << " | "
+         << right << setw(wCant) << cantidad << " ||"
          << endl;
 }

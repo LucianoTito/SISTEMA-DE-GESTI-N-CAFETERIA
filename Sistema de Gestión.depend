@@ -434,34 +434,29 @@
 	"../../Headers/Persistence/ArchivoProducto.h"
 	"../../Headers/Entities/Producto.h"
 
-1764646120 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\configuraciones.cpp
+1764653175 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\configuraciones.cpp
 	<iostream>
-	<cstdio>
+	<cstdlib>
 	<cstring>
 	"../../Headers/UI/configuraciones.h"
-	"../../Headers/Entities/Cliente.h"
-	"../../Headers/Entities/Producto.h"
-	"../../Headers/Entities/Empleado.h"
-	"../../Headers/Entities/Pedido.h"
-	"../../Headers/Entities/DetallePedido.h"
-	"../../Headers/Entities/Pagos.h"
-	"../../Headers/Entities/Fecha.h"
+	"../../Headers/Utilidades/GestorArchivos.h"
 	"../../Headers/Utilidades/Validaciones.h"
+	"../../Headers/Utilidades/Tablas.h"
 
 1762784315 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\configuraciones.h
 
-1764212741 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\reportes.cpp
+1764654054 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\reportes.cpp
 	<iostream>
 	<cstdio>
+	<iomanip>
+	<cstring>
 	"../../Headers/UI/reportes.h"
 	"../../Headers/Entities/Pedido.h"
 	"../../Headers/Entities/DetallePedido.h"
-	"../../Headers/Entities/Cliente.h"
 	"../../Headers/Entities/Empleado.h"
 	"../../Headers/Entities/Producto.h"
 	"../../Headers/Persistence/ArchivoPedido.h"
 	"../../Headers/Persistence/ArchivoDetallePedido.h"
-	"../../Headers/Persistence/ArchivoCliente.h"
 	"../../Headers/Persistence/ArchivoEmpleado.h"
 	"../../Headers/Persistence/ArchivoProducto.h"
 	"../../Headers/Utilidades/Validaciones.h"
@@ -493,7 +488,7 @@
 	"../../Headers/UI/configuraciones.h"
 	"../../Headers/Utilidades/Validaciones.h"
 
-1764652127 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menugestionclientes.cpp
+1764652372 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menugestionclientes.cpp
 	<iostream>
 	<cstdlib>
 	<iomanip>
@@ -574,11 +569,12 @@
 	"../../Headers/Utilidades/Validaciones.h"
 	"../../Headers/Utilidades/Tablas.h"
 
-1764652058 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\utilidades\tablas.cpp
+1764654178 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\utilidades\tablas.cpp
 	<iostream>
+	<iomanip>
 	"../../Headers/Utilidades/Tablas.h"
 
-1764652032 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\utilidades\tablas.h
+1764653430 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\utilidades\tablas.h
 	<iomanip>
 	<iostream>
 
@@ -590,4 +586,19 @@
 	"../Entities/Pedido.h"
 	"../Entities/Pagos.h"
 	"../Persistence/ArchivoPagos.h"
+
+1764652746 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\utilidades\gestorarchivos.h
+
+1764653116 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\utilidades\gestorarchivos.cpp
+	<iostream>
+	<cstdio>
+	<cstring>
+	"../../Headers/Utilidades/GestorArchivos.h"
+	"../../Headers/Entities/Cliente.h"
+	"../../Headers/Entities/Producto.h"
+	"../../Headers/Entities/Empleado.h"
+	"../../Headers/Entities/Pedido.h"
+	"../../Headers/Entities/DetallePedido.h"
+	"../../Headers/Entities/Pagos.h"
+	"../../Headers/Entities/Fecha.h"
 

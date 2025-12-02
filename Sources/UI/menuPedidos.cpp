@@ -22,12 +22,15 @@
 
 using namespace std;
 
+// Ancho estandarizado para este módulo
+const int ANCHO_MENU = 74;
+
 // ==========================================
 // PROTOTIPOS DE FUNCIONES AUXILIARES
 // ==========================================
 void ordenarPedidosPorFecha(Pedido vectorPedidos[], int cantidad);
 
-// Nuevas funciones de visualización (Tablas)
+// Visualización (Tablas)
 void mostrarEncabezadoTablaPedidos();
 void mostrarFilaPedido(Pedido p);
 
@@ -37,7 +40,7 @@ void consultaPedidosPorRangoFechas();
 void consultaPedidosPorCliente();
 void consultaPedidosPorEmpleado();
 
-// Funciones helpers de lógica de negocio
+// Helpers de lógica de negocio
 int seleccionarClienteValido();
 int seleccionarEmpleadoValido();
 bool cargarProductosEnPedido(Pedido &regPedido, int &cantidadDetallesIniciales);
@@ -51,17 +54,17 @@ void menuPedidos(){
     int opcion;
     while (true){
         system ("cls");
-        lineaDoble(40);
-        cout << "          GESTION DE PEDIDOS          " << endl;
-        lineaDoble(40);
+        lineaDoble(ANCHO_MENU);
+        cout << "                          GESTION DE PEDIDOS" << endl;
+        lineaDoble(ANCHO_MENU);
         cout << "1. REALIZAR UN PEDIDO " << endl;
         cout << "2. VER DETALLE DE UN PEDIDO" << endl;
         cout << "3. LISTAR PEDIDOS (ORDENADOS POR FECHA)" << endl;
         cout << "4. CONSULTAS DE PEDIDOS" << endl;
         cout << "5. ANULAR UN PEDIDO (BAJA LOGICA)" << endl;
-        lineaSimple(40);
+        lineaSimple(ANCHO_MENU);
         cout << "0. VOLVER AL MENU PRINCIPAL" << endl;
-        lineaDoble(40);
+        lineaDoble(ANCHO_MENU);
 
         opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
         system ("cls");
@@ -73,7 +76,7 @@ void menuPedidos(){
             case 3: listarPedidos(); break;
             case 4:
                 menuConsultasPedidos();
-                mostrarPausa = false;
+                mostrarPausa = false; // El submenú gestiona sus pausas
                 break;
             case 5: anularPedido(); break;
             case 0: return;
@@ -91,7 +94,6 @@ void realizarPedido() {
     ArchivoDetallePedido arcDetalle ("DetallesPedidos.dat");
     ArchivoPagos arcPagos ("Pagos.dat");
 
-    // Guardamos estados iniciales por si hay que revertir (Rollback simple)
     int cantidadPedidosPrevios = arcPedido.contarRegistros();
     int cantidadDetallesInicial = arcDetalle.contarRegistros();
 
@@ -99,7 +101,7 @@ void realizarPedido() {
 
     // 1. SELECCION DE CLIENTE
     int idCliente = seleccionarClienteValido();
-    if (idCliente == -1) return; // Cancelado o error
+    if (idCliente == -1) return;
 
     system("cls");
 
@@ -114,13 +116,13 @@ void realizarPedido() {
     int idNuevoPedido = cantidadPedidosPrevios + 1;
     regPedido.Cargar(idNuevoPedido, idCliente, idEmpleado);
 
-    // 4. CARGA DE PRODUCTOS (Detalles)
+    // 4. CARGA DE PRODUCTOS
     if (!cargarProductosEnPedido(regPedido, cantidadDetallesInicial)) {
         cout << "Pedido cancelado (sin productos cargados)." << endl;
         return;
     }
 
-    // 5. GRABAR PEDIDO PRINCIPAL
+    // 5. GRABAR PEDIDO
     if (!arcPedido.grabarRegistro(regPedido)){
         cout << "ERROR CRITICO: No se pudo grabar el pedido." << endl;
         revertirCambiosStock(idNuevoPedido);
@@ -157,7 +159,7 @@ bool cargarProductosEnPedido(Pedido &regPedido, int &cantidadDetallesInicial) {
 
     while(true){
         cout << endl << "PRODUCTOS DISPONIBLES: " << endl;
-        arcProducto.listar();
+        arcProducto.listar(); // Podrías implementar una tabla aquí también si lo deseas
 
         cout << endl;
         int idProducto = ingresarEntero("Seleccione ID Producto (0 para terminar): ");
@@ -176,7 +178,7 @@ bool cargarProductosEnPedido(Pedido &regPedido, int &cantidadDetallesInicial) {
             break;
         }
 
-        // --- Validaciones de Producto ---
+        // Validaciones
         int posProd = arcProducto.buscarRegistro(idProducto);
         if(posProd == -1){
             cout << "ERROR: ID inexistente." << endl; system("pause"); system("cls"); continue;
@@ -194,12 +196,12 @@ bool cargarProductosEnPedido(Pedido &regPedido, int &cantidadDetallesInicial) {
             cout << "ERROR: Cantidad invalida o stock insuficiente." << endl; system("pause"); system("cls"); continue;
         }
 
-        // --- Logica de Insertar/Actualizar Detalle ---
+        // Logica de Detalle
         int posDetalleExistente = arcDetalle.buscarDetallePorPedidoYProducto(regPedido.getIdPedido(), idProducto);
         float subtotalItem = 0;
 
         if (posDetalleExistente != -1) {
-            // -- ACTUALIZAR EXISTENTE --
+            // Actualizar existente
             DetallePedido detalle = arcDetalle.leerRegistro(posDetalleExistente);
             int nuevaCant = detalle.getCantidad() + cantidad;
 
@@ -211,21 +213,19 @@ bool cargarProductosEnPedido(Pedido &regPedido, int &cantidadDetallesInicial) {
             if(arcDetalle.modificarRegistro(detalle, posDetalleExistente)){
                 subtotalItem = regProd.getPrecio() * cantidad;
                 regPedido.setSubtotal(regPedido.getSubtotal() + subtotalItem);
-
-                actualizarStockProducto(idProducto, cantidad, false); // false = restar
+                actualizarStockProducto(idProducto, cantidad, false);
                 cout << "Cantidad actualizada." << endl;
                 seAgregoProducto = true;
             }
         } else {
-            // -- CREAR NUEVO DETALLE --
+            // Crear nuevo
             int idDetalle = arcDetalle.contarRegistros() + 1;
             DetallePedido nuevoDetalle(idDetalle, regPedido.getIdPedido(), idProducto, cantidad, regProd.getPrecio());
 
             if (arcDetalle.grabarRegistro(nuevoDetalle)) {
                 subtotalItem = regProd.getPrecio() * cantidad;
                 regPedido.setSubtotal(regPedido.getSubtotal() + subtotalItem);
-
-                actualizarStockProducto(idProducto, cantidad, false); // false = restar
+                actualizarStockProducto(idProducto, cantidad, false);
                 cout << "Producto agregado." << endl;
                 seAgregoProducto = true;
             }
@@ -241,15 +241,14 @@ bool cargarProductosEnPedido(Pedido &regPedido, int &cantidadDetallesInicial) {
 // ==========================================
 void anularPedido () {
     ArchivoPedido arcPedido("Pedidos.dat");
-
     cout << "---------- ANULAR PEDIDO ----------" << endl;
 
     if(!arcPedido.hayPedidosConEstado(false)){
         cout << "No hay pedidos activos." << endl; return;
     }
 
-    // Aquí podrías llamar a listarPedidos() para verlos en tabla antes de anular
-    arcPedido.listarPorEstado(false);
+    // Listamos usando la tabla estándar
+    listarPedidos();
     cout << endl;
 
     int idAnular = ingresarEntero("ID del Pedido a anular: ");
@@ -267,7 +266,7 @@ void anularPedido () {
     cout << endl << "Detalle del pedido a anular:" << endl;
     mostrarEncabezadoTablaPedidos();
     mostrarFilaPedido(regPedido);
-    lineaSimple(70);
+    lineaSimple(ANCHO_MENU);
 
     char conf;
     cout << "Seguro desea anular? (S/N): ";
@@ -343,7 +342,7 @@ int seleccionarEmpleadoValido() {
 }
 
 // ==========================================
-// FUNCIONES DE CONSULTA Y LISTADO (TABLAS)
+// FUNCIONES DE CONSULTA Y LISTADO
 // ==========================================
 
 void listarPedidos() {
@@ -373,7 +372,7 @@ void listarPedidos() {
         }
     }
     if (!hayActivos) cout << "|| (No hay pedidos activos)" << endl;
-    lineaDoble(70);
+    lineaDoble(ANCHO_MENU);
 
     // --- ANULADOS ---
     cout << endl << ">>> PEDIDOS ANULADOS" << endl;
@@ -386,7 +385,7 @@ void listarPedidos() {
         }
     }
     if (!hayAnulados) cout << "|| (No hay pedidos anulados)" << endl;
-    lineaDoble(70);
+    lineaDoble(ANCHO_MENU);
 
     delete[] vector;
 }
@@ -395,15 +394,15 @@ void menuConsultasPedidos(){
     int opcion;
     while(true){
         system("cls");
-        lineaDoble(40);
-        cout << "      CONSULTAS DE PEDIDOS" << endl;
-        lineaDoble(40);
+        lineaDoble(ANCHO_MENU);
+        cout << "                          CONSULTAS DE PEDIDOS" << endl;
+        lineaDoble(ANCHO_MENU);
         cout << "1. POR RANGO DE FECHAS" << endl;
         cout << "2. POR CLIENTE" << endl;
         cout << "3. POR EMPLEADO" << endl;
-        lineaSimple(40);
+        lineaSimple(ANCHO_MENU);
         cout << "0. VOLVER" << endl;
-        lineaDoble(40);
+        lineaDoble(ANCHO_MENU);
 
         opcion = ingresarEntero("OPCION: ");
         system("cls");
@@ -439,7 +438,7 @@ void consultaPedidosPorRangoFechas(){
             cont++;
         }
     }
-    lineaSimple(70);
+    lineaSimple(ANCHO_MENU);
     cout << "Total encontrados: " << cont << endl;
 }
 
@@ -456,7 +455,7 @@ void consultaPedidosPorCliente(){
         Pedido p = arc.leerRegistro(i);
         if(!p.getEliminado() && p.getIdCliente() == id) mostrarFilaPedido(p);
     }
-    lineaSimple(70);
+    lineaSimple(ANCHO_MENU);
 }
 
 void consultaPedidosPorEmpleado(){
@@ -472,7 +471,7 @@ void consultaPedidosPorEmpleado(){
         Pedido p = arc.leerRegistro(i);
         if(!p.getEliminado() && p.getIdEmpleado() == id) mostrarFilaPedido(p);
     }
-    lineaSimple(70);
+    lineaSimple(ANCHO_MENU);
 }
 
 // ==========================================
@@ -480,17 +479,15 @@ void consultaPedidosPorEmpleado(){
 // ==========================================
 
 void mostrarEncabezadoTablaPedidos() {
-    lineaDoble(70);
-    // Llama a la funcion de Tablas.h con los titulos
-    imprimirFilaPedido("ID", "FECHA", "ID CLIENTE", "ID EMPL.", "TOTAL ($)");
-    lineaSimple(70);
+    lineaDoble(ANCHO_MENU);
+    imprimirFilaPedido("ID", "FECHA", "ID CLI", "ID EMP", "TOTAL ($)");
+    lineaSimple(ANCHO_MENU);
 }
 
 void mostrarFilaPedido(Pedido p) {
     char sId[15], sFecha[15], sCli[15], sEmp[15], sTotal[20];
     Fecha f = p.getFecha();
 
-    // Formateamos los datos para que entren en la tabla como texto
     sprintf(sId, "%d", p.getIdPedido());
     sprintf(sFecha, "%02d/%02d/%04d", f.getDia(), f.getMes(), f.getAnio());
     sprintf(sCli, "%d", p.getIdCliente());
@@ -522,14 +519,13 @@ void verDetallePedido(){
 
     Pedido p = arcP.leerRegistro(pos);
     cout << endl;
-    lineaDoble(50);
+    lineaDoble(ANCHO_MENU);
     cout << " PEDIDO: " << p.getIdPedido() << (p.getEliminado() ? " [ANULADO]" : " [ACTIVO]") << endl;
-    lineaDoble(50);
+    lineaDoble(ANCHO_MENU);
 
-    // Listado de productos en formato simple (o podrias crear tabla si quieres)
     int cant = arcD.contarRegistros();
     cout << " PRODUCTOS: " << endl;
-    lineaSimple(50);
+    lineaSimple(ANCHO_MENU);
     for(int i=0; i<cant; i++){
         DetallePedido d = arcD.leerRegistro(i);
         if(d.getIdPedido() == id){
@@ -539,7 +535,7 @@ void verDetallePedido(){
                  << " - Unit: $" << d.getPrecioUnitario() << endl;
         }
     }
-    lineaSimple(50);
+    lineaSimple(ANCHO_MENU);
     cout << " INFORMACION DE PAGO: " << endl;
     mostrarPagoDePedido(arcPagos, id);
     cout << endl;

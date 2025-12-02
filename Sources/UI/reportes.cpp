@@ -1,523 +1,391 @@
-#include<iostream>
-#include<cstdio>
+#include <iostream>
+#include <cstdio>
+#include <iomanip>
+#include <cstring>
 
 #include "../../Headers/UI/reportes.h"
-//Entidades
 #include "../../Headers/Entities/Pedido.h"
 #include "../../Headers/Entities/DetallePedido.h"
-#include "../../Headers/Entities/Cliente.h"
 #include "../../Headers/Entities/Empleado.h"
 #include "../../Headers/Entities/Producto.h"
-
-//Archivos de persistencia
 #include "../../Headers/Persistence/ArchivoPedido.h"
 #include "../../Headers/Persistence/ArchivoDetallePedido.h"
-#include "../../Headers/Persistence/ArchivoCliente.h"
 #include "../../Headers/Persistence/ArchivoEmpleado.h"
 #include "../../Headers/Persistence/ArchivoProducto.h"
-
 #include "../../Headers/Utilidades/Validaciones.h"
 #include "../../Headers/Utilidades/Tablas.h"
 
-
 using namespace std;
 
+// ==========================================
+// PROTOTIPOS AUXILIARES (PRIVADOS)
+// ==========================================
+// Estos helpers permiten cargar entidades en RAM para evitar la lentitud de leer disco en bucles.
+Producto* cargarProductosActivos(int &cantidad);
+Empleado* cargarEmpleadosActivos(int &cantidad);
+int* cargarPedidosEnRango(Fecha desde, Fecha hasta, int &cantidad);
 
+// Algoritmos de ordenamiento para los reportes
+void ordenarRankingProductos(Producto* prods, int* cants, int n);
+void ordenarRankingEmpleados(Empleado* emps, int* cants, int n);
 
+// ==========================================
+// MENU REPORTES
+// ==========================================
 void menuReportes(){
+    int opcion;
+    while(true){
+        system("cls");
+        lineaDoble(60);
+        cout << "               MENU DE REPORTES Y ESTADISTICAS" << endl;
+        lineaDoble(60);
+        cout << "1. RECAUDACION MENSUAL (Por Anio)" << endl;
+        cout << "2. RANKING PRODUCTOS MAS VENDIDOS (Historico)" << endl;
+        cout << "3. DESEMPENIO DE EMPLEADOS (Cantidad de Pedidos)" << endl;
+        cout << "4. PRODUCTOS VENDIDOS POR PERIODO (Fechas)" << endl;
+        lineaSimple(60);
+        cout << "0. VOLVER AL MENU PRINCIPAL" << endl;
+        lineaDoble(60);
 
-while(true){
-    system("cls");
-    cout << "---------- MENU DE REPORTES ----------"<<endl;
-    cout << "======================================"<<endl;
+        opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
+        system("cls");
 
-    cout << "1. Recaudacion Anual/Mensual"<<endl;
-    cout << "2. Productos Mas Vendidos"<<endl;
-    cout << "3. Informe de Desempeno de Empleados"<<endl;
-    cout << "4. Productos vendidos por periodo"<<endl;
-    cout << "------------------------------------"<<endl;
-    cout << "0. VOLVER AL MENU PRINCIPAL"<<endl;
-    cout << "===================================="<<endl;
-    cout <<endl;
-    int opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
-
-    system("cls");
-
-    switch(opcion){
-case 1:
-    reporteRecaudacionAnualMensual();
-    break;
-case 2:
-    reporteProductosMasVendidos();
-    break;
-case 3:
-    reporteDesempenoEmpleados();
-    break;
-case 4:
-    reporteProductosPorPeriodo();
-case 0:
-    return;
-default:
-    cout << "Opcion incorrecta. Vuelva a intentarlo."<<endl;
-    break;
-
-
+        switch(opcion){
+            case 1: reporteRecaudacionAnualMensual(); break;
+            case 2: reporteProductosMasVendidos(); break;
+            case 3: reporteDesempenoEmpleados(); break;
+            case 4: reporteProductosPorPeriodo(); break;
+            case 0: return;
+            default: cout << "Opcion incorrecta." << endl; break;
+        }
+        system("pause");
     }
-    system("pause");
 }
 
-}
-
-
+// ==========================================
+// 1. RECAUDACION ANUAL
+// ==========================================
 void reporteRecaudacionAnualMensual(){
+    cout << "---------- REPORTE DE RECAUDACION ----------" << endl;
+    int anio = ingresarEntero("Ingrese el anio a analizar: ");
 
-cout << "---------- REPORTE DE RECAUDACION ANUAL/MENSUAL ----------" <<endl;
-cout <<endl;
-int anioBuscado= ingresarEntero("Ingrese el anio que desea analizar: ");
+    // Vector acumulador estatico (indices 0-11 representan Ene-Dic)
+    float recaudacionMes[12] = {0};
 
-//Creo el vector acumulador (uno por cada mes)
-float vectorRecaudacionPorMes[12] = {0};
+    ArchivoPedido arcP("Pedidos.dat");
+    int total = arcP.contarRegistros();
 
-
-
-//Preparar los archivos necesarios
-ArchivoPedido arcPedido ("Pedidos.dat");
-int cantPedidos = arcPedido.contarRegistros();
-
-//Recorro el archivo de Pedidos
-for (int i=0; i< cantPedidos; i++){
-    Pedido regPedido = arcPedido.leerRegistro(i);
-
-    //Filtro por pedidos activos y del año solicitado
-    if (regPedido.getEliminado()== false && regPedido.getFecha().getAnio() == anioBuscado ){
-
-        //Obtener el mes
-        int mes = regPedido.getFecha().getMes();
-
-        //Obtener el total con descuento aplicado
-        float totalVenta = regPedido.getTotal();
-
-        //Acumular en el vector
-        vectorRecaudacionPorMes[mes - 1] +=totalVenta;
-
-
+    // Recorrido secuencial del archivo de pedidos (Complejidad O(N))
+    for(int i=0; i<total; i++){
+        Pedido p = arcP.leerRegistro(i);
+        // Filtramos solo pedidos activos y del año seleccionado
+        if(!p.getEliminado() && p.getFecha().getAnio() == anio){
+            int mes = p.getFecha().getMes();
+            if(mes >= 1 && mes <= 12){
+                // Sumamos al mes correspondiente
+                recaudacionMes[mes - 1] += p.getTotal();
+            }
+        }
     }
-}
 
-cout<<endl<< "RECAUDACION DEL ANIO " << anioBuscado << endl;
+    // --- Presentacion en Tabla ---
+    cout << endl << "RECAUDACION DEL ANIO " << anio << endl;
 
-lineaDoble(44);
-imprimirFila2("MES", "RECAUDACION");
-lineaSimple(44);
+    // Ajuste visual: Ancho 50 coincide con Tablas.cpp
+    lineaDoble(50);
+    imprimirFilaRecaudacion("MES", "TOTAL ($)");
+    lineaSimple(50);
 
-const char* nombreMeses[12] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+    const char* nombres[12] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                               "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
-char totalMes[32];
-for (int i = 0; i<12; i++){
+    float totalAnual = 0;
+    char sTotal[20];
 
-snprintf(totalMes, sizeof(totalMes), "$ %.2f", vectorRecaudacionPorMes[i]);
-imprimirFila2(nombreMeses[i], totalMes);
-
-}
-lineaDoble(44);
-
-}
-
-//Función auxiliar p/ encontrar la posición del Mayor valor
-//La uso en reporteProductosMasVendidos()
-
-int buscarMaximoVector (int* vectorDeMaximo, int tam){
-
-int posicionMaximo = 0;
-
-for (int i= 1; i<tam; i++){
-
-    if (vectorDeMaximo[i]> vectorDeMaximo[posicionMaximo]){
-        posicionMaximo = i;
+    for(int i=0; i<12; i++){
+        sprintf(sTotal, "$ %.2f", recaudacionMes[i]);
+        imprimirFilaRecaudacion(nombres[i], sTotal);
+        totalAnual += recaudacionMes[i];
     }
+
+    lineaSimple(50);
+    sprintf(sTotal, "$ %.2f", totalAnual);
+    imprimirFilaRecaudacion("TOTAL ANUAL", sTotal);
+    lineaDoble(50);
 }
 
-return posicionMaximo;
-}
-
+// ==========================================
+// 2. PRODUCTOS MAS VENDIDOS
+// ==========================================
 void reporteProductosMasVendidos(){
+    cout << "---------- RANKING DE PRODUCTOS (HISTORICO) ----------" << endl;
 
-//Archivos necesarios
-ArchivoProducto arcProducto("Productos.dat");
-ArchivoDetallePedido arcDetalle("DetallesPedidos.dat");
+    // 1. CARGA EN MEMORIA (RAM)
+    // Traemos todos los productos activos a un vector dinamico.
+    // Esto optimiza el reporte porque la busqueda en RAM es mucho mas rapida que en disco.
+    int cantProds = 0;
+    Producto* productos = cargarProductosActivos(cantProds);
+    if(productos == nullptr) return;
 
-int cantidadProductos = arcProducto.contarRegistros();
-int cantidadDetalles = arcDetalle.contarRegistros();
+    // 2. VECTOR PARALELO
+    // Creamos un vector de contadores del mismo tamanio que productos.
+    // indice [i] del contador corresponde a productos[i].
+    int* contadores = new int[cantProds];
+    for(int i=0; i<cantProds; i++) contadores[i] = 0;
 
-if (cantidadProductos == 0 || cantidadDetalles == 0){
+    // 3. PROCESAMIENTO
+    ArchivoDetallePedido arcD("DetallesPedidos.dat");
+    int totalDetalles = arcD.contarRegistros();
 
-    cout << "No hay suficientes datos de PRODUCTOS o  VENTAS para generar el reporte."<<endl;
-    return;
-}
+    for(int i=0; i<totalDetalles; i++){
+        DetallePedido d = arcD.leerRegistro(i);
 
-//Creo el vector acumulador dinámico
-//Pido memoria para un vector de enteros del tamaño de la cantidad de productos
-
-int* vectorCantidadVendida = new int[cantidadProductos];
-if (vectorCantidadVendida == nullptr){
-    cout << "Error al asignar memoria."<<endl;
-    return;
-}
-
-
-for (int i = 0; i<cantidadProductos; i++){
-    vectorCantidadVendida[i] = 0;
-}
-
-//Leer y acumular ventas
-for (int i = 0; i<cantidadDetalles; i++){
-    DetallePedido regDetalle = arcDetalle.leerRegistro(i);
-
-    int idProductoVendido = regDetalle.getIdProducto();
-    int cantidadVendida = regDetalle.getCantidad();
-
-    //Busco la posición de ese producto
-    int posicionProducto = arcProducto.buscarRegistro(idProductoVendido);
-
-    if (posicionProducto != -1 && posicionProducto < cantidadProductos) { //posicionProducto < cantidadProductos asegura de que la posición que encontramos (posicionProducto) esté dentro de los límites de nuestro vector
-
-        Producto prod = arcProducto.leerRegistro(posicionProducto);
-
-        // Filtro productos eliminados/inactivos
-            if (!prod.getEliminado()) {
-                vectorCantidadVendida[posicionProducto] += cantidadVendida;
+        // Busqueda Lineal en RAM para encontrar el producto vendido
+        for(int k=0; k<cantProds; k++){
+            if(productos[k].getIdProducto() == d.getIdProducto()){
+                contadores[k] += d.getCantidad();
+                break;
             }
-    }
-
-}
-
-cout << "--- REPORTE DE PRODUCTOS MAS VENDIDOS  ---" << endl;
-lineaDoble(74);
-imprimirFila4("POS", "ID", "PRODUCTO", "CANT.");
-lineaSimple(74);
-
-    for (int i = 0; i < cantidadProductos; i++) {
-
-        //LLamo a la fn auxiliar para encontrar la posicion del mas vendido
-        int posicionMaximo = buscarMaximoVector(vectorCantidadVendida, cantidadProductos);
-
-        //Verifico si el producto más vendido no tiene ventas
-        if (vectorCantidadVendida[posicionMaximo] == 0) {
-            break;
-        }
-
-        //Leo producto que está en esa posición ganadora
-        Producto regProductoMax = arcProducto.leerRegistro(posicionMaximo);
-
-        //Muestro el resultado
-        char pos[6];
-        char id[10];
-        char cantidad[12];
-        snprintf(pos, sizeof(pos), "%d", i + 1);
-        snprintf(id, sizeof(id), "%d", regProductoMax.getIdProducto());
-        snprintf(cantidad, sizeof(cantidad), "%d", vectorCantidadVendida[posicionMaximo]);
-
-        imprimirFila4(pos, id, regProductoMax.getNombre(), cantidad);
-
-
-        //Elimino a este ganador del vector acumulador poniendo su contador en -1 para que no vuelva a se el máximo en la siguiente vuelta del bucle
-        vectorCantidadVendida[posicionMaximo] = -1;
-    }
-
-    lineaDoble(74);
-
-
-
-    delete[] vectorCantidadVendida;
-
-}
-
-void reporteDesempenoEmpleados() {
-
-    system("cls");
-
-    cout << "---------------------- REPORTE DE DESEMPENO DE EMPLEADOS ------------------------"<<endl;
-
-    ArchivoEmpleado arcEmpleado("Empleados.dat");
-    ArchivoPedido arcPedido("Pedidos.dat");
-
-    int cantidadEmpleados = arcEmpleado.contarRegistros();
-    int cantidadPedidos = arcPedido.contarRegistros();
-
-    //Valido q haya pedidos y empleados
-    if (cantidadEmpleados == 0 || cantidadPedidos == 0) {
-        cout << "No hay suficientes registros de EMPLEADOS o PEDIDOS para generar el reporte." << endl;
-        system("pause");
-        return;
-    }
-
-    //Reservo memoria dinámica para empleados
-    Empleado* vectorEmpleados = new Empleado[cantidadEmpleados];
-    if (vectorEmpleados == nullptr) {
-        cout << "ERROR: No se pudo asignar memoria para los empleados." << endl;
-        system("pause");
-        return;
-    }
-
-    //Cargo los empleados activos
-    int cantidadValidos = 0;
-    for (int i = 0; i < cantidadEmpleados; i++) {
-        Empleado reg = arcEmpleado.leerRegistro(i);
-        if (reg.getId() != -1 && reg.getEliminado() == false) {
-            vectorEmpleados[cantidadValidos] = reg;
-            cantidadValidos++;
         }
     }
 
-    if (cantidadValidos == 0) {
-        cout << "No hay EMPLEADOS activos para realizar el reporte." << endl;
-        delete[] vectorEmpleados;
-        system("pause");
-        return;
+    // 4. ORDENAMIENTO PARALELO
+    ordenarRankingProductos(productos, contadores, cantProds);
+
+    // 5. VISUALIZACION
+    cout << endl;
+    // Ajuste visual: Ancho 75
+    lineaDoble(75);
+    imprimirFilaRankingProductos("POS", "ID", "PRODUCTO", "VENDIDOS");
+    lineaSimple(75);
+
+    char sPos[5], sId[10], sCant[10];
+    for(int i=0; i<cantProds; i++){
+        if(contadores[i] > 0){
+            sprintf(sPos, "%d", i+1);
+            sprintf(sId, "%d", productos[i].getIdProducto());
+            sprintf(sCant, "%d", contadores[i]);
+            imprimirFilaRankingProductos(sPos, sId, productos[i].getNombre(), sCant);
+        }
     }
+    lineaDoble(75);
 
-    //Creo el vector acumulador p/ pedidos
-    int* vectorCantidadPedidos = new int[cantidadValidos];
-    if (vectorCantidadPedidos == nullptr) {
-        cout << "ERROR: No se pudo asignar memoria para el acumulador de pedidos." << endl;
-        delete[] vectorEmpleados;
-        system("pause");
-        return;
-    }
+    // Liberamos memoria dinamica (importante en C++)
+    delete[] productos;
+    delete[] contadores;
+}
 
-    //Inicializo el vector acumulador
-    for (int i = 0; i < cantidadValidos; i++) {
-        vectorCantidadPedidos[i] = 0;
-    }
+// ==========================================
+// 3. DESEMPENIO EMPLEADOS
+// ==========================================
+void reporteDesempenoEmpleados(){
+    cout << "---------- RANKING DE EMPLEADOS ----------" << endl;
 
-    //Recorro los pedidos y acumular por empleado
-    for (int i = 0; i < cantidadPedidos; i++) {
-        Pedido regPedido = arcPedido.leerRegistro(i);
+    // Misma logica: Carga en RAM -> Acumulacion -> Ordenamiento
+    int cantEmps = 0;
+    Empleado* empleados = cargarEmpleadosActivos(cantEmps);
+    if(empleados == nullptr) return;
 
-        if (regPedido.getEliminado() == false) {
-            //Obtengo el ID del empleado que atendió el pedido
-            int idEmpleadoPedido = regPedido.getIdEmpleado();
+    int* contadores = new int[cantEmps];
+    for(int i=0; i<cantEmps; i++) contadores[i] = 0;
 
-            //Busco el empleado correspondiente
-            for (int j = 0; j < cantidadValidos; j++) {
-                if (vectorEmpleados[j].getId() == idEmpleadoPedido) {
-                    vectorCantidadPedidos[j]++;
+    ArchivoPedido arcP("Pedidos.dat");
+    int totalPedidos = arcP.contarRegistros();
+
+    for(int i=0; i<totalPedidos; i++){
+        Pedido p = arcP.leerRegistro(i);
+        if(!p.getEliminado()){
+            // Buscamos quien atendio el pedido
+            for(int k=0; k<cantEmps; k++){
+                if(empleados[k].getId() == p.getIdEmpleado()){
+                    contadores[k]++;
                     break;
                 }
             }
         }
     }
 
-    //Ordeno los dos vectores con burbujeo
-    for (int i = 0; i < cantidadValidos - 1; i++) {
-        for (int j = i + 1; j < cantidadValidos; j++) {
-            if (vectorCantidadPedidos[i] < vectorCantidadPedidos[j]) {
-                int auxCant = vectorCantidadPedidos[i];
-                vectorCantidadPedidos[i] = vectorCantidadPedidos[j];
-                vectorCantidadPedidos[j] = auxCant;
+    ordenarRankingEmpleados(empleados, contadores, cantEmps);
 
-                Empleado auxEmp = vectorEmpleados[i];
-                vectorEmpleados[i] = vectorEmpleados[j];
-                vectorEmpleados[j] = auxEmp;
-            }
+    cout << endl;
+    // Ajuste visual: Ancho 80 para nombres largos de empleados
+    lineaDoble(80);
+    imprimirFilaRankingEmpleados("POS", "ID", "APELLIDO", "NOMBRE", "PEDIDOS");
+    lineaSimple(80);
+
+    char sPos[5], sId[10], sCant[10];
+    for(int i=0; i<cantEmps; i++){
+        if(contadores[i] > 0){
+            sprintf(sPos, "%d", i+1);
+            sprintf(sId, "%d", empleados[i].getId());
+            sprintf(sCant, "%d", contadores[i]);
+            imprimirFilaRankingEmpleados(sPos, sId, empleados[i].getApellido(), empleados[i].getNombre(), sCant);
         }
     }
+    lineaDoble(80);
 
-    //Muestro el reporte
-    cout << endl;
-    lineaDoble(81);
-    imprimirFila5("POS", "ID", "APELLIDO", "NOMBRE", "PEDIDOS");
-    lineaSimple(81);
-
-    char pos[6];
-    char id[8];
-    char pedidos[12];
-
-
-    for (int i = 0; i < cantidadValidos; i++) {
-
-        snprintf(pos, sizeof(pos), "%d", i + 1);
-        snprintf(id, sizeof(id), "%d", vectorEmpleados[i].getId());
-        snprintf(pedidos, sizeof(pedidos), "%d", vectorCantidadPedidos[i]);
-
-        imprimirFila5(pos,
-                      id,
-                      vectorEmpleados[i].getApellido(),
-                      vectorEmpleados[i].getNombre(),
-                      pedidos);
-    }
-
-    lineaDoble(81);
-    cout << "Total de empleados activos: " << cantidadValidos << endl << endl;
-
-    //Libero la memoria
-    delete[] vectorCantidadPedidos;
-    delete[] vectorEmpleados;
-
-    system("pause");
+    delete[] empleados;
+    delete[] contadores;
 }
 
+// ==========================================
+// 4. PRODUCTOS POR PERIODO
+// ==========================================
 void reporteProductosPorPeriodo(){
-    system("cls");
-    cout << "---------- REPORTE DE PRODUCTOS VENDIDOS POR PERIODOS ----------" << endl;
+    cout << "---------- PRODUCTOS VENDIDOS POR PERIODO ----------" << endl;
 
-    //Pido fechas al usuario
-    Fecha fechaDesde, fechaHasta;
+    Fecha f1, f2;
+    cout << "Desde: " << endl; f1.Cargar();
+    cout << "Hasta: " << endl; f2.Cargar();
 
-    cout << "Ingrese la FECHA DESDE: " << endl;
-    fechaDesde.Cargar();
+    if(f2 < f1){ cout << "Rango invalido." << endl; return; }
 
-    cout << "Ingrese la FECHA HASTA: " << endl;
-    fechaHasta.Cargar();
+    // 1. FILTRADO PREVIO:
+    // Generamos una lista SOLO con los IDs de pedidos validos en el rango.
+    // Esto evita verificar fechas por cada item del detalle (muy costoso).
+    int cantPedidosRango = 0;
+    int* idsPedidosValidos = cargarPedidosEnRango(f1, f2, cantPedidosRango);
 
-    //Valido que la fecha hasta no sea anterior a la de "desde"
-    //Utilizo la sobrecarga de operadores en la clase Fecha, para comparar objetos Fecha directamente con "<" o ">".
-    if (fechaHasta < fechaDesde) {
-        cout << "ERROR: La fecha final no puede ser anterior a la fecha inicial." << endl;
-        system("pause");
+    if(cantPedidosRango == 0){
+        cout << "No hay pedidos registrados en ese periodo." << endl;
+        if(idsPedidosValidos) delete[] idsPedidosValidos;
         return;
     }
 
-    //Abro los archivos que necesito
-    ArchivoProducto arcProducto("Productos.dat");
-    ArchivoDetallePedido arcDetalle("DetallesPedidos.dat");
-    ArchivoPedido arcPedido("Pedidos.dat");
+    int cantProds = 0;
+    Producto* productos = cargarProductosActivos(cantProds);
+    int* contadores = new int[cantProds];
+    for(int i=0; i<cantProds; i++) contadores[i] = 0;
 
-    int cantidadProductos = arcProducto.contarRegistros();
-    int cantidadDetalles = arcDetalle.contarRegistros();
+    ArchivoDetallePedido arcD("DetallesPedidos.dat");
+    int totalDetalles = arcD.contarRegistros();
 
-    if (cantidadProductos == 0 || cantidadDetalles == 0) {
-        cout << "No hay suficientes datos de PRODUCTOS o VENTAS para generar el reporte." << endl;
-        system("pause");
-        return;
-    }
+    for(int i=0; i<totalDetalles; i++){
+        DetallePedido d = arcD.leerRegistro(i);
 
-    //Reservo memoria para los vectores
-    Producto* vectorProductos = new Producto[cantidadProductos];
-    if (vectorProductos == nullptr) {
-        cout << "ERROR: No se pudo asignar memoria para los productos." << endl;
-        system("pause");
-        return;
-    }
-
-    int* vectorCantidadVendida = new int[cantidadProductos];
-    if (vectorCantidadVendida == nullptr) {
-        cout << "ERROR: No se pudo asignar memoria para el acumulador." << endl;
-        delete[] vectorProductos;
-        system("pause");
-        return;
-    }
-
-    //Cargo productos activos y reseteo contador
-    int cantidadValidos = 0;
-    for (int i = 0; i < cantidadProductos; i++) {
-
-
-        Producto reg = arcProducto.leerRegistro(i);
-
-        if (reg.getIdProducto() != -1 && reg.getEliminado() == false) {
-            vectorProductos[cantidadValidos] = reg;
-            vectorCantidadVendida[cantidadValidos] = 0; //inicializo el contador
-            cantidadValidos++;
+        // Verificamos si el pedido del detalle esta en nuestra lista "blanca"
+        bool pedidoValido = false;
+        for(int p=0; p<cantPedidosRango; p++){
+            if(idsPedidosValidos[p] == d.getIdPedido()){
+                pedidoValido = true;
+                break;
+            }
         }
-    }
 
-    if (cantidadValidos == 0) {
-        cout << "No hay PRODUCTOS activos para generar el reporte." << endl;
-        delete[] vectorProductos;
-        delete[] vectorCantidadVendida;
-        system("pause");
-        return;
-    }
-
-    //Recorro Detalle de pedidos y acumulo ventas
-    int cantidadDetallesTotales = arcDetalle.contarRegistros();
-
-    for (int i = 0; i < cantidadDetallesTotales; i++) {
-        DetallePedido regDetalle = arcDetalle.leerRegistro(i);
-
-        //Si el detalle pertenece a un pedido válido
-        int idPedido = regDetalle.getIdPedido();
-
-        //Busco el pedido correspondiente
-        int posicionPedido = arcPedido.buscarRegistro(idPedido);
-        if (posicionPedido == -1) continue; //si no lo encontró, salto
-
-        Pedido regPedido = arcPedido.leerRegistro(posicionPedido);
-
-        // Filtro: pedido no eliminado y dentro del rango de fechas
-        //Las comparaciones se hacen directamente con operadores sobrecargados.
-        if (regPedido.getEliminado() == false &&
-            regPedido.getFecha() >= fechaDesde &&
-            regPedido.getFecha() <= fechaHasta) {
-
-            int idProductoDetalle = regDetalle.getIdProducto();
-            int cantidadVendida = regDetalle.getCantidad();
-
-            //Busco el producto dentro del vector de productos activos
-            for (int j = 0; j < cantidadValidos; j++) {
-                if (vectorProductos[j].getIdProducto() == idProductoDetalle) {
-                    vectorCantidadVendida[j] += cantidadVendida;
+        if(pedidoValido){
+            // Acumular cantidad
+            for(int k=0; k<cantProds; k++){
+                if(productos[k].getIdProducto() == d.getIdProducto()){
+                    contadores[k] += d.getCantidad();
                     break;
                 }
             }
         }
     }
 
-    //Ordeno los productos por cantidad vendida (burbujeo descendente)
+    ordenarRankingProductos(productos, contadores, cantProds);
 
-    for (int i = 0; i < cantidadValidos - 1; i++) {
-        for (int j = i + 1; j < cantidadValidos; j++) {
-            if (vectorCantidadVendida[i] < vectorCantidadVendida[j]) {
+    cout << endl;
+    cout << "PERIODO: " << f1.getDia() << "/" << f1.getMes() << "/" << f1.getAnio()
+         << " - " << f2.getDia() << "/" << f2.getMes() << "/" << f2.getAnio() << endl;
 
-                int auxCantidad = vectorCantidadVendida[i];
-                vectorCantidadVendida[i] = vectorCantidadVendida[j];
-                vectorCantidadVendida[j] = auxCantidad;
+    // Ajuste visual: Ancho 75
+    lineaDoble(75);
+    imprimirFilaRankingProductos("POS", "ID", "PRODUCTO", "CANT.");
+    lineaSimple(75);
 
-                Producto auxProducto = vectorProductos[i];
-                vectorProductos[i] = vectorProductos[j];
-                vectorProductos[j] = auxProducto;
+    char sPos[5], sId[10], sCant[10];
+    int totalGlobal = 0;
+    int pos = 1;
+
+    for(int i=0; i<cantProds; i++){
+        if(contadores[i] > 0){
+            sprintf(sPos, "%d", pos++);
+            sprintf(sId, "%d", productos[i].getIdProducto());
+            sprintf(sCant, "%d", contadores[i]);
+            imprimirFilaRankingProductos(sPos, sId, productos[i].getNombre(), sCant);
+            totalGlobal += contadores[i];
+        }
+    }
+    lineaSimple(75);
+    cout << "TOTAL UNIDADES VENDIDAS: " << totalGlobal << endl;
+    lineaDoble(75);
+
+    delete[] idsPedidosValidos;
+    delete[] productos;
+    delete[] contadores;
+}
+
+// ==========================================
+// FUNCIONES DE CARGA Y ORDENAMIENTO (HELPERS)
+// ==========================================
+
+Producto* cargarProductosActivos(int &cantidad){
+    ArchivoProducto arc("Productos.dat");
+    int total = arc.contarRegistros();
+    if(total == 0) { cout << "No hay productos." << endl; return nullptr; }
+
+    Producto* temp = new Producto[total];
+    cantidad = 0;
+    for(int i=0; i<total; i++){
+        Producto p = arc.leerRegistro(i);
+        if(!p.getEliminado()) temp[cantidad++] = p;
+    }
+    return temp;
+}
+
+Empleado* cargarEmpleadosActivos(int &cantidad){
+    ArchivoEmpleado arc("Empleados.dat");
+    int total = arc.contarRegistros();
+    if(total == 0) { cout << "No hay empleados." << endl; return nullptr; }
+
+    Empleado* temp = new Empleado[total];
+    cantidad = 0;
+    for(int i=0; i<total; i++){
+        Empleado e = arc.leerRegistro(i);
+        if(!e.getEliminado()) temp[cantidad++] = e;
+    }
+    return temp;
+}
+
+int* cargarPedidosEnRango(Fecha desde, Fecha hasta, int &cantidad){
+    ArchivoPedido arc("Pedidos.dat");
+    int total = arc.contarRegistros();
+
+    // Asignamos memoria para el peor caso (todos los pedidos)
+    int* ids = new int[total];
+    cantidad = 0;
+
+    for(int i=0; i<total; i++){
+        Pedido p = arc.leerRegistro(i);
+        if(!p.getEliminado() && p.getFecha() >= desde && p.getFecha() <= hasta){
+            ids[cantidad++] = p.getIdPedido();
+        }
+    }
+    return ids;
+}
+
+// Ordenamiento burbujeo descendente (de mayor a menor)
+void ordenarRankingProductos(Producto* prods, int* cants, int n){
+    for(int i=0; i<n-1; i++){
+        for(int j=i+1; j<n; j++){
+            if(cants[j] > cants[i]){
+                // Intercambio de cantidades
+                int auxC = cants[i]; cants[i] = cants[j]; cants[j] = auxC;
+                // Intercambio de productos (para mantener la relacion indice-producto)
+                Producto auxP = prods[i]; prods[i] = prods[j]; prods[j] = auxP;
             }
         }
     }
-
-    //Muestro
-    cout << endl;
-    cout << "PERIODO: ";
-
-    cout << fechaDesde.getDia() << "/" << fechaDesde.getMes() << "/" << fechaDesde.getAnio()
-         << " - "
-         << fechaHasta.getDia() << "/" << fechaHasta.getMes() << "/" << fechaHasta.getAnio() << endl;
-
-    lineaDoble(74);
-    imprimirFila4("POS", "ID", "PRODUCTO", "CANT.");
-    lineaSimple(74);
-
-
-    int totalGeneral = 0;
-    for (int i = 0; i < cantidadValidos; i++) {
-        if (vectorCantidadVendida[i] > 0) {
-
-            char pos[6];
-            char id[10];
-            char cantidad[12];
-            snprintf(pos, sizeof(pos), "%d", i + 1);
-            snprintf(id, sizeof(id), "%d", vectorProductos[i].getIdProducto());
-            snprintf(cantidad, sizeof(cantidad), "%d", vectorCantidadVendida[i]);
-
-            imprimirFila4(pos, id, vectorProductos[i].getNombre(), cantidad);
-
-            totalGeneral += vectorCantidadVendida[i];
-        }
-    }
-
-    lineaDoble(74);
-    cout << "TOTAL DE UNIDADES VENDIDAS EN EL PERIODO: " << totalGeneral << endl;
-
-    //Libero la memoria dinámica utilizada
-    delete[] vectorProductos;
-    delete[] vectorCantidadVendida;
-
-    system("pause");
 }
 
+void ordenarRankingEmpleados(Empleado* emps, int* cants, int n){
+    for(int i=0; i<n-1; i++){
+        for(int j=i+1; j<n; j++){
+            if(cants[j] > cants[i]){
+                int auxC = cants[i]; cants[i] = cants[j]; cants[j] = auxC;
+                Empleado auxE = emps[i]; emps[i] = emps[j]; emps[j] = auxE;
+            }
+        }
+    }
+}

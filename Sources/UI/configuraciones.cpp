@@ -3,17 +3,18 @@
 #include <cstring>
 
 #include "../../Headers/UI/configuraciones.h"
-#include "../../Headers/Utilidades/GestorArchivos.h" // Incluimos el nuevo modulo
+#include "../../Headers/Utilidades/GestorArchivos.h"
 #include "../../Headers/Utilidades/Validaciones.h"
-#include "../../Headers/Utilidades/Tablas.h" // Para usar lineas si quieres
+#include "../../Headers/Utilidades/Tablas.h"
 
 using namespace std;
 
-// Prototipos locales para simplificar el codigo del menu
+// Prototipos locales para simplificar la logica de los menús
 void realizarBackupArchivo(const char* nombreReal, const char* nombreBkp);
 void restaurarBackupArchivo(const char* nombreBkp, const char* nombreReal);
 void procesarExportacion(bool exito, const char* nombreArchivo);
 
+// Menu principal de configuraciones
 void menuConfiguraciones() {
     int opcion;
     while(true){
@@ -32,9 +33,9 @@ void menuConfiguraciones() {
         system("cls");
 
         switch(opcion){
-            case 1: backupMenu(); break;
-            case 2: restaurarCopiaSeguridad(); break;
-            case 3: exportarDatosCSV(); break;
+            case 1: backupMenu(); break;            // Submenu de respaldos
+            case 2: restaurarCopiaSeguridad(); break; // Submenu de restauracion
+            case 3: exportarDatosCSV(); break;      // Submenu de exportacion
             case 0: return;
             default: cout << "Opcion incorrecta." << endl; break;
         }
@@ -42,6 +43,7 @@ void menuConfiguraciones() {
     }
 }
 
+// Submenu para crear backups
 void backupMenu() {
     while (true) {
         system("cls");
@@ -59,6 +61,7 @@ void backupMenu() {
         int opc = ingresarEntero("Opcion: ");
         if (opc == 0) return;
 
+        // Llamamos al helper con el nombre del archivo original y el nombre que tendra el backup
         switch (opc) {
             case 1: realizarBackupArchivo("Clientes.dat", "Clientes.bkp"); break;
             case 2: realizarBackupArchivo("Productos.dat", "Productos.bkp"); break;
@@ -67,6 +70,7 @@ void backupMenu() {
             case 5: realizarBackupArchivo("DetallesPedidos.dat", "DetallesPedidos.bkp"); break;
             case 6: realizarBackupArchivo("Pagos.dat", "Pagos.bkp"); break;
             case 7:
+                // Respaldo masivo: llamamos a la funcion para cada archivo
                 realizarBackupArchivo("Clientes.dat", "Clientes.bkp");
                 realizarBackupArchivo("Productos.dat", "Productos.bkp");
                 realizarBackupArchivo("Empleados.dat", "Empleados.bkp");
@@ -81,10 +85,12 @@ void backupMenu() {
     }
 }
 
+// Submenu para restaurar datos (Sobreescribe archivos .dat)
 void restaurarCopiaSeguridad(){
     while(true) {
         system("cls");
         cout << "------- RESTAURAR DESDE BACKUP -------" << endl;
+        // ... (opciones de menu identicas al backup) ...
         cout << "1. Clientes" << endl;
         cout << "2. Productos" << endl;
         cout << "3. Empleados" << endl;
@@ -98,13 +104,14 @@ void restaurarCopiaSeguridad(){
         int opc = ingresarEntero("Opcion: ");
         if(opc == 0) return;
 
-        // Confirmación de seguridad
+        // Advertencia de seguridad antes de sobreescribir datos
         char conf;
-        cout << "CUIDADO: Esto sobreescribira los datos actuales. Continuar? (S/N): ";
+        cout << "CUIDADO: Esto sobreescribira los datos actuales con la copia. Continuar? (S/N): ";
         cin >> conf;
         if(conf != 'S' && conf != 's') continue;
 
         switch (opc){
+            // Notese que aqui el origen es .bkp y el destino es .dat (al reves que en el backup)
             case 1: restaurarBackupArchivo("Clientes.bkp", "Clientes.dat"); break;
             case 2: restaurarBackupArchivo("Productos.bkp", "Productos.dat"); break;
             case 3: restaurarBackupArchivo("Empleados.bkp", "Empleados.dat"); break;
@@ -126,6 +133,7 @@ void restaurarCopiaSeguridad(){
     }
 }
 
+// Submenu para exportar a CSV
 void exportarDatosCSV(){
     while(true) {
         system("cls");
@@ -144,6 +152,7 @@ void exportarDatosCSV(){
         if(opc == 0) return;
 
         switch (opc){
+            // procesarExportacion maneja el mensaje de exito/error
             case 1: procesarExportacion(exportarClientesCSV("Clientes.csv"), "Clientes.csv"); break;
             case 2: procesarExportacion(exportarProductosCSV("Productos.csv"), "Productos.csv"); break;
             case 3: procesarExportacion(exportarEmpleadosCSV("Empleados.csv"), "Empleados.csv"); break;
@@ -165,7 +174,9 @@ void exportarDatosCSV(){
     }
 }
 
-// --- Helpers locales para reducir ifs repetidos ---
+// --- HELPERS LOCALES DE UI ---
+// Estas funciones se encargan de la interaccion con el usuario (mensajes)
+// y delegan la accion real al GestorArchivos.
 
 void realizarBackupArchivo(const char* nombreReal, const char* nombreBkp) {
     if (existeArchivo(nombreReal)) {

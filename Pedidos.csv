@@ -1,0 +1,5 @@
+ID_Pedido,ID_Cliente,ID_Empleado,Nro_Mesa,Fecha,Subtotal,Descuento,Eliminado
+1,1,3,5,1/12/2025,62000.00,25,5
+0,2,2,1,6/1/12,0.00,1174011904,0
+5,0,3,3,1/9/2,0.00,2025,0
+25,0,4,1,3/6/2,0.00,2025,0

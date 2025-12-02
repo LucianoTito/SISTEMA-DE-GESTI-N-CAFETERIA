@@ -23,5 +23,11 @@ void imprimirFilaEmpleado(const char* id, const char* nombre, const char* apelli
 //Fila para productos
 void imprimirFilaProducto(const char* id, const char* nombre, const char* precio, const char* stock);
 
-//Tabla para clientes
+//Fila para clientes
 void imprimirFilaCliente(const char* id, const char* nombre, const char* apellido, const char* telefono, const char* mail);
+
+
+// Filas para Reportes
+void imprimirFilaRecaudacion(const char* mes, const char* total);
+void imprimirFilaRankingProductos(const char* pos, const char* id, const char* nombre, const char* cantidad);
+void imprimirFilaRankingEmpleados(const char* pos, const char* id, const char* apellido, const char* nombre, const char* cantidad);
