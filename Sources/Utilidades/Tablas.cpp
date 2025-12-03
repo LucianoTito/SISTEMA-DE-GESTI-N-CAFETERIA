@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include <limits>
+
 #include "../../Headers/Utilidades/Tablas.h"
 
 using namespace std;
@@ -18,7 +18,7 @@ void limpiarConsola() {
 }
 
 void pausarConsola(const string& mensaje) {
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore(10000, '\n');
     rlutil::setColor(PaletaCafe::CREMA);
     cout << mensaje;
     restaurarColor();
