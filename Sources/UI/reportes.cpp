@@ -7,10 +7,12 @@
 #include "../../Headers/Entities/Pedido.h"
 #include "../../Headers/Entities/DetallePedido.h"
 #include "../../Headers/Entities/Empleado.h"
+#include "../../Headers/Entities/Pagos.h"
 #include "../../Headers/Entities/Producto.h"
 #include "../../Headers/Persistence/ArchivoPedido.h"
 #include "../../Headers/Persistence/ArchivoDetallePedido.h"
 #include "../../Headers/Persistence/ArchivoEmpleado.h"
+#include "../../Headers/Persistence/ArchivoPagos.h"
 #include "../../Headers/Persistence/ArchivoProducto.h"
 #include "../../Headers/Utilidades/Validaciones.h"
 #include "../../Headers/Utilidades/Tablas.h"
@@ -24,6 +26,11 @@ using namespace std;
 Producto* cargarProductosActivos(int &cantidad);
 Empleado* cargarEmpleadosActivos(int &cantidad);
 int* cargarPedidosEnRango(Fecha desde, Fecha hasta, int &cantidad);
+
+// Soporte de visualizacion para Pagos
+void mostrarEncabezadoPagos();
+void mostrarFilaPago(const Pagos& pago);
+const char* obtenerMetodoComoTexto(int metodo);
 
 // Algoritmos de ordenamiento para los reportes
 void ordenarRankingProductos(Producto* prods, int* cants, int n);
@@ -43,6 +50,7 @@ void menuReportes(){
         cout << "2. RANKING PRODUCTOS MAS VENDIDOS (Historico)" << endl;
         cout << "3. DESEMPENIO DE EMPLEADOS (Cantidad de Pedidos)" << endl;
         cout << "4. PRODUCTOS VENDIDOS POR PERIODO (Fechas)" << endl;
+        cout << "5. PAGOS" << endl;
         lineaSimple(60);
         cout << "0. VOLVER AL MENU PRINCIPAL" << endl;
         lineaDoble(60);
@@ -55,6 +63,7 @@ void menuReportes(){
             case 2: reporteProductosMasVendidos(); break;
             case 3: reporteDesempenoEmpleados(); break;
             case 4: reporteProductosPorPeriodo(); break;
+            case 5: menuReportesPagos(); break;
             case 0: return;
             default: cout << "Opcion incorrecta." << endl; break;
         }
@@ -317,6 +326,140 @@ void reporteProductosPorPeriodo(){
 }
 
 // ==========================================
+// 5. PAGOS
+// ==========================================
+void menuReportesPagos(){
+    int opcion;
+    while(true){
+        system("cls");
+        lineaDoble(60);
+        cout << "                   REPORTES DE PAGOS" << endl;
+        lineaDoble(60);
+        cout << "1. PAGOS POR PERIODO" << endl;
+        cout << "2. PAGOS POR METODO" << endl;
+        cout << "3. PAGOS POR PEDIDO" << endl;
+        lineaSimple(60);
+        cout << "0. VOLVER" << endl;
+        lineaDoble(60);
+
+        opcion = ingresarEntero("SELECCIONE UNA OPCION: ");
+        system("cls");
+
+        switch(opcion){
+            case 1: reportePagosPorPeriodo(); break;
+            case 2: reportePagosPorMetodo(); break;
+            case 3: reportePagosPorPedido(); break;
+            case 0: return;
+            default: cout << "Opcion incorrecta." << endl; break;
+        }
+        system("pause");
+    }
+}
+
+// Listado de pagos filtrados por fecha de cobro.
+void reportePagosPorPeriodo(){
+    cout << "---------- PAGOS POR PERIODO ----------" << endl;
+
+    Fecha desde, hasta;
+    cout << "Desde: " << endl; desde.Cargar();
+    cout << "Hasta: " << endl; hasta.Cargar();
+
+    if(hasta < desde){
+        cout << "Rango invalido." << endl;
+        return;
+    }
+
+    ArchivoPagos arc("Pagos.dat");
+    int total = arc.contarRegistros();
+
+    mostrarEncabezadoPagos();
+    int cantidad = 0;
+
+    for(int i=0; i<total; i++){
+        Pagos pago = arc.leerRegistro(i);
+        Fecha f = pago.getFechaPago();
+
+        if(f >= desde && f <= hasta){
+            mostrarFilaPago(pago);
+            cantidad++;
+        }
+    }
+
+    lineaSimple(80);
+    if(cantidad == 0){
+        cout << "No hay pagos registrados en ese periodo." << endl;
+    } else {
+        cout << "Total de pagos encontrados: " << cantidad << endl;
+    }
+}
+
+// Listado de pagos filtrado por metodo (efectivo, tarjeta, transferencia).
+void reportePagosPorMetodo(){
+    cout << "---------- PAGOS POR METODO ----------" << endl;
+
+    cout << "1. Efectivo" << endl;
+    cout << "2. Tarjeta" << endl;
+    cout << "3. Transferencia" << endl;
+
+    int metodo = ingresarEntero("Seleccione el metodo (1-3): ");
+    if(metodo < 1 || metodo > 3){
+        cout << "Metodo invalido." << endl;
+        return;
+    }
+
+    ArchivoPagos arc("Pagos.dat");
+    int total = arc.contarRegistros();
+
+    mostrarEncabezadoPagos();
+    int cantidad = 0;
+    float montoTotal = 0;
+
+    for(int i=0; i<total; i++){
+        Pagos pago = arc.leerRegistro(i);
+        if(pago.getMetodoPago() == metodo){
+            mostrarFilaPago(pago);
+            cantidad++;
+            montoTotal += pago.getMontoPagado();
+        }
+    }
+
+    lineaSimple(80);
+    if(cantidad == 0){
+        cout << "No hay pagos registrados con ese metodo." << endl;
+    } else {
+        cout << "Cantidad de pagos: " << cantidad << endl;
+        cout << "Monto total recaudado: $" << fixed << setprecision(2) << montoTotal << endl;
+    }
+}
+
+// Busca los pagos asociados a un ID de pedido en particular.
+void reportePagosPorPedido(){
+    cout << "---------- PAGOS POR PEDIDO ----------" << endl;
+
+    int idPedido = ingresarEntero("Ingrese el ID de pedido: ");
+
+    ArchivoPagos arc("Pagos.dat");
+    int total = arc.contarRegistros();
+
+    mostrarEncabezadoPagos();
+    bool encontrado = false;
+
+    for(int i=0; i<total; i++){
+        Pagos pago = arc.leerRegistro(i);
+        if(pago.getIdPedido() == idPedido){
+            mostrarFilaPago(pago);
+            encontrado = true;
+        }
+    }
+
+    lineaSimple(80);
+    if(!encontrado){
+        cout << "No hay pagos registrados para ese pedido." << endl;
+    }
+}
+
+
+// ==========================================
 // FUNCIONES DE CARGA Y ORDENAMIENTO (HELPERS)
 // ==========================================
 
@@ -387,5 +530,40 @@ void ordenarRankingEmpleados(Empleado* emps, int* cants, int n){
                 Empleado auxE = emps[i]; emps[i] = emps[j]; emps[j] = auxE;
             }
         }
+    }
+}
+
+// ==========================================
+// VISUALIZACION DE PAGOS (HELPERS)
+// ==========================================
+
+// Encabezado de tabla para homogeneizar los listados de pagos.
+void mostrarEncabezadoPagos(){
+    lineaDoble(80);
+    imprimirFilaPago("ID", "ID PED", "FECHA", "METODO", "MONTO ($)");
+    lineaSimple(80);
+}
+
+// Presenta un pago en formato de fila de tabla.
+void mostrarFilaPago(const Pagos& pago){
+    char sId[10], sIdPedido[10], sFecha[15], sMetodo[20], sMonto[15];
+
+    Fecha f = pago.getFechaPago();
+    sprintf(sId, "%d", pago.getIdPago());
+    sprintf(sIdPedido, "%d", pago.getIdPedido());
+    sprintf(sFecha, "%02d/%02d/%04d", f.getDia(), f.getMes(), f.getAnio());
+    sprintf(sMetodo, "%s", obtenerMetodoComoTexto(pago.getMetodoPago()));
+    sprintf(sMonto, "$ %.2f", pago.getMontoPagado());
+
+    imprimirFilaPago(sId, sIdPedido, sFecha, sMetodo, sMonto);
+}
+
+// Traduce el numero almacenado a una descripcion entendible.
+const char* obtenerMetodoComoTexto(int metodo){
+    switch(metodo){
+        case 1: return "Efectivo";
+        case 2: return "Tarjeta";
+        case 3: return "Transferencia";
+        default: return "Desconocido";
     }
 }

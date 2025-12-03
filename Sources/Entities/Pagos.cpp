@@ -22,11 +22,11 @@ Pagos::Pagos (int idPago,
                    setMontoPagado(montoPagado);
                }
 //Getters
-int Pagos::getIdPago() { return _idPago; }
-int Pagos::getIdPedido() { return _idPedido;}
-Fecha Pagos::getFechaPago(){ return _fechaPago; }
-int Pagos::getMetodoPago() { return _metodoPago; }
-float Pagos::getMontoPagado() { return _montoPagado; }
+int Pagos::getIdPago() const { return _idPago; }
+int Pagos::getIdPedido() const { return _idPedido;}
+Fecha Pagos::getFechaPago() const { return _fechaPago; }
+int Pagos::getMetodoPago() const { return _metodoPago; }
+float Pagos::getMontoPagado() const { return _montoPagado; }
 
 //Setters
 

@@ -2,104 +2,9 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="Headers\Entities\Cliente.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="9" zoom_2="0">
+	<File name="Sources\Persistence\ArchivoPagos.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="380" topLine="6" />
-		</Cursor>
-	</File>
-	<File name="Sources\Entities\Empleado.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2245" topLine="58" />
-		</Cursor>
-	</File>
-	<File name="Headers\Utilidades\Validaciones.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="10" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="131" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Sources\Entities\Producto.cpp" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="9" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="186" topLine="98" />
-		</Cursor>
-	</File>
-	<File name="Headers\UI\reportes.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="117" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Sources\UI\menuGestionProductos.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2635" topLine="83" />
-		</Cursor>
-	</File>
-	<File name="Sources\UI\configuraciones.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="14084" topLine="483" />
-		</Cursor>
-	</File>
-	<File name="Headers\Entities\Fecha.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Headers\Persistence\ArchivoDetallePedido.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="865" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="Sources\Persistence\ArchivoProducto.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4132" topLine="164" />
-		</Cursor>
-	</File>
-	<File name="Headers\UI\configuraciones.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1053" topLine="18" />
-		</Cursor>
-	</File>
-	<File name="Sources\Persistence\ArchivoEmpleado.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="10" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3579" topLine="180" />
-		</Cursor>
-	</File>
-	<File name="Sources\Persistence\ArchivoDetallePedido.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3760" topLine="197" />
-		</Cursor>
-	</File>
-	<File name="Sources\Entities\Pedido.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3602" topLine="144" />
-		</Cursor>
-	</File>
-	<File name="Headers\Persistence\ArchivoCliente.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="713" topLine="20" />
-		</Cursor>
-	</File>
-	<File name="Sources\Entities\Pagos.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1159" topLine="103" />
-		</Cursor>
-	</File>
-	<File name="Headers\Entities\Pedido.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1218" topLine="30" />
-		</Cursor>
-	</File>
-	<File name="Sources\Persistence\ArchivoCliente.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="577" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="Headers\Entities\Producto.h" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="550" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Sources\UI\reportes.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9202" topLine="284" />
+			<Cursor1 position="2724" topLine="146" />
 		</Cursor>
 	</File>
 	<File name="Headers\Persistence\ArchivoEmpleado.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
@@ -107,39 +12,9 @@
 			<Cursor1 position="501" topLine="19" />
 		</Cursor>
 	</File>
-	<File name="Sources\main.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+	<File name="Sources\Entities\Fecha.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="125" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Sources\UI\menuPrincipal.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1925" topLine="53" />
-		</Cursor>
-	</File>
-	<File name="Sources\UI\menuPedidos.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1354" topLine="15" />
-		</Cursor>
-	</File>
-	<File name="Headers\Persistence\ArchivoPedido.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="743" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="Sources\UI\menuEmpleados.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2237" topLine="63" />
-		</Cursor>
-	</File>
-	<File name="Headers\UI\menuGestionClientes.h" open="1" top="1" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="230" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Sources\UI\menuGestionClientes.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1656" topLine="42" />
+			<Cursor1 position="1913" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Headers\Entities\Empleado.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
@@ -147,19 +22,154 @@
 			<Cursor1 position="642" topLine="15" />
 		</Cursor>
 	</File>
+	<File name="Sources\UI\menuPedidos.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3362" topLine="78" />
+		</Cursor>
+	</File>
+	<File name="Sources\Entities\Producto.cpp" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="9" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="186" topLine="98" />
+		</Cursor>
+	</File>
+	<File name="Sources\UI\menuGestionProductos.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10911" topLine="276" />
+		</Cursor>
+	</File>
+	<File name="Headers\Persistence\ArchivoDetallePedido.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="865" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="Sources\UI\configuraciones.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9103" topLine="184" />
+		</Cursor>
+	</File>
+	<File name="Headers\Utilidades\Validaciones.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="10" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="131" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Sources\Persistence\ArchivoEmpleado.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="10" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="728" topLine="267" />
+		</Cursor>
+	</File>
+	<File name="Sources\Entities\Pedido.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1479" topLine="118" />
+		</Cursor>
+	</File>
+	<File name="Sources\Entities\Empleado.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2022" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Sources\main.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="125" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Headers\Utilidades\Tablas.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1004" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Headers\UI\menuPedidos.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="272" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Headers\UI\menuGestionProductos.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="354" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Sources\Utilidades\archivoPago.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="364" topLine="25" />
+		</Cursor>
+	</File>
+	<File name="Sources\Persistence\ArchivoDetallePedido.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3760" topLine="176" />
+		</Cursor>
+	</File>
+	<File name="Headers\Persistence\ArchivoProducto.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Sources\UI\menuPrincipal.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1927" topLine="79" />
+		</Cursor>
+	</File>
+	<File name="Headers\Entities\Fecha.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="438" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="Sources\Entities\Pagos.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2371" topLine="76" />
+		</Cursor>
+	</File>
+	<File name="Headers\Entities\DetallePedido.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="Sources\Utilidades\Tablas.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1426" topLine="155" />
+		</Cursor>
+	</File>
 	<File name="Headers\Persistence\ArchivoPagos.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="346" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Sources\Entities\Fecha.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+	<File name="Sources\Persistence\ArchivoCliente.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1664" topLine="78" />
+			<Cursor1 position="577" topLine="42" />
 		</Cursor>
 	</File>
-	<File name="Sources\Persistence\ArchivoPagos.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
+	<File name="Sources\Utilidades\GestorArchivos.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2627" topLine="67" />
+			<Cursor1 position="0" topLine="170" />
+		</Cursor>
+	</File>
+	<File name="Headers\Entities\Pagos.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="841" topLine="9" />
+		</Cursor>
+	</File>
+	<File name="Sources\UI\menuGestionClientes.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="13153" topLine="388" />
+		</Cursor>
+	</File>
+	<File name="Headers\Entities\Cliente.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="9" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="380" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="Sources\Persistence\ArchivoPedido.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4604" topLine="76" />
+		</Cursor>
+	</File>
+	<File name="Headers\Persistence\ArchivoCliente.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="713" topLine="20" />
+		</Cursor>
+	</File>
+	<File name="Sources\Persistence\ArchivoProducto.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4132" topLine="140" />
 		</Cursor>
 	</File>
 	<File name="Sources\Entities\Persona.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
@@ -169,17 +179,17 @@
 	</File>
 	<File name="Sources\Entities\Cliente.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1068" topLine="38" />
+			<Cursor1 position="1068" topLine="5" />
 		</Cursor>
 	</File>
-	<File name="Headers\Entities\DetallePedido.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+	<File name="Sources\UI\menuEmpleados.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="12" />
+			<Cursor1 position="10320" topLine="305" />
 		</Cursor>
 	</File>
-	<File name="Sources\Persistence\ArchivoPedido.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+	<File name="Headers\UI\reportes.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4604" topLine="10" />
+			<Cursor1 position="117" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Sources\Entities\DetallePedido.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
@@ -187,14 +197,39 @@
 			<Cursor1 position="1719" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Headers\Persistence\ArchivoProducto.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
+	<File name="Headers\Entities\Producto.h" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="550" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Headers\Entities\Pedido.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="501" topLine="19" />
+		</Cursor>
+	</File>
+	<File name="Headers\UI\menuGestionClientes.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="230" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Sources\UI\reportes.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="370" />
+		</Cursor>
+	</File>
+	<File name="Headers\UI\configuraciones.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1053" topLine="18" />
 		</Cursor>
 	</File>
 	<File name="Sources\Utilidades\Validaciones.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="524" topLine="12" />
+			<Cursor1 position="524" topLine="74" />
+		</Cursor>
+	</File>
+	<File name="Headers\Persistence\ArchivoPedido.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="743" topLine="12" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

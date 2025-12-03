@@ -17,12 +17,12 @@ public:
           int metodoPago = 0,
           float montoPagado = 0.0f);
 
-    // Getters
-    int getIdPago();
-    int getIdPedido();
-    Fecha getFechaPago();
-    int getMetodoPago();
-    float getMontoPagado();
+// Getters
+    int getIdPago() const;
+    int getIdPedido() const;
+    Fecha getFechaPago() const;
+    int getMetodoPago() const;
+    float getMontoPagado() const;
 
     //Setters
 

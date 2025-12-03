@@ -87,6 +87,24 @@ void imprimirFilaPedido(const char* id, const char* fecha, const char* idCli, co
          << endl;
 }
 
+// Usada en: Reportes de Pagos
+// Ancho Total: 78 caracteres (alineado a otros listados)
+void imprimirFilaPago(const char* idPago, const char* idPedido, const char* fecha, const char* metodo, const char* monto) {
+    const int wIdPago = 8;
+    const int wIdPedido = 10;
+    const int wFecha = 12;
+    const int wMetodo = 16;
+    const int wMonto = 12;
+
+    cout << "|| "
+         << left << setw(wIdPago) << idPago << " | "
+         << left << setw(wIdPedido) << idPedido << " | "
+         << left << setw(wFecha) << fecha << " | "
+         << left << setw(wMetodo) << metodo << " | "
+         << right << setw(wMonto) << monto << " ||"
+         << endl;
+}
+
 // Usada en: MenuEmpleados
 // Ancho Total: 122 caracteres
 void imprimirFilaEmpleado(const char* id, const char* nombre, const char* apellido, const char* telefono, const char* mail, const char* puesto) {

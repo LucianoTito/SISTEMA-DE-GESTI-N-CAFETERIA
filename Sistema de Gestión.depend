@@ -325,7 +325,7 @@
 	"../../Headers/Entities/Fecha.h"
 	"../../Headers/Utilidades/Validaciones.h"
 
-1764632863 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\pagos.h
+1764730626 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\pagos.h
 	"Fecha.h"
 
 1764647229 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\pedido.cpp
@@ -462,7 +462,7 @@
 	"../../Headers/Utilidades/Validaciones.h"
 	"../../Headers/Utilidades/Tablas.h"
 
-1764212144 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\reportes.h
+1764729768 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\reportes.h
 
 1764043902 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\utilidades\validaciones.cpp
 	<iostream>
@@ -504,7 +504,7 @@
 
 1764215054 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menugestionclientes.h
 
-1764651761 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menugestionproductos.cpp
+1764656777 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menugestionproductos.cpp
 	<iostream>
 	<cstdlib>
 	<cstring>
@@ -518,7 +518,7 @@
 
 1764651586 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menugestionproductos.h
 
-1764654750 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menupedidos.cpp
+1764657307 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menupedidos.cpp
 	<iostream>
 	<cstdlib>
 	<cstdio>
@@ -542,7 +542,7 @@
 
 1763276303 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menupedidos.h
 
-1764656088 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menuprincipal.cpp
+1764656553 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menuprincipal.cpp
 	<iostream>
 	<cstdlib>
 	"../../Headers/UI/menuPrincipal.h"
@@ -570,12 +570,12 @@
 	"../../Headers/Utilidades/Validaciones.h"
 	"../../Headers/Utilidades/Tablas.h"
 
-1764654178 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\utilidades\tablas.cpp
+1764730078 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\utilidades\tablas.cpp
 	<iostream>
 	<iomanip>
 	"../../Headers/Utilidades/Tablas.h"
 
-1764653430 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\utilidades\tablas.h
+1764729831 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\utilidades\tablas.h
 	<iomanip>
 	<iostream>
 
