@@ -84,31 +84,56 @@ void agregarCliente(){
     Cliente regCliente;
     int nuevoID = arcCliente.contarRegistros() + 1;
 
-    cout << "---------- AGREGAR NUEVO CLIENTE ----------" << endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaDoble(94);
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cout << "☕ AGREGAR NUEVO CLIENTE" << endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaSimple(94);
+    restaurarColor();
+
     regCliente.Cargar(nuevoID);
 
     if (arcCliente.grabarRegistro(regCliente)){
+        rlutil::setColor(PaletaCafe::OK);
         cout << "Cliente agregado exitosamente." << endl;
     } else {
+        rlutil::setColor(PaletaCafe::ERROR);
         cout << "ERROR: No se pudo agregar el cliente." << endl;
     }
+     restaurarColor();
 }
 
 void modificarCliente(){
     ArchivoCliente arcCliente("Clientes.dat");
-    cout << "--------- MODIFICAR CLIENTE ---------" << endl;
+
+
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaDoble(94);
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cout << "🍫 MODIFICAR CLIENTE" << endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaSimple(94);
+    restaurarColor();
 
     int pos = buscarClienteID(arcCliente, false); // false = buscar activos
     if (pos == -1) return;
 
     Cliente reg = arcCliente.leerRegistro(pos);
 
+
+    rlutil::setColor(PaletaCafe::CREMA);
     cout << endl << "Cliente seleccionado:" << endl;
     mostrarEncabezadoClientes();
     mostrarFilaCliente(reg);
     lineaSimple(94);
 
+    rlutil::setColor(PaletaCafe::CREMA);
     cout << "1) Nombre | 2) Apellido | 3) Telefono | 4) Mail | 0) Cancelar" << endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaSimple(94);
+    restaurarColor();
+
     int opc = ingresarEntero("Que desea modificar?: ");
 
     char aux[50]; // Buffer auxiliar

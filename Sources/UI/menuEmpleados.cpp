@@ -72,7 +72,13 @@ void menuEmpleados() {
 // ==========================================
 void altaEmpleado() {
     ArchivoEmpleado arc("Empleados.dat");
-    cout << "---------- AGREGAR NUEVO EMPLEADO ----------" << endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaDoble(100);
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cout << "☕ AGREGAR NUEVO EMPLEADO" << endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaSimple(100);
+    restaurarColor();
 
     Empleado nuevoEmpleado;
     int nuevoID = arc.contarRegistros() + 1;
@@ -80,11 +86,14 @@ void altaEmpleado() {
     // Aprovechamos el método Cargar de la clase que ya pide los datos
     nuevoEmpleado.Cargar(nuevoID);
 
-    if (arc.grabarRegistro(nuevoEmpleado)) {
+        if (arc.grabarRegistro(nuevoEmpleado)) {
+        rlutil::setColor(PaletaCafe::OK);
         cout << endl << ">>> Empleado registrado exitosamente." << endl;
     } else {
+        rlutil::setColor(PaletaCafe::ERROR);
         cout << endl << ">>> ERROR: No se pudo guardar el registro." << endl;
     }
+    restaurarColor();
 }
 
 // ==========================================
@@ -212,7 +221,13 @@ void recuperarEmpleado() { // Punto 6
 // ==========================================
 void modificarEmpleado() {
     ArchivoEmpleado arc("Empleados.dat");
-    cout << "---------- MODIFICAR EMPLEADO ----------" << endl;
+        rlutil::setColor(PaletaCafe::BASE);
+    lineaDoble(100);
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cout << "🍮 MODIFICAR EMPLEADO" << endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaSimple(100);
+    restaurarColor();
 
     int pos = buscarEmpleadoID(arc, false);
     if (pos == -1) return;
@@ -222,16 +237,20 @@ void modificarEmpleado() {
     bool continuar = true;
     while(continuar){
         limpiarConsola();
+        rlutil::setColor(PaletaCafe::CREMA);
         cout << "EDITANDO A: " << e.getNombre() << " " << e.getApellido() << endl;
+        rlutil::setColor(PaletaCafe::BASE);
         lineaSimple(40);
+        rlutil::setColor(PaletaCafe::CREMA);
         cout << "1. Modificar Nombre" << endl;
         cout << "2. Modificar Apellido" << endl;
         cout << "3. Modificar Puesto" << endl;
         cout << "4. Modificar Telefono" << endl;
         cout << "5. Modificar Mail" << endl;
         cout << "0. Guardar y Salir" << endl;
+        rlutil::setColor(PaletaCafe::BASE);
         lineaSimple(40);
-
+        restaurarColor();
         int opc = ingresarEntero("Opcion: ");
 
         // Variables auxiliares para inputs

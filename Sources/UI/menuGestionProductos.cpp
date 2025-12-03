@@ -84,31 +84,55 @@ void agregarProducto() {
     Producto regProducto;
     int nuevoID = arcProducto.contarRegistros() + 1;
 
-    cout << "-------- AGREGAR NUEVO PRODUCTO --------" << endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaDoble(80);
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cout << "☕ AGREGAR NUEVO PRODUCTO" << endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaSimple(80);
+    restaurarColor();
+
+
     regProducto.Cargar(nuevoID);
 
     if (arcProducto.grabarRegistro(regProducto)) {
+            rlutil::setColor(PaletaCafe::OK);
         cout << "Producto agregado exitosamente." << endl;
     } else {
+            rlutil::setColor(PaletaCafe::ERROR);
         cout << "Error: No se pudo agregar el producto." << endl;
     }
 }
 
 void modificarProducto() {
     ArchivoProducto arcProducto("Productos.dat");
-    cout << "----- MODIFICAR PRODUCTO -----" << endl;
+
+
+       rlutil::setColor(PaletaCafe::BASE);
+    lineaDoble(80);
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cout << "🍪 MODIFICAR PRODUCTO" << endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaSimple(80);
+    restaurarColor();
 
     int pos = buscarProductoID(arcProducto, false);
     if (pos == -1) return;
 
     Producto reg = arcProducto.leerRegistro(pos);
 
+    rlutil::setColor(PaletaCafe::CREMA);
     cout << endl << "Producto seleccionado:" << endl;
     mostrarEncabezadoProductos();
     mostrarFilaProducto(reg);
     lineaSimple(80);
 
+    rlutil::setColor(PaletaCafe::CREMA);
     cout << "1) Nombre | 2) Precio | 3) Stock | 0) Cancelar" << endl;
+
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaSimple(80);
+    restaurarColor();
     int opc = ingresarEntero("Que desea modificar?: ");
 
     switch (opc) {

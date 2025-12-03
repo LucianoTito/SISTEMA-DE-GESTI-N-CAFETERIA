@@ -22,14 +22,15 @@ void menuPrincipal() {
 
     while (true) {
         limpiarConsola();
-        imprimirBannerCafe();
+
         imprimirTituloDecorado("SISTEMA DE GESTION - BASTI CAFE", ANCHO_MENU_PPAL);
+
         imprimirSubtituloDecorado("Aromas, sabores y buena atencion", ANCHO_MENU_PPAL);
         cout << endl;
 
         // --- MODULOS OPERATIVOS ---
         rlutil::setColor(PaletaCafe::CREMA);
-        cout << "   1.   GESTION DE PRODUCTOS" << endl << endl;
+        cout << "   1.   GESTION DE PRODUCTOS  " << endl << endl;
         cout << "   2.   GESTION DE CLIENTES" << endl << endl;
         cout << "   3.   GESTION DE EMPLEADOS" << endl << endl;
         cout << "   4.   GESTION DE PEDIDOS" << endl << endl;
@@ -59,10 +60,14 @@ void menuPrincipal() {
         lineaDoble(ANCHO_MENU_PPAL);
         restaurarColor();
 
+
         opcion = ingresarEntero("  Opcion  >>> ");
 
 
         limpiarConsola();
+
+
+
 
         bool mostrarPausa = false;
 

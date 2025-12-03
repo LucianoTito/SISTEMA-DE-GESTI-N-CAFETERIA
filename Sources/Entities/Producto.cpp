@@ -6,6 +6,7 @@
 
 #include "../../Headers/Entities/Producto.h"
 #include "../../Headers/Utilidades/Validaciones.h"
+#include "../../Headers/Utilidades/Tablas.h"
 
 
 
@@ -86,27 +87,41 @@ void Producto::Cargar(int idProducto) {
 
 
     setIdProducto(idProducto);
-    cout << "ID de Producto asignado: "<<idProducto<<endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaDoble(60);
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cout << "🍮 NUEVO PRODUCTO" << endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaSimple(60);
+    restaurarColor();
+
+    rlutil::setColor(PaletaCafe::CREMA);
+    cout << "ID asignado: ";
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cout << idProducto << endl;
 
     char nombre[50]; // Variable temporal para el nombre
-    cout << "Ingrese Nombre: ";
-
-
-        cargarCadena(nombre, 49);
-        setNombre(nombre); //setter para asignar y validar longitud
+    imprimirPrompt("Ingrese Nombre: ");
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cargarCadena(nombre, 49);
+    setNombre(nombre); //setter para asignar y validar longitud
 
     //Valido precio
+        rlutil::setColor(PaletaCafe::ESPUMA);
     float precio = ingresarFloat("Ingrese Precio: ");
     setPrecio(precio);
 
 
     //valido stock
+    rlutil::setColor(PaletaCafe::ESPUMA);
     int stock = ingresarEntero("Ingrese Stock: ");
     setStock(stock);
 
 
     _eliminado = false; // Un producto nuevo siempre inicia activo
+    rlutil::setColor(PaletaCafe::OK);
     cout << "Producto cargado correctamente." << endl;
+    restaurarColor();
 }
 
 void Producto::Mostrar() {

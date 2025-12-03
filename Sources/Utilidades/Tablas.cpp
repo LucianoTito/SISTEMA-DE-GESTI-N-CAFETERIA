@@ -68,19 +68,51 @@ void imprimirPrompt(const string& prompt) {
 }
 
 void imprimirBannerCafe() {
+    // Margen izquierdo para centrar el diseño
+    string m = "        ";
+
+    // 1. EL HUMO (Color: HUMO)
     rlutil::setColor(PaletaCafe::HUMO);
-    cout << "          ( (  ( (" << endl;
-    cout << "           ) )  ) )" << endl;
-    rlutil::setColor(PaletaCafe::ESPUMA);
-    cout << "        ............." << endl;
-    cout << "        |           |]" << endl;
+    cout << m << "      (  )   (   )  ) " << endl;
+    cout << m << "       ) (   )  (  (  " << endl;
+    cout << m << "       ( )  (    ) )  " << endl;
+
+    // 2. EL BORDE SUPERIOR (Color: BASE)
     rlutil::setColor(PaletaCafe::BASE);
-    cout << "        \           /" << endl;
-    cout << "         `---------`" << endl;
+    cout << m << "      ___________    " << endl;
+
+    // 3. CUERPO DE LA TAZA CON ESPUMA Y ASA MEJORADA
+    // Línea 1: Superficie de la espuma
+    cout << m << "     (";                           // Borde izq (BASE)
+    rlutil::setColor(PaletaCafe::ESPUMA); cout << "..........."; // Espuma (ESPUMA)
+    rlutil::setColor(PaletaCafe::BASE);   cout << ")   " << endl; // Borde der (BASE)
+
+    // Línea 2: Cuerpo superior + Inicio del asa curvada
+    cout << m << "     |";                           // Pared izq
+    rlutil::setColor(PaletaCafe::ESPUMA); cout << "..........."; // Relleno espuma
+    rlutil::setColor(PaletaCafe::BASE);   cout << "|-. " << endl; // Pared der + inicio asa
+
+    // Línea 3: Cuerpo medio + Parte externa del asa (creando el hueco)
+    cout << m << "     |";
+    rlutil::setColor(PaletaCafe::ESPUMA); cout << "...........";
+    rlutil::setColor(PaletaCafe::BASE);   cout << "|  \\" << endl; // El hueco se forma a la izquierda de la '\'
+
+    // Línea 4: Cuerpo medio bajo + Parte vertical del asa
+    cout << m << "     |";
+    rlutil::setColor(PaletaCafe::ESPUMA); cout << "...........";
+    rlutil::setColor(PaletaCafe::BASE);   cout << "|   |" << endl; // El hueco es evidente aquí
+
+    // Línea 5: Cuerpo inferior + Curva baja del asa
+    cout << m << "     |";
+    rlutil::setColor(PaletaCafe::ESPUMA); cout << "...........";
+    rlutil::setColor(PaletaCafe::BASE);   cout << "| _/" << endl;
+
+    // Línea 6: Base de la taza + Cierre del asa
+    cout << m << "      \\_________/-'  " << endl;
+
     restaurarColor();
+    cout << endl; // Un salto de línea extra para separar del menú
 }
-
-
 // ==========================================
 // FUNCIONES DE LINEAS
 // ==========================================

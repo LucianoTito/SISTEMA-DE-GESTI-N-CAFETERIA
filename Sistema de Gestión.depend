@@ -339,20 +339,22 @@
 1764647159 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\pedido.h
 	"Fecha.h"
 
-1764044889 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\persona.cpp
+1764743166 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\persona.cpp
 	<iostream>
 	<cstring>
 	<cstdio>
 	"../../Headers/Entities/Persona.h"
 	"../../Headers/Utilidades/Validaciones.h"
+	"../../Headers/Utilidades/Tablas.h"
 
-1764126996 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\producto.cpp
+1764743323 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\entities\producto.cpp
 	<iostream>
 	<cstring>
 	<iomanip>
 	<cstdio>
 	"../../Headers/Entities/Producto.h"
 	"../../Headers/Utilidades/Validaciones.h"
+	"../../Headers/Utilidades/Tablas.h"
 
 1764115903 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\entities\producto.h
 	<cstring>
@@ -545,7 +547,7 @@
 
 1763276303 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menupedidos.h
 
-1764736212 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menuprincipal.cpp
+1764742933 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menuprincipal.cpp
 	<iostream>
 	"../../Headers/UI/menuPrincipal.h"
 	"../../Headers/UI/menuGestionProductos.h"
@@ -562,7 +564,7 @@
 
 1763275334 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\ui\menuempleados.h
 
-1764734997 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menuempleados.cpp
+1764743490 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\ui\menuempleados.cpp
 	<iostream>
 	<cstdio>
 	<cstring>
@@ -572,10 +574,9 @@
 	"../../Headers/Utilidades/Validaciones.h"
 	"../../Headers/Utilidades/Tablas.h"
 
-1764741244 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\utilidades\tablas.cpp
+1764742521 source:d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\sources\utilidades\tablas.cpp
 	<iostream>
 	<iomanip>
-	<limits>
 	"../../Headers/Utilidades/Tablas.h"
 
 1764733523 d:\utn\segundo cuatrimestre\programación ii\sistema de gestiÓn\sistema_de_gestion\sistema de gestión\headers\utilidades\tablas.h

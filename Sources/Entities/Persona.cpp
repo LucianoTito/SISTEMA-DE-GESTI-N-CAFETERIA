@@ -4,6 +4,7 @@
 
 #include "../../Headers/Entities/Persona.h"
 #include "../../Headers/Utilidades/Validaciones.h"
+#include "../../Headers/Utilidades/Tablas.h"
 
 
 using namespace std;
@@ -116,32 +117,44 @@ void Persona::Cargar(int id) {
 
 
     setId(id);
-    cout << "ID de Persona asignado: "<< id <<endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaDoble(60);
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cout << "☕ PERFIL DE CLIENTE/EMPLEADO" << endl;
+    rlutil::setColor(PaletaCafe::BASE);
+    lineaSimple(60);
+    restaurarColor();
 
-    cout << "Ingrese nombre: ";
+    rlutil::setColor(PaletaCafe::CREMA);
+    cout << "ID asignado: ";
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cout << id << endl;
+
+    imprimirPrompt("Ingrese nombre: ");
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cargarCadena(nombre, 30);
+    setNombre(nombre);
     cargarCadena(nombre, 30);
     setNombre(nombre);
 
-    cout << "Ingrese apellido: ";
+    imprimirPrompt("Ingrese apellido: ");
+    rlutil::setColor(PaletaCafe::ESPUMA);
     cargarCadena(apellido, 30);
     setApellido(apellido);
 //Se fuerza la carga de un telefono valido reutilizando la nueva validación general
-    cargarCadenaObligatoria("Ingrese telefono: ",
-                            "El telefono es obligatorio. Intente nuevamente.",
-                            telefono,
-                            20);
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cargarCadenaObligatoria("Ingrese telefono: ", "El telefono es obligatorio. Intente nuevamente.", telefono, 20);
     setTelefono(telefono);
 
 //Se fuerza la carga de un mail valido reutilizando la nueva validación general
-    cargarCadenaObligatoria("Ingrese mail: ",
-                            "El mail es obligatorio. Intente nuevamente.",
-                            mail,
-                            40);
+    rlutil::setColor(PaletaCafe::ESPUMA);
+    cargarCadenaObligatoria("Ingrese mail: ", "El mail es obligatorio. Intente nuevamente.", mail, 40);
     setMail(mail);
 
-
     _eliminado = false;
+    rlutil::setColor(PaletaCafe::OK);
     cout << "Persona cargada correctamente." << endl;
+    restaurarColor();
 }
 
 // Método Mostrar (Perfecto)
