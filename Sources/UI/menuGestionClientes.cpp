@@ -164,9 +164,6 @@ void bajaCliente(){
 
             rlutil::setColor(PaletaCafe::BASE);
             lineaSimple(94);
-             pausarConsola();
-
-
             restaurarColor();
 
         }
@@ -199,7 +196,6 @@ void altaCliente(){
             cout << "CLIENTE DADO DE ALTA EXITOSAMENTE" << endl;
             rlutil::setColor(PaletaCafe::BASE);
             lineaSimple(94);
-            pausarConsola();
             restaurarColor();
         }
         else imprimirMensajeError("ERROR al recuperar.");
