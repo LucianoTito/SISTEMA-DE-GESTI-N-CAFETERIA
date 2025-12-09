@@ -57,6 +57,7 @@
 		<Unit filename="Headers/UI/menuPedidos.h" />
 		<Unit filename="Headers/UI/menuPrincipal.h" />
 		<Unit filename="Headers/UI/reportes.h" />
+		<Unit filename="Headers/Utilidades/Estilos.h" />
 		<Unit filename="Headers/Utilidades/GestorArchivos.h" />
 		<Unit filename="Headers/Utilidades/Tablas.h" />
 		<Unit filename="Headers/Utilidades/Validaciones.h" />
@@ -83,6 +84,7 @@
 		<Unit filename="Sources/UI/menuPedidos.cpp" />
 		<Unit filename="Sources/UI/menuPrincipal.cpp" />
 		<Unit filename="Sources/UI/reportes.cpp" />
+		<Unit filename="Sources/Utilidades/Estilos.cpp" />
 		<Unit filename="Sources/Utilidades/GestorArchivos.cpp" />
 		<Unit filename="Sources/Utilidades/Tablas.cpp" />
 		<Unit filename="Sources/Utilidades/Validaciones.cpp" />

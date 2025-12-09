@@ -57,15 +57,44 @@ El objetivo fue simular un entorno de producción donde la integridad de los dat
 
 ## 🛠 Características Técnicas (Under the Hood)
 
-Este proyecto demuestra el dominio de conceptos avanzados de C++:
+Este proyecto demuestra el dominio de conceptos avanzados de C++ y buenas prácticas de ingeniería de software:
 
 * **Programación Orientada a Objetos (POO):** Uso extensivo de Clases, Herencia, Encapsulamiento y Polimorfismo.
 * **Gestión de Memoria:** Manejo eficiente de punteros y asignación dinámica de memoria durante la ejecución de los menús.
 * **Persistencia de Datos:** Implementación de un motor de persistencia propio utilizando archivos binarios (`.dat`) y punteros de archivo (`FILE*`) para lectura/escritura aleatoria y secuencial.
-* **Arquitectura Limpia:** Separación de responsabilidades:
+* **Arquitectura Limpia:** Estricta separación de responsabilidades:
     * `Entities`: Modelado de datos.
     * `Persistence`: Capa de acceso a datos (DAO).
     * `UI`: Capa de presentación y validación de entrada.
+
+---
+
+## 📋 Prerrequisitos
+
+Para ejecutar este proyecto necesitarás:
+
+* **Sistema Operativo:** Windows (recomendado por uso de librerías específicas de consola).
+* **Compilador:** MinGW / G++ con soporte para C++14 o superior.
+* **IDE (Opcional):** Code::Blocks (proyecto configurado nativamente).
+
+---
+
+## 💻 Instalación y Ejecución
+
+### Opción A: Code::Blocks (Recomendado)
+
+1. **Clonar** el repositorio.
+2. Abrir el archivo `Sistema de Gestión.cbp`.
+3. Compilar y Ejecutar (**F9**).
+
+### Opción B: Compilación Manual (G++)
+
+Si prefieres usar la terminal, asegúrate de enlazar todos los archivos fuente correctamente desde la raíz del proyecto:
+
+```bash
+g++ Sources/*.cpp Sources/Entities/*.cpp Sources/Persistence/*.cpp Sources/UI/*.cpp Sources/Utilidades/*.cpp -o sistema_cafeteria.exe
+./sistema_cafeteria.exe
+```
 
 ---
 
@@ -106,4 +135,6 @@ Luciano Facundo Tito Cedrón Software Developer | C++ Enthusiast
 
 <p> <a href="https://www.google.com/search?q=https://www.linkedin.com/in/lucianotito/" target="_blank"> <img src="https://www.google.com/search?q=https://img.shields.io/badge/LinkedIn-Connect-blue%3Fstyle%3Dfor-the-badge%26logo%3Dlinkedin" alt="LinkedIn"/> </a> <a href="mailto:lucianotitocedron@gmail.com"> <img src="https://www.google.com/search?q=https://img.shields.io/badge/Email-Contactame-red%3Fstyle%3Dfor-the-badge%26logo%3Dgmail%26logoColor%3Dwhite" alt="Email"/> </a> </p>
 
-<p align="center"> <sub>Proyecto desarrollado en el marco de la Tecnicatura Universitaria en Programación (UTN FRGP) - 2025.</sub> </p>
+<p align="center">
+  <sub>Proyecto desarrollado en el marco de la Tecnicatura Universitaria en Programación (UTN FRGP) - 2025.</sub>
+</p>
